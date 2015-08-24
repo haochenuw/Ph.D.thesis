@@ -1,0 +1,1123 @@
+%  ========================================================================
+%  Copyright (c) 1985-2014 The University of Washington
+%
+%  Licensed under the Apache License, Version 2.0 (the "License");
+%  you may not use this file except in compliance with the License.
+%  You may obtain a copy of the License at
+%
+%      http://www.apache.org/licenses/LICENSE-2.0
+%
+%  Unless required by applicable law or agreed to in writing, software
+%  distributed under the License is distributed on an "AS IS" BASIS,
+%  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+%  See the License for the specific language governing permissions and
+%  limitations under the License.
+%  ========================================================================
+%
+
+% Documentation for University of Washington thesis LaTeX document class
+% by Jim Fox
+% fox@washington.edu
+%
+%    Revised for version 2015/03/03 of uwthesis.cls
+%
+%    This document is contained in a single file ONLY because
+%    I wanted to be able to distribute it easily.  A real thesis ought
+%    to be contained on many files (e.g., one for each chapter, at least).
+%
+%    To help you identify the files and sections in this large file
+%    I use the string '==========' to identify new files.
+%
+%    To help you ignore the unusual things I do with this sample document
+%    I try to use the notation
+%       
+%    % --- sample stuff only -----
+%    special stuff for my document, but you don't need it in your thesis
+%    % --- end-of-sample-stuff ---
+
+
+%    Printed in twoside style now that that's allowed
+%
+ 
+\documentclass [11pt, proquest] {uwthesis}[2015/03/03]
+
+\usepackage{thesismacros}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+
+
+\renewcommand{\algorithmicrequire}{{\bf Input:}}
+\renewcommand{\algorithmicensure}{{\bf Output:}}
+
+
+%
+% The following line would print the thesis in a postscript font 
+
+% \usepackage{natbib}
+% \def\bibpreamble{\protect\addcontentsline{toc}{chapter}{Bibliography}}
+
+\setcounter{tocdepth}{1}  % Print the chapter and sections to the toc
+ 
+
+% ==========   Local defs and mods
+%
+
+% --- sample stuff only -----
+% These format the sample code in this document
+
+
+\usepackage{alltt}  % 
+\newenvironment{demo}
+  {\begin{alltt}\leftskip3em
+     \def\\{\ttfamily\char`\\}%
+     \def\{{\ttfamily\char`\{}%
+     \def\}{\ttfamily\char`\}}}
+  {\end{alltt}}
+ 
+% metafont font.  If logo not available, use the second form
+%
+% \font\mffont=logosl10 scaled\magstep1
+\let\mffont=\sf
+% --- end-of-sample-stuff ---
+ 
+
+
+
+\begin{document}
+ 
+% ==========   Preliminary pages
+%
+% ( revised 2012 for electronic submission )
+%
+
+\prelimpages
+ 
+%
+% ----- copyright and title pages
+%
+\Title{The Suitability of the \LaTeX\ Text Formatter\\
+  for Thesis Preparation by Technical and\\
+  Non-technical Degree Candidates}
+\Author{Hao Chen}
+\Year{1985-2014}
+\Program{UW Information Technology}
+
+\Chair{Name of Chairperson}{Title of Chair}{Department of Chair}
+\Signature{First committee member}
+\Signature{Next committee member}
+\Signature{etc}
+
+\copyrightpage
+
+% \titlepage  
+
+% --- sample stuff only -----
+% unusual footnote not found in a real thesis
+% You just use the \titlepage as commented out above
+
+{\Degreetext{A dissertation%
+  \footnote[2]{an egocentric imitation, actually}\\
+  submitted in partial fulfillment of the\\ requirements for the degree of}
+ \def\thefootnote{\fnsymbol{footnote}}
+ \let\footnoterule\relax
+ \titlepage
+ }
+\setcounter{footnote}{0}
+
+% --- end-of-sample-stuff ---
+ 
+%
+% ----- signature and quoteslip are gone
+%
+
+%
+% ----- abstract
+%
+
+
+\setcounter{page}{-1}
+\abstract{%
+This sample dissertation is an aid to students who are attempting
+to format their theses with \LaTeX, a sophisticated
+text formatter widely used by mathematicians and scientists everywhere.
+ 
+\begin{itemize}
+\item It describes the use of a specialized
+macro package developed specifically for thesis production
+at the University.
+The macros customize \LaTeX\ for the correct thesis style,
+allowing the student to concentrate on the substance of
+his or her text.%
+\footnote{See Appendix A to obtain the source to this
+ thesis and the class file.}
+\item It demonstrates the solutions to a variety of
+formatting challenges found in thesis production.
+\item It serves as a template for a real dissertation.
+\end{itemize}
+}
+ 
+%
+% ----- contents & etc.
+%
+\tableofcontents
+\listoffigures
+%\listoftables  % I have no tables
+ 
+%
+% ----- glossary 
+%
+\chapter*{Glossary}      % starred form omits the `chapter x'
+\addcontentsline{toc}{chapter}{Glossary}
+\thispagestyle{plain}
+%
+\begin{glossary}
+\item[argument] replacement text which customizes a \LaTeX\ macro for
+each particular usage.
+\item[back-up] a copy of a file to be used when catastrophe strikes
+the original.  People who make no back-ups deserve
+no sympathy.
+\item[control sequence] the normal form of a command to \LaTeX.
+\item[delimiter] something, often a character, that indicates
+the beginning and ending of an argument.
+More generally, a delimiter is a field separator.
+\item[document class] a file of macros that tailors \LaTeX\ for
+a particular document.  The macros described by this thesis
+constitute a document class.
+\item[document option] a macro or file of macros
+that further modifies \LaTeX\ for
+a particular document.  The option {\tt[chapternotes]}
+constitutes a document option.
+\item[figure] illustrated material, including graphs,
+diagrams, drawings and photographs.
+\item[font] a character set (the alphabet plus digits
+and special symbols) of a particular size and style.  A couple of fonts
+used in this thesis are twelve point roman and {\sl twelve point roman
+slanted}.
+\item[footnote] a note placed at the bottom of a page, end of a chapter,
+or end of a thesis that comments on or cites a reference
+for a designated part of the text.
+\item[formatter] (as opposed to a word-processor) arranges printed
+material according to instructions embedded in the text.
+A word-processor, on the other hand, is normally controlled
+by keyboard strokes that move text about on a display.
+\item[\LaTeX] simply the ultimate in computerized typesetting.
+\item[macro]  a complex control sequence composed of 
+other control sequences.
+\item[pica] an archaic unit of length.  One pica is twelve points and
+six picas is about an inch.
+\item[point] a unit of length.  72.27 points equals one inch.
+\item[roman]  a conventional printing typestyle using serifs.
+the decorations on the ends of letter strokes.
+This thesis is set in roman type.
+\item[rule] a straight printed line; e.g., \hrulefill.
+\item[serif] the decoration at the ends of letter strokes.
+\item[table] information placed in a columnar arrangement.
+\item[thesis] either a master's thesis or a doctoral dissertation.
+This document also refers to itself as a thesis, although it
+really is not one.
+ 
+\end{glossary}
+ 
+%
+% ----- acknowledgments
+%
+\acknowledgments{% \vskip2pc
+  % {\narrower\noindent
+  The author wishes to express sincere appreciation to
+  University of Washington, where he has had the opportunity
+  to work with the \TeX\ formatting system,
+  and to the author of \TeX, Donald Knuth, {\it il miglior fabbro}.
+  % \par}
+}
+
+%
+% ----- dedication
+%
+\dedication{\begin{center}to my dear wife, Joanna\end{center}}
+
+%
+% end of the preliminary pages
+ 
+ 
+ 
+%
+% ==========      Text pages
+%
+
+\textpages
+ 
+% ========== Chapter 1
+ 
+\chapter {Introduction}
+ 
+The utility of a clean, professionally prepared thesis is well
+documented%
+\footnote{See, for example,
+  W.~Shakespeare\cite{Hamlet} for a recent discussion.}
+and, even if you never intend to actually print your thesis,
+you still ought to format it as if that were your intention.
+ 
+\TeX\ facilitates that. It is a flexible,
+complete and professional typesetting system.
+It will produce {\bf pdf} output as required by the Graduate School.
+
+\section{The Purpose of This Sample Thesis}
+ 
+This sample is both a demonstration of the quality and
+propriety of a \LaTeX formatted thesis and  
+documentation for its preparation.
+It has made extensive use of a custom class file
+developed specifically for this purpose
+at the University of Washington.  Chapter~II discusses
+\TeX\ and \LaTeX.
+Chapter III describes the additional macros and functions
+provided by the custom thesis class file.  Finally, Chapter IV hopes to tie things up.
+ 
+It is 
+impossible to predict all the formatting problems one will encounter
+and there will be problems that are best handled
+by a specialist.  
+The Graduate School may be able to help you find help.
+Some departments may also be able to provide \LaTeX\ assistance.
+ 
+ 
+\section{Conventions and Notations}
+ 
+In this thesis the typist
+refers to the user of \LaTeX---the one who
+makes formatting decisions and chooses the appropriate
+formatting commands.
+He or she will most often be the degree candidate.
+ 
+This document deals with \LaTeX\ typesetting commands and their
+functions.  Wherever possible the conventions used to display
+text entered by the typist and the resulting formatted output
+are the same as those used by the \TeX books.
+Therefore, {\tt typewriter type} is used to indicate text
+as typed by the computer
+or entered by the typist.
+It is quite the opposite of {\it italics,} which indicates
+a category rather than exact text.  For example,
+{\tt alpha} and {\tt beta} might each be an example of a {\it label}.
+ 
+ 
+\section{Nota bene}
+ 
+This sample thesis was produced by the \LaTeX\ document class it describes
+and its format is consonant with the Graduate School's electronic dissertation guidelines,
+as of November, 2014, at least.
+However, use of this package does not guarantee acceptability
+of a particular thesis.
+ 
+ 
+% ========== Chapter 2
+
+\chapter{Fourier expansions of cuspidal modular forms forms at cusps}
+
+Let $k$ be a positive even integer and let $f \in S_k(\Gamma_0(N))$ be a nonzero cusp form.
+We are concerned with the problem of computing the Fourier expansion of $f$ at cusps of width 1
+other than the cusp denoted by $[\infty]$. Note that such cusps exist precisely when $N$ is 
+not square-free. We will give two algorithms, one numerical and the other exact, to compute such
+expansions. The question is studied in Delaunay's thesis. We draw insight from another preprint by 
+F.Brunault. The question is also studied in [Edixhoven], where numerical algorithm is given. The algorithm 
+in [Ed] for computing expansions requires working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where 
+$R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
+
+\section{preliminary definitions}
+
+\begin{Definition}(Denominator of a cusp)
+ Let $z = \left[ \frac{a}{c} \right]$, where $\gcd(a,c) = 1$, be a cusp on $X_0(N)$. Then the {\it denominator} of $z$ is 
+\[
+	d(z)  = \gcd(c,N)
+\] 
+As a convention, we set $d([\infty]) = N$. 
+\end{Definition}
+
+!to-do: the lemma that states the expansion is well-defined. 
+
+Remark: since the space $S_k(\Gamma_0(N))$ is spanned by elements of form $g(q^d)$ where $g$ is newform on level $M$ and d is an integer such that $Md \mid N$. We have the following lemma relating the expansions of $g(q^d)$ and $g(q)$. 
+
+As a consequence of Lemma~\ref{...}, we can restrict ourselves to newforms when solving problem 1. 
+
+!to-do: add the lemma. 
+
+\begin{Lemma}
+A cusp $z$ on $X_0(N)$ has width one if and only if $z = [\infty]$ or $z = [\frac{a}{c}]$ for some integers $a,c$ such that
+$\gcd(a,c) = 1$ and $c^2 \equiv 0 \pmod{N}$. In other words, the cusp $z$ has width one if and only if $N \mid d(z)^2$.
+\end{Lemma}
+
+\begin{proof}
+Let $z = [\frac{a}{c}]$ be a cusp on $X_0(N)$ other than $[\infty]$. Choose integers $b,d$ such that $\delta =  \abcd{a}{b}{c}{d} \in SL_2(\bZ)$. Then $\delta([\infty]) = z$ and by definition, the width of $z$ is one if and only if $\delta \abcd{1}{1}{0}{1} \delta^{-1} \in \Gamma_0(N)$. Since $\delta \abcd{1}{1}{0}{1} \delta^{-1} = \abcd{1-ac}{a^2}{-c^2}{1+ac}$, the claim follows. 
+\end{proof}
+
+\section{Reducing to newforms at prime power conductors}
+
+\section{Twists of newforms and the formula}
+
+Reference: [Winnie]. 
+
+
+\section{Pseudo-eigenvalues} 
+
+Let $\epsilon$ be a Dirichlet character of modulus $N$ and let $f$ be a newform in $S_k(N,\epsilon)$. For any divisor $Q$ of $N$ with $\gcd(Q, \frac{N}{Q}) =1$, we have 
+\[
+	W_Q(f) = \lambda_Q(f) g, 
+\]
+where $\lambda_Q(f)$ is an algebraic number in $\bC$ of absolute value 1 and $g$ is a newform in $S_k(N, \overline{\epsilon_Q} \epsilon_{N/Q})$. 
+
+\begin{Definition}
+The number $\lambda_Q(f)$ is called the pseudo-eigenvalue of $W_Q$ on $f$. 
+\end{Definition}
+
+Recall that if $f = \sum a_nq^n$ is a modular form, then $f^*$ is defined as $f^*(q) = \sum \bar{a_n}q^n$. From now on, we take $Q = N$. Then from [Winnie] we have $W_N(f) = \lambda_N(f) f^*$. In the rest of this section, we describe an algorithm to efficiently compute the numerical value of $\lambda(f) := \lambda_N(f)$. 
+
+
+
+\begin{algorithm}[H]
+\caption{Computing the pseudo-eigenvalue of newforms.}
+\label{alg: pseudo-eigenvalue}
+\begin{algorithmic}[1]
+    \REQUIRE $k \geq 0 $ an {\it even} integer. $f \in S_k(\Gamma_1(N))$ a normalized newform.    
+    \ENSURE a numerical approximation of the complex number $\lambda_N(f)$ defined by $f|W_N = \lambda_N(f) f^*$.   
+    \STATE $n_0 := 10$, $z_0 := \frac{i}{\sqrt{N}}$. $\delta = 10^{-3}$. 
+    \STATE Randomly generate $n_0$ points $\{z_1, \cdots, z_{N_0}\} \subseteq \{z | 0 < Im(z) < 1/2\sqrt{N}, |z| = \sqrt{1}{N} \}$
+    \FOR{$1 \leq i \leq n_0$}
+    	\STATE compute the period integral $c_i =  \int_{z_0}^{z_i} 2\pi i f(z) z^{\frac{k-2}{2}} dz$. 
+	\STATE $w_i := c_i/\bar{c_i}$. 
+    \ENDFOR
+    \STATE $w := (w_1, \cdots, w_{n_0})$. 
+    \IF{the standard deviation of $w$ is less than $\delta$} 
+     \STATE return $\frac{1}{n_0}(\sum_i w_i)$. 
+    \ELSE
+    	\STATE go back to step 1 and increase $n_0$. 
+    \ENDIF
+\end{algorithmic}
+\end{algorithm}
+
+\begin{remark}
+When $f$ has trivial character, we have $g = f$ and $\lambda_N(f) = \pm 1$ is indeed an eigenvalue of $W_N$. This eigenvalue can be determined using modular symbols, which is faster than 
+Algorithm~\ref{alg: pseudo-eigenvalue}. For more details, see documentation of sage. 
+\end{remark}
+
+\begin{remark}
+The period integral in step 4 of Algorithm~\ref{lag: pseudo-eigenvalue} is computed as follows: 
+This approach is taken from [Cre97].
+\end{remark}
+
+To prove the correctness of algorithm 1, we will define a space of symbols that mimics weight-$k$ modular symbols and then show that they share certain properties. The proofs follow [Stein-modform, Chapter ]. \\ 
+
+\begin{Definition}
+
+
+\end{Definition}
+
+Let any element $g = \abcd{a}{b}{c}{d}  \in GL_2(\bQ)$ on $M(k)$ by 
+\[
+	g(P\{\alpha, \beta\}) = P(dX-bY, -cX+aY)\{g\alpha,g\beta\}.
+\]
+We define a pairing between $S_k(\Gamma_1(N))$ and $M(k)$ by the following:
+\[
+	(f, P\{\alpha, \beta\}) \stackrel{def}{=} \int_{\alpha}^{\beta} 2\pi i f(z) P(z,1) dz.
+\]
+
+\begin{Lemma}
+Let $k \geq 0$ be even. Let $M \in M(k)$ and $f \in S_k(\Gamma_1(N))$. Then 
+\[
+	N^{\frac{k}{2}-1}(f|W_N, M) = (f, W_N M).
+\]
+\end{Lemma}
+
+\begin{proof}
+See [Stein,]. Note that the extra factor $N^{\frac{k}{2}-1}$ is due to the different definitions the weight-$k$ action of $GL_2(\bQ)$ on modular forms: in [Stein] it is defined by 
+\[
+blah
+\]
+\end{proof}
+
+The map  
+\[
+	P(x,y)\{\alpha, \beta\} \mapsto P(-x,y) \{-\bar{\alpha}, -\bar{\beta}\} 
+\]
+defines an involution on the space $M(k)$ which we call the {\it start involution} and denote by $*$. Then 
+\begin{Lemma}
+$$(f^*, M) = \overline{(f, M^*)}.$$
+\end{Lemma}
+\begin{proof}
+
+\end{proof}
+
+
+
+\begin{Lemma}
+Let $f$ be a normalised newform with even weight $k \geq 0$ on $\Gamma_1(N)$ and let $M \in M(k)$ be such that $W_N(M) = N^{k/2 -1} M^*$. Assume $(f, M) \neq 0$.  Then the pseudo-eigenvalue $\lambda_N(f)$ of $f$ is 
+\[
+	\lambda_N(f) = \frac{(f,M)}{\overline{(f,M)}}.
+\]
+\end{Lemma} 
+
+\begin{proof}
+Since $W_N^2(M) = N^{k-2}M$ for all $M \in M(k)$, the assumption implies $W_N(M^*) = N^{k/2 -1} M$. 
+Now 
+\begin{align*}
+& N^{k/2-1}(f|W_N, M^*) = (f,W_N(M^*)) \, (\mbox{Lemma~\ref{}})\\ 
+\implies & N^{k/2-1}\lambda_N(f)(f^*,M^*) = N^{k/2-1}(f, M) \\
+\implies & \lambda_N(f) = \frac{(f,M)}{(f^*,M^*)} \\ 
+\implies &	\lambda_N(f) = \frac{(f,M)}{\overline{(f,M)}}.
+\end{align*}
+\end{proof}
+
+Finally, suppose $\alpha, \beta \in \{z \in \bC | Im(z) > 0,  |z| = 1/\sqrt{N}\}$. Then it is easy to verify that $M = (xy)^{k/2-1}\{\alpha, \beta\}$ satisfies the condition of the above lemma, i.e., $W_N(M) = M^*$. The correctness of Algorithm~\ref{} now follows. 
+
+
+
+\section{Identifying level of twists}
+
+We start by recalling some facts on twists of newforms from [Winnie]. 
+\begin{theorem}[Winnie, theorem 3.2]
+Let $f \in S_k(N, \epsilon)$ be a newform. Let $\chi$ be a Dirichlet character of modulus $N$ s.t., the conductor of $\chi$ is equal to $Q = q^\beta$, where q is a 
+prime divisor of $N$. Then there is a newform $h \in S_k(Q'M, \epsilon \chi^2)$, such that
+$$f_\chi = h -  h|U_q|B_q. $$
+\end{theorem}
+
+By the above theorem, we can compute the $q$-expansion of $f_\chi | W_N$ once we identify the level and $q$-expansion of $h$. 
+
+Notation: For convenience we write $f \otimes \chi$ for $h$.
+
+We are mainly interested in the case where $f$ has trivial nebentypus character. For such forms 
+we have the following lemma.
+\begin{Lemma}[$h$ has Level dividing $N$]
+Let $f \in S_k(\Gamma_0(N))$. Suppose $Q = cond(\chi)$ has $Q^2 \mid N$. Then $f \otimes \chi$ is new of level $N' \mid N$. 
+\end{Lemma}
+
+\begin{proof}
+By [Winnie, theorem 3.1], we have $f_\chi \in S_k(N, \chi^2)$ (since $\alpha = 0$ and $q^{2\beta} \leq Q$). It now follows from theorem 3.2 that the level of $f \otimes \chi$ is a divisor of $N$.
+\end{proof}
+
+Now we proceed on how to algorithmically recognise the level of $f \otimes \chi$ from the coefficients of $f$. One potential obstacle is that we do not know all Fourier coefficients of $f \otimes \chi$. We only know that 
+\[
+	a_n(f \otimes \chi)  = a_n(f)\chi(n), \,  \mbox{ if }  \gcd(n, N) = 1.
+\]
+We will overcome this using a variant of Sturm's bound argument. First we recall the usual Sturm bound. 
+We quote theorem from [Stein]. Or rather, let's prove a lemma first. 
+
+\begin{Lemma}
+Let $f \in S_k(N, \epsilon)$ be a normalized newform. Then $f|U_q|B_q \in S_k(Nq^2, \epsilon)$.
+\end{Lemma}
+
+\begin{proof}
+We use a standard fact that for any integer $d \geq 1$, the map $f \mapsto f|B_d$ takes $S_k(N, \epsilon)$ to 
+$S_k(Nd, \epsilon)$. To prove the lemma, we consider two separate cases. First, assume $q \nmid N$, then we have 
+$T_q = U_q + q^{k-1} \epsilon(q) B_q$. By our assumption, we have $f|T_q = a_q(f) f$. Therefore, we have 
+$f|U_q|B_q = f|(T_q - q^{k-1} \epsilon(q) B_q)|B_q = a_q(f)f|B_q - q^{k-1} \epsilon(q) f|B_q^2$. Hence $f|U_q|B_q \in S_k(Nq^2, \epsilon)$. \\
+Now assume $q \mid N$, so $U_q = T_q$. Hence $f|U_q|B_q = a_q(f) f|B_q \in S_k(Nq, \epsilon) \subseteq  S_k(Nq^2, \epsilon)$. 
+\end{proof}
+
+The next proposition generalised the usual Sturm bound argument for modular forms. 
+
+\begin{Prop}
+Let $g_1$, $g_2$ be two normalised newforms of levels $N_1 \mid N_2$. Suppose $g_i \in S_k(N_2, \epsilon)$, where $\epsilon$ has conductor $Q = q^\beta$, $q$ is a prime, and  $Q^2 \mid N$. Let 
+$B$ be the Sturm bound for the congruence subgroup $\Gamma_1(Nq^2)$. Suppose 
+\[
+	a_n(g_1) = a_n(g_2), \, 1 \leq n \leq B \mbox{ and } \gcd(n,q) = 1.
+\]
+Then $g_1 = g_2$. 
+\end{Prop}
+
+\begin{proof}
+Following [Winnie], we define the operator $K_q$ on the space of modular forms by
+\[
+	g|K_q = g - g|U_q|B_q. 
+\]
+Condition is equivalent to the statement that $\delta  = (g_1 -g_2) |K_q$ has $a_n(\delta) = 0$ for all $1 \leq n \leq B$. 
+From Lemma~\ref{...} we know $\delta \in S_k(Nq^2, \epsilon)$. Hence Sturm's theorem \ref{...},  implies $\delta = 0$, i.e., $g_1 - g_2 |K_q = 0$.  
+
+Theorem 5.7.1 in [DS] then implies that $g_1 - g_2 \in S_k(N_2,\epsilon)^{old}$. If $N_1 < N_2$, then $g_1$ in the old subspace. So $g_2 \in S_k(N_2,\epsilon)^{old}$, a contradiction. Hence $N_1 = N_2$. Then $g_1 - g_2 \in S_k(N_2, \epsilon)^{new}$, and since the new subspace and the old subspace have trivial intersection,  we have $g_1 - g_2  = 0$. 
+\end{proof}
+
+Now we are ready to describe the algorithm that given $f$ and $\chi$, determines the level of $f \otimes \chi$.
+
+\begin{algorithm}[H]
+\caption{Identifying level of $f \otimes \chi$}
+\begin{algorithmic}[1]
+    \REQUIRE $f \in S_k(\Gamma_0(N))$ a newform; $\chi$ a Dirichlet character of prime power conductor $Q = q^\beta$; $Q^2 \mid N$. 
+    \ENSURE The positive integer $M$ such that the $f \otimes \chi$ is new of level $M$. 
+    \IF{$Q = 1$}
+    \STATE return $N$.
+    \ENDIF
+    \STATE $Q' := \cond(\chi^2)$; $N_0 := \frac{N}{q^{v_q(N)}}$; $M_0 := Q'N_0$; $t := \frac{N}{M_0} \in \bZ$. 
+    \FOR{each positive divisor $d$ of $t$}
+    	\STATE Set $V_d := S_k(M_0d, \chi^2)$. 
+	\STATE Compute a basis of newforms $\{g_1^{(d)}, \cdots g_{s_d}^{(d)}\}$ of $V_d$.
+    	\STATE Set $B_d$ := the Sturm bound for $\Gamma_1(M_0dq^2)$. 
+    	\FOR{$1 \leq j \leq s_d$} 
+		\IF{$a_n(g_i^{(d)})= a_n(f)\chi(n)$ for all $1 \leq n \leq B_d, \gcd(n,q) = 1$}
+			\STATE return $M_0d$.
+		\ENDIF
+	\ENDFOR
+    \ENDFOR	
+\end{algorithmic}
+\end{algorithm}
+
+The correctness of the algorithm is ensured by Lemma~ and Lemma~. 
+
+It is natural to define {\it $p$-minimality} of newforms. The definition mimics that of [Brunault]. 
+
+\begin{Definition}
+Let $f \in S_k(\Gamma_1(N))$ be a newform. Let $p$ be a prime such that $p^2 \mid N$. 
+We say $f$ is {\it $p$-minimal} if $f \otimes \chi$ is new of level $N$ for all Dirichlet character 
+$\chi: (\bZ/p^{\frac{v_p(N)}{2}}\bZ)^{\times} \to \bC^{\times}$.
+\end{Definition}
+
+We give some example computations applying the above algorithm. 
+
+\begin{Example}
+Let $f$ be the normalised newform attached to the elliptic curve 
+\[
+	E: 
+\]
+of label {\bf 50a}. Then $f \otimes \chi$ is new of level 50 for all Dirichlet characters $\chi$ with modulus 5. 
+In other words, $f$ is 5-minimal. 
+\end{Example}
+
+As another example, we demonstrate a newform which is not $p$-minimal. 
+\begin{Example}
+Let $f$ be the normalised newform attached to the elliptic curve 
+\[
+E: y^2 + x y = x^{3} + x^{2} - 25 x - 111
+\]
+of label {\bf 98a}. Let $\chi$ be the Dirichlet character modulo 7 defined by $\chi(3 \pmod{7}) = -1$. 
+Then $f \otimes \chi$ is a newform of level 14. 
+
+\end{Example}
+
+\section{Fields of definitions}
+
+\begin{Lemma}
+Let $c$ be a cusp of denominator $d$ and let $d' = N/d$. Then 
+\[
+	\bQ(\{a_n(f, c)\}) \subseteq \bQ( \{a_n(f)\}, \zeta_{d'}). 
+\]
+\end{Lemma}
+
+\begin{proof}
+Let $K_0 = \bQ( \{a_n(f)\}$
+Choose a form $0 \neq g \in S_k(\Gamma_1(N))$ with rational Fourier coefficients such that 
+$h = \frac{f}{g}$ is non-constant. From [Cox, ] it is easy to see that $h \in $. Then we have 
+\end{proof}
+
+
+
+\section{Matrix solution? this is way harder? }
+
+
+
+\section{Examples}
+
+Let $E = {\bf 50a}$ and consider the 4 cusps of denominator 10 on $X_0(50)$. The corresponding first terms 
+of $q$-expansions at these cusps are 
+
+\iffalse
+\begin{align*}
+	a_1(f, \frac{1}{10}) &= \frac{1}{5} \zeta_{5}^{3} - \frac{3}{5} \zeta_{5}^{2} + \frac{3}{5} \zeta_{5} - \frac{1}{5} \\ 
+	a_1(f, \frac{3}{10}) &= \frac{3}{5} \zeta_{5}^{3} + \frac{6}{5} \zeta_{5}^{2} + \frac{4}{5} \zeta_{5} + \frac{2}{5} \\
+	a_1(f, \frac{7}{10}) &= \frac{2}{5} \zeta_{5}^{3} - \frac{1}{5} \zeta_{5}^{2} - \frac{4}{5} \zeta_{5} - \frac{2}{5}\\
+	a_1(f, \frac{9}{10}) &=-\frac{6}{5} \zeta_{5}^{3} - \frac{2}{5} \zeta_{5}^{2} - \frac{3}{5} \zeta_{5} - \frac{4}{5}
+\end{align*}
+\fi
+
+
+\section{Applications}
+
+One applications of the computation done in this chapter is the norm method to the computation of $j$-polynomials 
+introduced in Chapter~. Recall that the issue with the norm method for non-square free level is computing the 
+expansions of form $f | \gamma$, where $\gamma$ runs over the set of right coset representatives of $\Gamma_0(N)$ 
+in $SL_2(\bZ)$. To compute the norm of  $f$ when $N$ is non-square free, it suffices to compute the expansions of 
+$f$ at all width-1 cusps. This is a consequence of the following lemma.
+
+\begin{Lemma}
+For any cusp $z$ of $X_0(N)$, there exists an Atkin-Lehner involution $w \in W(N)$ such that $z_1 = w(z)$ has 
+width one.
+\end{Lemma}
+
+\begin{proof}
+Let $z \neq [\infty]$ be a cusp. Recall that $z$ has width one if and only if its denominator $d(z)$ satisfies
+$d(z)^2 \equiv 0 \pmod{N}$. Let $p$ be a prime divisor of $N$. Then it is easy to see that 
+$v_p(d(w_p(z))) = v_p(N) -  v_p(d(z))$ and $v_l(d(w_p(z))) = v_l(d(z))$ for primes $l \neq p$. The lemma now follows by taking $w = \prod_{p \mid N: v_p(d(z)) \leq v_p(N)/2} w_p$. 
+\end{proof}
+
+\section{Norm guess and data}
+ 
+ 
+ 
+ 
+% ========== Chapter 3
+ 
+\chapter{The Thesis Unformatted}
+ 
+This chapter describes the uwthesis class (\texttt{uwthesis.cls},
+version dated 2014/11/13)
+in detail 
+and shows how it was used to format the thesis.
+A working knowledge of Lamport's \LaTeX\ manual\cite{Lbook} is assumed.
+ 
+\section{The Control File}
+ 
+The source to this sample thesis is a single file
+only because ease of distribution was a concern.
+You should not do this.  Your task will be much easier if you
+break your thesis into several files:  a file for the preliminary pages,
+a file for each chapter,  one for the glossary, and one for each
+appendix.  Then use a control file to tie them all together.
+This way you can edit and format parts of your thesis much more
+efficiently.
+ 
+Figure~\ref{control-file} shows a control file that
+might have produced this thesis.
+It sets the document style, with options and parameters,
+and formats the various parts of the thesis---%
+but contains no text of its own.
+ 
+ 
+%  control file caption and figure
+%
+%
+\begin{figure}[p]
+ \begin{fullpage}
+  \uwsinglespace
+  \begin{verbatim}
+    % LaTeX thesis control file
+ 
+    \documentclass [11pt, proquest]{uwthesis}[2014/11/13]
+ 
+    \begin{document}
+ 
+    % preliminary pages
+    %
+    \prelimpages
+    \include{prelim}
+ 
+    % text pages
+    %
+    \textpages
+    \include{chap1}
+    \include{chap2}
+    \include{chap3}
+    \include{chap4}
+ 
+    % bibliography
+    %
+    \bibliographystyle{plain}
+    \bibliography{thesis}
+ 
+    % appendices
+    %
+    \appendix
+    \include{appxa}
+    \include{appxb}
+ 
+    \include{vita} 
+    \end{document}
+  \end{verbatim}
+  \caption[A thesis control file]%
+   {\narrower A thesis control file ({\tt thesis.tex}).
+   This file is the input to \LaTeX\ that will produce a
+   thesis.  It contains no text, only commands which
+   direct the formatting of the thesis.
+   }
+  \label{control-file}
+ \end{fullpage}
+\end{figure}
+ 
+The first section, from the \verb"\documentclass" to
+the \verb"\begin{document}", defines the document class and options.
+This sample thesis specifies the \texttt{proquest} style, which is now
+required by the Graduate School and is the default.  
+Two other, now dated, other styles are available:  \verb"twoside", which is similar but 
+produces a wider binding margin and is more suitable for paper printing; and
+\verb"oneside", which is really old fashoned.
+This sample also specified a font size
+of 11 points. 
+Possible font size options are: \verb"10pt", \verb"11pt", and \verb"12pt".
+Default is 12 points, which is the preference
+of the Graduate School. If you choose a smaller size be sure to
+check with the Graduate School for acceptability.  The smaller fonts
+can produce very small sub and superscripts.
+
+Include most additional formatting packages with \verb"\usepackage",
+as describe by Lamport\cite{Lbook}.  The one exception to this
+rule is the \verb"natbib" package.  Include it with the \verb"natbib"
+document option.
+ 
+Use the \verb"\includeonly" command to format only a part of your
+thesis.  See Lamport\cite[sec. 4.4]{Lbook} for usage and limitations.
+
+ 
+\section{The Text Pages}
+ 
+A chapter is a major division of the thesis.  Each chapter begins
+on a new page and has a Table of Contents entry.
+ 
+\subsection{Chapters, Sections, Subsections, and Appendices}
+ 
+ 
+Within the chapter title use a \verb"\\" control sequence to separate lines
+in the printed title (recall Figure \ref{start-2}.).
+The \verb"\\" does not affect the Table of Contents entry.
+ 
+Format appendices just like chapters.
+The control sequence \verb"\appendix" instructs \LaTeX\ to
+begin using the term `Appendix' rather than `Chapter'.
+ 
+ 
+Specify sections and subsections of a chapter 
+with  \verb"\section" and \verb"\subsection", respectively.
+In this thesis chapter and section
+titles are written to the table of contents.
+Consult Lamport\cite[pg. 176]{Lbook} to see which
+subdivisions of the thesis can be written to the table of contents.
+The \verb"\\" control sequence is not permitted in section and
+subsection titles.
+ 
+ 
+\subsection{Footnotes}
+ 
+\label{footnotes}
+ Footnotes format as described in the \LaTeX\ book.  You can also
+ ask for end-of-chapter or end-of-thesis notes.
+ The thesis class will automatically set these up if
+ you ask for the document class option \texttt{chapternotes}
+ or \texttt{endnotes}.  
+ 
+If selected, chapternotes will print automatically.  If you choose
+endnotes however you must explicitly indicate when to print the notes 
+with the command \verb"\printendnotes".  See the style guide for
+suitable endnote placement.  
+
+\subsection{Figures and Tables}
+Standard \LaTeX\ figures and tables, see Lamport\cite[sec.~C.9]{Lbook},
+normally provide the most convenient means to position the figure.
+Full page floats and facing captions are exceptions to this rule.
+
+If you want a figure or table to occupy a full page enclose the
+contents in a \texttt{fullpage} environment.  
+See figure~\ref{facing-caption}.
+
+\subsubsection{Facing pages}
+Facing page captions are an artifact of traditional, dead-tree printing,
+where a left-side (even) page faces a right-side (odd) page.
+
+In the \texttt{twoside} style, a facing caption
+is full page caption for a full page figure or table
+and should face the illustration to which it refers.
+You must explicitly format both pages. 
+The caption part appears on an even page
+(left side) and the figure or table
+comes on the following odd page (right side).
+Enclose the float contents for the caption 
+in a \texttt{leftfullpage} environment,
+and enclose the float contents for the figure or table 
+in a \texttt{fullpage} environment.
+The first page (left side) contains the caption. The second page
+(right side) could be left blank.  A picture or graph might be pasted onto
+this space. See figure~\ref{facing-caption}.
+
+
+\begin{figure}[t]
+\uwsinglespace
+\begin{verbatim}
+     \begin{figure}[p]% the left side caption
+       \begin{leftfullpage}
+         \caption{ . . . }
+       \end{leftfullpage}
+     \end{figure}
+     \begin{figure}[p]% the right side space
+       \begin{fullpage}
+          . . .
+          ( note.. no caption here )
+       \end{fullpage}
+     \end{figure}
+\end{verbatim}
+\caption[Generating a facing caption page]{This text would create a
+  double page figure in the two-side styles. }
+\label{facing-caption}
+\end{figure}
+ 
+You can use these commands with the \texttt{proquest} style, but they have little
+effect on online viewing.
+ 
+ 
+\subsection{Horizontal Figures and Tables}
+Figures and tables may be formatted horizontally
+(a.k.a.\ landscape) as long as their captions appear
+horizontal also.  \LaTeX\ will format landscape material for you.
+
+Include the \texttt{rotating} package 
+\begin{demo}
+\\usepackage[figuresright]\{rotating\}
+\end{demo}
+and read the documentation that comes with the package. 
+
+Figure~\ref{sideways} is an example of how a landscape
+table might be formatted. 
+
+\begin{figure}[t]
+\uwsinglespace
+\begin{verbatim}
+     \begin{sidewaystable}
+         ...
+         \caption{ . . . }
+     \end{sidewaystable}
+\end{verbatim}
+\caption[Generating a landscape table]{This text would create a
+  landscape table with caption.}
+\label{sideways}
+\end{figure}
+ 
+
+
+\subsection{Figure and Table Captions}
+Most captions are formatted with the \verb"\caption" macro as described 
+by Lamport\cite[sec. C.9]{Lbook}. 
+The uwthesis class extends this macro to allow
+continued figures and tables, and to provide multiple figures and
+tables with the same number, e.g., 3.1a, 3.1b, etc.
+ 
+To format the caption for the first part of
+a figure or table that cannot fit
+onto a single page use the standard form:
+\begin{demo}
+\\caption[\textit{toc}]\{\textit{text}\}
+\end{demo}
+To format the caption for the subsequent parts of 
+the figure or table 
+use this caption:
+\begin{demo}
+\\caption(-)\{(continued)\}
+\end{demo}
+It will keep the same number and the text of the caption will be 
+{\em(continued)}.
+
+To format the caption for the first part of
+a multi-part figure or table
+use the format:
+\begin{demo}
+\\caption(a)[\textit{toc}]\{\textit{text}\}
+\end{demo}
+The figure or table will be lettered (with `a') as well as numbered.
+To format the caption for the subsequent parts of 
+the multi-part figure or table
+use the format:
+\begin{demo}
+\\caption(\textit{x})\{\textit{text}\}
+\end{demo}
+where {\em x} is {\tt b}, {\tt c}, \ldots.
+The parts will be lettered (with `b', `c', \ldots).
+
+\subsection{Line spacing}
+
+Normally line spacing will come out like it should. However, the 
+ProQuest style allows single spacing in certain situations:
+figure content, some lists, and etc.
+Use \verb"\uwsinglespace" to switch to single spacing within
+a \verb"\begin{}" and \verb"\end{}" block.
+The code examples in this document does this. 
+
+\section{The Preliminary Pages}
+ 
+These are easy to format only because they are relatively invariant
+among theses.  Therefore the difficulties have already been encountered
+and overcome by \LaTeX\ and the thesis document classes.
+
+Start with the definitions that describe your thesis.
+This sample thesis was printed with the parameters:
+
+\begin{demo}
+\\Title\{The Suitability of the \\LaTeX\\ Text Formatter\\\\
+   for Thesis Preparation by Technical and\\\\
+   Non-technical Degree Candidates\}
+\\Author\{Jim Fox\}
+\\Program\{UW Information Technology\}
+\\Year\{2012\}
+
+\\Chair\{Name of Chairperson\}\{title\}\{Chair's department\}
+\\Signature\{First committee member\}
+\\Signature\{Next committee member\}
+\\Signature\{etc\}
+
+\end{demo}
+ 
+Use two or more \verb"\Chair" lines if you have co-chairs.
+ 
+\subsection{Copyright page}
+Print the copyright page with \verb"\copyrightpage".
+
+\subsection{Title page}
+Print the title page with \verb"\titlepage".
+The title page of this thesis was printed with%
+\footnote{Actually, it wasn't.  I added a footnote---something you would not do.}
+ 
+\begin{demo}
+\\titlepage
+\end{demo}
+ 
+You may change default text on the title page with these
+macros.  You will have to redefine \verb"\Degreetext", for instance,
+if you're writing a Master's thesis instead of a dissertation.\footnote{If you use these they can
+be included with the other information before \\copyrightpage".}
+
+\begin{list}{}{\itemindent\parindent\itemsep0pt
+   \def\makelabel#1{\texttt{\char`\\#1}\hfill}\uwsinglespace}
+\item[Degree\char`\{{\it degree name}\char`\}]
+   defaults to ``Doctor of Philosophy''
+\item[School\char`\{{\it school name}\char`\}] defaults to
+``University of Washington''
+\item[Degreetext\char`\{{\it degree text}\char`\}] defaults to
+``A dissertation submitted \ldots''
+\item[textofCommittee\char`\{{\it committee label}\char`\}] defaults to
+``Reading Committee:''
+\item[textofChair\char`\{{\it chair label}\char`\}] defaults to
+``Chair of the Supervisory Committee:''
+\end{list}
+
+These definitions must appear \underline{before} the \verb"\titlepage" command.
+
+ 
+\subsection{Abstract}
+Print the
+abstract with \verb"\abstract".
+It has one argument, which is the text of the abstract.
+All the names have already been defined.
+The abstract of this thesis was printed with
+ 
+\begin{demo}
+\\abstract\{This sample . . . `real' dissertation.\}
+\end{demo}
+ 
+ 
+\subsection{Tables of contents}
+Use the standard \LaTeX\ commands to format these items.
+ 
+ 
+\subsection{Acknowledgments}
+Use the \verb"\acknowledgments" macro to format the acknowledgments page.
+It has one argument, which is the text of the acknowledgment.
+The acknowledgments of this thesis was printed with
+ 
+\begin{demo}
+\\acknowledgments\{The author wishes . . . \{\\it il miglior fabbro\}.\\par\}\}
+\end{demo}
+ 
+ 
+\subsection{Dedication}
+Use the \verb"\dedication" macro to format the dedication page.
+It has one argument, which is the text of the dedication.
+ 
+\subsection{Vita}
+Use the \verb"\vita" macro to format the curriculum vitae.
+It has one argument, which chronicles your life's accomplishments.
+
+Note that the Vita is not really a preliminary page.
+It appears at the end of your thesis, just after the appendices.
+ 
+ 
+%%  
+%% \section{Customization of the Macros}
+%%  
+%% Simple customization, including 
+%% alteration of default parameters,  changes to dimensions,
+%% paragraph indentation, and margins, are not too difficult.
+%% You have the choice of modifying the class file ({\tt uwthesis.cls})
+%% or loading
+%% one or more personal style files to customize your thesis.
+%% The latter is usually most convenient, since you do not need
+%% to edit the large and complicated class file.
+%% 
+ 
+
+
+% ========== Chapter 4
+ 
+\chapter{Running \LaTeX\\
+  ({\it and printing if you must})}
+ 
+ 
+From a given source \TeX\ will produce exactly the same document
+on all computers and, if needed, on all printers.  {\it Exactly the same}
+means that the various spacings, line and page breaks, and
+even hyphenations will occur at the same places.
+
+How you edit your text files and run \LaTeX\ varies
+from system to system and depends on your personal preference.
+
+\section{Running}
+
+The author is woefully out of his depth where 
+\TeX\ on Windows is concerned.  Google would be his resource.
+On a linux system he types
+
+\begin{demo}
+\$\ pdflatex uwthesis
+\end{demo}
+
+and it generally works.
+
+ 
+\section{Printing}
+ 
+All implementations of \TeX\ provide the option of {\bf pdf} output,
+which is all the Graduate School requires.  Even if you intend to
+print a copy of your thesis create a 
+{\tt pdf}.  It will print most anywhere.
+
+\printendnotes
+
+%
+% ==========   Bibliography
+%
+\nocite{*}   % include everything in the uwthesis.bib file
+\bibliographystyle{plain}
+\bibliography{uwthesis}
+%
+% ==========   Appendices
+%
+\appendix
+\raggedbottom\sloppy
+ 
+% ========== Appendix A
+ 
+\chapter{Where to find the files}
+ 
+The uwthesis class file, {\tt uwthesis.cls}, contains the parameter settings,
+macro definitions, and other \TeX nical commands which
+allow \LaTeX\ to format a thesis.  
+The source to
+the document you are reading, {\tt uwthesis.tex},
+contains many formatting examples
+which you may find useful.
+The bibliography database, {\tt uwthesis.bib}, contains instructions
+to BibTeX to create and format the bibliography.
+You can find the latest of these files on:
+
+\begin{itemize}
+\item My page.
+\begin{description}
+\item[] \verb%http://staff.washington.edu/fox/tex/uwthesis.html%
+\end{description}
+
+\item CTAN
+\begin{description}
+\item[]  \verb%http://tug.ctan.org/tex-archive/macros/latex/contrib/uwthesis/%
+\item[]  (not always as up-to-date as my site)
+\end{description}
+
+\end{itemize}
+
+\vita{Jim Fox is a Software Engineer with UW Information Technology at the University of Washington.
+His duties do not include maintaining this package.  That is rather
+an avocation which he enjoys as time and circumstance allow.
+
+He welcomes your comments to {\tt fox@uw.edu}.
+}
+
+
+\end{document}
