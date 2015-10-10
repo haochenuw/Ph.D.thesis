@@ -210,12 +210,13 @@ F.Brunault. The question is also studied in [Edixhoven], where numerical algorit
 in [Ed] for computing expansions requires working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where 
 $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
 
+The main result of this chapter is Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}, which computes the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any width one cusp $z$. Along the way, we have developed algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. Section contains some examples. In section, we describe an alternative approach and 
+
 \section{Preliminaries}
 
 Let $N \geq 1$ be an integer and let $X_0(N)$ be the modular curve of level $N$. 
 \begin{Definition}
-Let $z \in \bQ \cup \{\infty\}$ be a cusp on $X_0(N)$. 
-Write $z = [a/c]$ with $\gcd(a,c) =1$. The {\it denominator} of $z$ is $$d_z  = \gcd(c,N).$$  As a convention, we set $d_\infty = N$. Choose $\alpha \in SL_2(\bZ)$ such that $\alpha(\infty) = z$. 
+Let $z$ be a cusp on $X_0(N)$.  If $z \neq \infty$, write $z = [a/c]$ with $\gcd(a,c) =1$. The {\it denominator} of $z$ is $$d_z  = \gcd(c,N).$$. If $z = \infty$, we set $d_\infty = N$. Choose $\alpha \in SL_2(\bZ)$ such that $\alpha(\infty) = z$. 
 The {\it width} of $z$ is 
 \[
 	h_z = \left| \frac{SL_2(\bZ)_\infty}{(\alpha^{-1} \{\pm I\} \Gamma_0(N) \alpha)_\infty}\right|
@@ -278,7 +279,7 @@ Let $f$ be a normalized newform in $S_2(\Gamma_0(N))$ and $z$ be a cusp on $X_0(
 
 For $f \in S_k(\Gamma_1(N), \epsilon)$ a newform with expansion $f = \sum_n a_n(f) q^n$ and $\chi$ a Dirichlet character, the {\it twist} $f_\chi$ is a modular form with expansion $f_\chi (q) = \sum a_n(f) \chi(n)  q^n$. 
 
-\begin{Lemma}[Winnie Li, Proposition 3.1]
+\begin{Lemma}\cite[Proposition 3.1]{atkin1978twists}
 Let $F \in S_k(\Gamma_1(N), \epsilon)$, where $\epsilon$ is a character of conductor $N'$.  Let $\chi$ be a character modulo $M$. Put $\tilde{N} = lcm{N, N'M, M^2}$. Then $F_\chi \in S_k(\Gamma_1(\tilde{N}), \epsilon \chi^2)$.
 \end{Lemma}
 
@@ -296,7 +297,7 @@ We quote two results from [Winnie], which we will use extensively. First, we rec
 
 
 
-\begin{Lemma}[Winnie Li, Theorem 3.1]
+\begin{Lemma}\cite[Theorem 3.1]{atkin1978twists} \label{lemma: winnie-level}
 Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $F$ be a newform in $S_k(\Gamma_1(N), \epsilon)$ with $\cond(\epsilon_Q) = q^{\alpha}, \alpha \geq 0$. Let $\chi$ be a character with conductor $q^{\beta}$, $\beta \geq 1$. Put $Q' = \max\{Q,q^{\alpha + \beta}, q^{2\beta}\}$. Then \\
 (1)  For each prime $q' \mid M, F_\chi$ is not of level $Q'M/q$. \\
 (2)  The exact level of $F_\chi$ is $Q'M$ provided (a) $\max\{q^{\alpha + \beta}, q^{2\beta}\} < Q$ if $Q' = Q$, or 
@@ -304,7 +305,7 @@ Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $F$ b
 \end{Lemma}
 
 
-\begin{Lemma}[Winnie Li, Theorem 3.2]
+\begin{Lemma}\cite[Theorem 3.2]{atkin1978twists}
 Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $\chi$ be a character with conductor equal a power of $q$.  Let $F$ be a newform in $S_k(\Gamma_1(N), \epsilon)$. Then $f \otimes \chi$  is a newform in $S_k(\Gamma_1(Q'M,\epsilon \chi^2)$, where $Q'$ is a power of q, such that $$F_\chi  = f \otimes \chi - (f \otimes \chi) |U_q |B_q.$$
 \end{Lemma}
 
@@ -312,16 +313,7 @@ Since our goal is to compute expansions of newforms on $\Gamma_0(N)$, we will ma
 from now, unless otherwise noted, we assume $f$ has trivial character, and that $\cond(\chi)^2 \mid N$.
 
 
-Next, we consider the problem of identifying the newform $f \otimes \chi$. This includes finding its level, which we denote by $M_\chi$, and its $q$-expansion to arbitrarily many terms. We will assume that we have an oracle which, given weight $k$ and level $N$, computes the expansions of all newforms in $S_k(\Gamma_1(N))$ to arbitrarily many terms (for example, use in [Stein]).
-
-Note that $f$ has trivial character. For such forms we have the following lemma.
-\begin{Lemma}
-Let $f \in S_k(\Gamma_0(N))$ and let $\chi$ be a Dirichlet character of conductor $Q$, such that $Q^2 \mid N$. Then the level $M_\chi$ of $f \otimes \chi$  satisfies $M_\chi \mid N$. 
-\end{Lemma}
-
-\begin{proof}
-By [Winnie, theorem 3.1], we have $f_\chi \in S_k(N, \chi^2)$ (since $\alpha = 0$ and $q^{2\beta} \leq Q$). It now follows from theorem 3.2 that the level of $f \otimes \chi$ is a divisor of $N$.
-\end{proof}
+Next, we consider the problem of identifying the newform $f \otimes \chi$. This includes finding its level, which we denote by $M_\chi$, and its $q$-expansion to arbitrarily many terms. We will assume that we have an oracle which, given weight $k$ and level $N$, computes the expansions of all newforms in $S_k(\Gamma_1(N))$ to arbitrarily many terms (for example, use the algorithm in \cite{stein2007modular}).
 
 Now we proceed on how to recognise the level of $f \otimes \chi$ from the coefficients of $f$. One potential obstacle is that we do not know all Fourier coefficients of $f \otimes \chi$. We only know that $a_n(f \otimes \chi)  = a_n(f)\chi(n)$   when $\gcd(n, N) = 1$. This can be overcome using a variant of Sturm's argument. First we prove a lemma.
 \begin{Lemma}
@@ -354,7 +346,7 @@ Following [Winnie], we define the operator $K_q$ on the space of modular forms b
 \]
 Then the assumption is equivalent to the statement that $\delta  = (g_1 -g_2) |K_q$ has $a_n(\delta) = 0$ for all $1 \leq n \leq B$. Since $\delta \in S_k(Nq^2, \epsilon)$,  Sturm's theorem implies $\delta = 0$.
 
-But then we know from [DS Theorem 5.7.1]  that $g_1 - g_2 \in S_k(N_2,\epsilon)^{old}$. Suppose $N_1 < N_2$, then $g_1$ is in the old subspace, hence so is $g_2$, a contradiction. Therefore we must have $N_1 = N_2$. It follows that $g_1 - g_2 \in S_k(N_2, \epsilon)^{new}$, since $g_1, g_2$ are newforms. This forces $g_1 - g_2  = 0$. 
+We know from \cite[Theorem 5.7.1]{diamond2006first}  that $g_1 - g_2 \in S_k(N_2,\epsilon)^{old}$. Suppose $N_1 < N_2$, then $g_1$ is in the old subspace, hence so is $g_2$, a contradiction. Therefore we must have $N_1 = N_2$. It follows that $g_1 - g_2 \in S_k(N_2, \epsilon)^{new}$, since $g_1, g_2$ are newforms. This forces $g_1 - g_2  = 0$. 
 \end{proof}
 
 Now we are ready to describe the algorithm. 
@@ -375,7 +367,7 @@ Now we are ready to describe the algorithm.
     	\State Set $B_d$ := the Sturm bound for $\Gamma_1(M_0dq^2)$. 
     	\For{$1 \leq j \leq s_d$} 
 		\If{$a_n(g_i^{(d)})= a_n(f)\chi(n)$ for all $1 \leq n \leq B_d, \gcd(n,q) = 1$}
-			\State return $M_0d$.
+			\State \Return $M_0d$.
 		\EndIf
 	\EndFor
     \EndFor	
@@ -395,9 +387,9 @@ We give some sample computations applying the above algorithm.
 \begin{Example}
 Let $f$ be the normalised newform attached to the elliptic curve 
 \[
-	E: 
+	E: y^2 + x y + y = x^{3} -  x - 2
 \]
-of label {\bf 50a}. Then $f \otimes \chi$ is new of level 50 for all Dirichlet characters $\chi$ with modulus 5. 
+of Cremona label {\bf 50a}. Then $f \otimes \chi$ is new of level 50 for all Dirichlet characters $\chi$ with modulus 5. 
 In other words, $f$ is 5-minimal. 
 \end{Example}
 
@@ -408,7 +400,7 @@ Let $f$ be the normalised newform attached to the elliptic curve
 E: y^2 + x y = x^{3} + x^{2} - 25 x - 111
 \]
 of label {\bf 98a}. Let $\chi$ be the Dirichlet character modulo 7 defined by $\chi(3 \pmod{7}) = -1$. 
-We found that $f \otimes \chi$ is a newform of level 14, with $q$-expansion (todo: add expansion).
+We found that $f \otimes \chi$ is a newform of level 14, with $q$-expansion (fixme: add expansion).
 \end{Example}
 
 
@@ -421,10 +413,12 @@ Let $\epsilon$ be a Dirichlet character modulo $N$ and let $f$ be a newform in $
 
 
 \begin{Definition}
-The number $w_Q(f)$ is called the pseudo-eigenvalue of $W_Q$ on $f$. We write $w(f) = w_N(f)$. 
+The number $w_Q(f)$ is called the {\it pseudo-eigenvalue} of $W_Q$ on $f$. We write $w(f) = w_N(f)$. 
 \end{Definition}
 
-For a power series  $f = \sum_{n \geq 0} a_nq^n$, its complex conjugate, denoted by $f^*$, is $$f^*(q) = \sum \overline{a_n}q^n.$$ From [Winnie] we have $W_N(f) = w(f) f^*$. In the rest of this section, we describe an algorithm to efficiently compute $w(f)$ numerically.  For a positive even integer $k$, let $\bM(k)$ denote the space of weight-$k$ modular symbols defined in \cite{stein2007modular}. The space $\bM(k)$ is a quotient of $\bZ[X,Y]_{k-2} \otimes \bP^1(\bQ)^2$, and $GL_2(\bQ)$ acts on $\bM(k)$ via the following rule
+For a power series  $f = \sum_{n \geq 0} a_nq^n$, its complex conjugate, denoted by $f^*$, is $$f^*(q) = \sum \overline{a_n}q^n.$$ 
+
+From \cite{atkin1978twists} we have $W_N(f) = w(f) f^*$. In the rest of this section, we describe an algorithm to efficiently compute $w(f)$ numerically.  For a positive even integer $k$, let $\bM(k)$ denote the space of weight-$k$ modular symbols defined in \cite{stein2007modular}. The space $\bM(k)$ is a quotient of $\bZ[X,Y]_{k-2} \otimes \bP^1(\bQ)^2$, and $GL_2(\bQ)$ acts on $\bM(k)$ via the following rule
 \[
 	g (P(X,Y) \otimes \{\alpha, \beta\}) = P( g^{-1}(X,Y)^T) \{g(\alpha), g(\beta)\}.
 \]
@@ -506,6 +500,7 @@ Suppose $\alpha, \beta \in \{z \in \bC | Im(z) > 0,  |z| = 1/\sqrt{N}\}$. Then i
 
 \section{Formula for the Fourier expansion of $f$ at width one cusps: Part 1}
 
+First we recall some notations from \cite{atkin1978twists}.
 \begin{Definition}
 For a positive integer $c'$, let $S_c' = \abcd{1}{\frac{1}{c'}}{0}{1}$. If $\chi$ is a character modulo $c'$, we define the 
 operator on modular forms 
@@ -521,39 +516,33 @@ Conversely, if $(a,M) = 1$, we have
 	\phi(c')[S_{c'}^u] = \sum_{\chi: cond(\chi) \mid c'} \chi(u) R_\chi(c').
 \end{equation}
 
-For our convenience, we introduce a new set of operators, which are basically the conjugates of $S_c'$ and $R_\chi(c')$ by $W_N$. Let $A_c' = \abcd{1}{0}{c'}{1}$.  Then we have 
+For our convenience, we define a new set of operators, which are basically the conjugates of $S_c'$ and $R_\chi(c')$ by $W_N$. Let $A_c' = \abcd{1}{0}{c'}{1}$.  Then we have 
 \begin{Fact}
 $-N \cdot A_{N/c'}^{-1} = W_N S_{c'} W_N$
 \end{Fact}
 
 From now on, we assume $c$ is a divisor of $N$ and $c' = \frac{N}{c}$. Then
 \[
-	[A_c]^{-1} = [W_N S_{c'} W_N].
+	A_c^{-1} = W_N S_{c'} W_N.
 \]
 
-Since $[W_N]^2 = id$, we have
+Since $W_N^2 = id$ as operators, we have
 \[
-	[A_c^{-u}] = [W_N S_{c'}^u W_N], \, \forall u \in \bZ. 
+	A_c^{-u} = W_N S_{c'}^u W_N, \, \forall u \in \bZ. 
 \]
 
-Parallel to the notion of $R_\chi(c')$, we make the following definition.
-\begin{Definition}
-\[
-	\Phi_\chi(c) = \sum_{u =0}^{c'-1} \bar{\chi}(u) [A_c^{-u}].
-\]
-\end{Definition}
-Then $\Phi_\chi(c) = [W_N] R_\chi(c') [W_N]$. 
-Similar to the equation~\ref{formula: SR}, we have
+Parallel to the notion of $R_\chi(c')$, let $\Phi_\chi(c) = \sum_{u =0}^{c'-1} \bar{\chi}(u) A_c^{-u}$.Then $\Phi_\chi(c) = W_N R_\chi(c') W_N$. 
+Similar to Formula~\ref{formula: SR}, we have
 \begin{equation}
 \label{formula}
-	\varphi(c')[A_c^{-a}] = \sum_{\cond(\chi) \mid c'} \chi(a) \Phi_\chi(c) 
+	\varphi(c') A_c^{-a} = \sum_{\cond(\chi) \mid c'} \chi(a) \Phi_\chi(c) 
 	 = \sum_{\cond(\chi) \mid c'} \chi(a) W_N R_\chi(c') W_N. 
 \end{equation}
 
-Finally, applying formula~\ref{formula} to $f$, we arrive at
+Finally, applying Formula~\ref{formula} to $f$, we arrive at
 \begin{eqnarray}
-	f_{[\frac{a}{c}]} \left( q\right) &= \frac{1}{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(a) f|[W_N R_\chi(c') W_N]. \\ 
-	&= \frac{w_N(f) }{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(-a) f| R_\chi(c') | W_N. 
+	f_{[\frac{a}{c}]} \left( q\right) &= \frac{1}{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(-a) f| W_N R_\chi(c') W_N. \\ 
+	&= \frac{w(f) }{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(-a) f| R_\chi(c')  W_N. 
 \end{eqnarray}
 
 Now it left to compute the expansions of  each $f| R_\chi(c') | W_N$ in the sum.
@@ -562,8 +551,8 @@ Now it left to compute the expansions of  each $f| R_\chi(c') | W_N$ in the sum.
 
 In this section, we describe how to compute the expansion of $f| R_\chi(c') | W_N$. First note the following identity between operators on $S_k(\Gamma_1(N), \epsilon)$: $$T_p = U_p  + \epsilon(p) p^{\frac{k}{2}}B_p.$$
 
-We recall some notations and a result from Delaunay's thesis (see []).
-\begin{Definition}[[Delaunay, Definition III.2.4]]
+We recall some notations and a result from \cite{delaunay2002thesis}.
+\begin{Definition}\cite[Definition III.2.4]{delaunay2002thesis}
 Put $\cond'(\chi)$ multiplicatively. If $\chi_j$ is trivial character modulo $p_j^{a_j}$, set  $\cond'(\chi_j) = p_j$.
 $\chi = \chi_{nt} \chi_{tr}$. Put 
 \[
@@ -572,7 +561,7 @@ $\chi = \chi_{nt} \chi_{tr}$. Put
 \end{Definition}
 
 
-\begin{Lemma}[Delaunay's thesis, Prop 2.6]
+\begin{Lemma}\cite[Prop 2.6]{delaunay2002thesis}
 Let $c'$ be such that $c'^2 \mid N$. For a Dirichlet character $\chi$ mod $c'$, we have
 $$f|R_{\chi}(c') = \begin{cases} g'(\bar{\chi}) f_{\chi_{nt}} & if \cond'(\chi) = c \\ 0 & else  \end{cases}$$
 \end{Lemma}
@@ -608,7 +597,7 @@ f |B_d | W_N & = d^{-k/2} f | \abcd{d}{0}{0}{1} \abcd{0}{-1}{N}{0} \\
 \end{proof}
 
 Before stating the second lemma, we quote another result of Winnie Li on the coefficients of a newform at primes dividing the level.
-\begin{Lemma}[Winnie Newform, Theorem 3 (iii)]  \label{lemma: winnie-vanishing}
+\begin{Lemma}\cite[Theorem 3 (iii)]{li1975newforms}  \label{lemma: winnie-vanishing}
 Let $f = \sum_{n \geq 1} a_n(f) q^n$ be a normalized newform in $S_k(\Gamma_1(N), \epsilon)$, $p$ a prime dividing $N$.  Then \\
 (1) If $\epsilon$ is a character modulo $N/p$ and  $p^2 \mid N$, then $a_p(f) = 0$. \\ 
 (2) If $\epsilon$ is a character modulo $N/p$ and  $p^2 \nmid N$, then $a_p(f)^2 = \epsilon(p) p^{k-2}$. \\ 
@@ -649,6 +638,7 @@ For each such character $\chi$, we then need to determine the level $M_\chi$ and
 
 \begin{algorithm}[H]
 \caption{Computing Fourier coefficients of $f$ at width one cusps}
+\label{alg: qexp}
 \begin{algorithmic}[1]
     \Require $f \in S_k(\Gamma_0(N))$ a newform; $a, c$ -- coprime integers such that $N \mid c^2$; $B$ -- a positive integer. 
     \Ensure The first $B$ Fourier coefficients of $f_{z}(q)$. 
@@ -723,27 +713,24 @@ Let $c$ be a cusp of denominator $d$ and let $d' = N/d$. Then
 \]
 \end{Lemma}
 
-\begin{proof}
-Let $K_0 = \bQ( \{a_n(f)\}$
-Choose a form $0 \neq g \in S_k(\Gamma_1(N))$ with rational Fourier coefficients such that 
-$h = \frac{f}{g}$ is non-constant. From [Cox, ] it is easy to see that $h \in $. Then we have 
-\end{proof}
+%\begin{proof}
+%Let $K_0 = \bQ( \{a_n(f)\}$
+%Choose a form $0 \neq g \in S_k(\Gamma_1(N))$ with rational Fourier coefficients such that 
+%$h = \frac{f}{g}$ is non-constant. From [Cox, ] it is easy to see that $h \in $. Then we have 
+%\end{proof}
 
 
 
 \section{Examples}
 
 Let $E = {\bf 50a}$ and consider the 4 cusps of denominator 10 on $X_0(50)$. The corresponding first terms 
-of $q$-expansions at these cusps are 
-
-\iffalse
+of $q$-expansions at these cusps are  
 \begin{align*}
 	a_1(f, \frac{1}{10}) &= \frac{1}{5} \zeta_{5}^{3} - \frac{3}{5} \zeta_{5}^{2} + \frac{3}{5} \zeta_{5} - \frac{1}{5} \\ 
 	a_1(f, \frac{3}{10}) &= \frac{3}{5} \zeta_{5}^{3} + \frac{6}{5} \zeta_{5}^{2} + \frac{4}{5} \zeta_{5} + \frac{2}{5} \\
 	a_1(f, \frac{7}{10}) &= \frac{2}{5} \zeta_{5}^{3} - \frac{1}{5} \zeta_{5}^{2} - \frac{4}{5} \zeta_{5} - \frac{2}{5}\\
 	a_1(f, \frac{9}{10}) &=-\frac{6}{5} \zeta_{5}^{3} - \frac{2}{5} \zeta_{5}^{2} - \frac{3}{5} \zeta_{5} - \frac{4}{5}
 \end{align*}
-\fi
 
 
 \section{Applications}
@@ -751,9 +738,9 @@ of $q$-expansions at these cusps are
 One applications of the computation done in this chapter is the norm method to the computation of $j$-polynomials 
 introduced in Chapter~. Recall that the issue with the norm method for non-square free level is computing the 
 expansions of form $f | \gamma$, where $\gamma$ runs over the set of right coset representatives of $\Gamma_0(N)$ 
-in $SL_2(\bZ)$. To compute the norm of  $f$ when $N$ is non-square free, it suffices to compute the expansions of 
-$f$ at all width-1 cusps. This is a consequence of the following lemma.
-
+in $SL_2(\bZ)$. As we have seen, it suffices to compute the expansions of 
+$f$ at all width one cusps.
+\iffalse
 \begin{Lemma}
 For any cusp $z$ of $X_0(N)$, there exists an Atkin-Lehner involution $w \in W(N)$ such that $z_1 = w(z)$ has 
 width one.
@@ -764,8 +751,11 @@ Let $z \neq [\infty]$ be a cusp. Recall that $z$ has width one if and only if it
 $d(z)^2 \equiv 0 \pmod{N}$. Let $p$ be a prime divisor of $N$. Then it is easy to see that 
 $v_p(d(w_p(z))) = v_p(N) -  v_p(d(z))$ and $v_l(d(w_p(z))) = v_l(d(z))$ for primes $l \neq p$. The lemma now follows by taking $w = \prod_{p \mid N: v_p(d(z)) \leq v_p(N)/2} w_p$. 
 \end{proof}
+\fi
 
 \section{Norm guess and data}
+
+Fixme
  
  
 
