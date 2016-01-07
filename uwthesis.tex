@@ -109,10 +109,10 @@
 %
 \Title{Computational aspects of modular parametrizations \\ of elliptic curves}
 \Author{Hao Chen}
-\Year{1985-2014}
-\Program{UW Information Technology}
+\Year{2011-2016}
+\Program{UW Mathematics}
 
-\Chair{Name of Chairperson}{Title of Chair}{Department of Chair}
+\Chair{William Arthur Stein}{Professor}{Department of Mathematics}
 \Signature{First committee member}
 \Signature{Next committee member}
 \Signature{etc}
@@ -125,8 +125,7 @@
 % unusual footnote not found in a real thesis
 % You just use the \titlepage as commented out above
 
-{\Degreetext{A dissertation%
-  \footnote[2]{an egocentric imitation, actually}\\
+{\Degreetext{A dissertation 
   submitted in partial fulfillment of the\\ requirements for the degree of}
  \def\thefootnote{\fnsymbol{footnote}}
  \let\footnoterule\relax
@@ -195,22 +194,24 @@ Abstract goes here.
 %
 
 \textpages
- 
+
+\chapter{Introduction}
+
+\chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
+
+\chapter{Chow-Heegner points computations} 
  
 % ========== Chapter 1
 
-\chapter{Fourier expansions of cuspidal modular forms forms at cusps}
+\chapter{Fourier expansions of modular forms forms at all cusps}
 
 Let $k$ be a positive even integer and let $f \in S_k(\Gamma_0(N))$ be a nonzero cusp form.
-We are concerned with the problem of computing the Fourier expansion of $f$ at cusps of width one
-other than the cusp $[\infty]$. Note that such cusps exist if and only if  $N$ is 
-not square-free. We will give two algorithms, one numerical and the other exact, to compute such
-expansions. The question is studied in the Ph.D. thesis of Christophe Delaunay. We draw insight from another preprint by 
-F.Brunault. The question is also studied in [Edixhoven], where numerical algorithm is given. The algorithm 
-in [Ed] for computing expansions requires working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where 
-$R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
+Then $f$ has a Fourier expansion at the cusp infinity: $$f = \sum_{n \geq 1} a_n q^n$$
+where $a_n$ are complex numbers and $q = e^{2 \pi i \tau}$. 
+We are concerned with the problem of computing the Fourier expansion of $f$ at other cusps. When $N$ is 
+square-free, this problem is solved by Asai \red{[fixme: give reference]}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in [Edixhoven], where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in [Ed], for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
 
-The main result of this chapter is Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}, which computes the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any width one cusp $z$. Along the way, we have developed algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. Section contains some examples. % In section, we describe an alternative approach and 
+The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}, which gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one. Along the way, we have developed algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. Section contains some examples. % In section, we describe an alternative approach and 
 
 \section{Preliminaries}
 
@@ -247,7 +248,7 @@ Suppose $f$ is a modular form on $\Gamma_0(N)$ of positive even weight $k$ and $
 In particular, if $\alpha \in SL_2(\bZ)$, then $f | \alpha $ is a modular form on $\Gamma(N)$. So $f | \alpha $ has a $q$-expansion, which is a power series in $q^{\frac{1}{N}}$. A natural thing to do is to define the expansion of $f$ at the cusp $z$ as the expansion of $f | \alpha$. However,  note that this may not be well-defined: in general the expansion depends on the choice of $\alpha$. Nonetheless, when the cusp $z$ has width one, the expansion is indeed well-defined as a power series in $q$. 
 
 \begin{Lemma}
-Let $z$ be a cusp on $X_0(N)$ with width one. Choose $\alpha \in SL_2(\bZ)$ such that 
+Let $z$ be a cusp on $X_0(N)$ with $h_z = 1$. Choose $\alpha \in SL_2(\bZ)$ such that 
 $\alpha(\infty) =z$. Then $f | \alpha$ is a cusp form on $\Gamma_1(N)$. Moreover, the function $f|\alpha $ is independent of the choice of $\alpha$. 
 \end{Lemma}
 
@@ -275,7 +276,7 @@ we can find $\alpha' \in SL_2(\bZ)$ and $u \in GL_2(\bQ)$ such that $\abcd{d}{0}
 In the rest of this chapter, we will restrict ourselves to solving the following problem: 
 
 \begin{problem}
-Let $f$ be a normalized newform in $S_2(\Gamma_0(N))$ and $z$ be a cusp on $X_0(N)$ of width one. Compute the $q$-expansion of $f_z$.
+Let $f$ be a normalized newform in $S_k(\Gamma_0(N))$ and $z$ be a cusp on $X_0(N)$ of width one. Compute the $q$-expansion of $f_z$.
 \end{problem}
 
 
@@ -454,13 +455,12 @@ The map
 defines the {\it star involution} on the space $\bM(k)$. We have $\langle f^*, M \rangle = \overline{\langle f, M^*\rangle}.$
 
 
-Now we are ready to prove the main theorem of this section.
-\begin{theorem}
+\begin{Lemma}
 Let $f$ be a normalised newform on $\Gamma_1(N)$ with positive even weight $k$ and let $M \in \bM(k)$ be such that $W_N(M) = N^{k/2 -1} M^*$. Assume $\langle f, M \rangle \neq 0$.  Then 
 \[
 	w(f) = \frac{\langle f,M \rangle }{\overline{\langle f,M \rangle}}.
 \]
-\end{theorem} 
+\end{Lemma} 
 
 \begin{proof}
 Since $W_N^2(M) = N^{k-2}M$ for all $M \in \bM(k)$, the assumption implies $W_N(M^*) = N^{k/2 -1} M$. 
@@ -634,15 +634,23 @@ Applying Lemma~\ref{lemma: bdwn} to Theorem~\ref{thm: formula1}, we finally arri
 % Main Theorem of expansion 
 
 \begin{theorem} \label{thm: ExpansionFormula}
-Let $f$ be a normalized newform in $S_2(\Gamma_0(N))$ and $z = [a/c]$ be a cusp on $X_0(N)$ of width one. 
-Then $f_z$ is 
+Let $k \geq 2$ be an even integer and let $f$ be a normalized newform in $S_k(\Gamma_0(N))$. Suppose $z = \frac{a}{c}$ is a cusp on $X_0(N)$ with width one and denominator $d_z$. Let $d' = \frac{N}{d_z}$. Then the Fourier expansion of $f$  at the cusp $z$ is 
 \[
-	f_z = \frac{w(f) }{\varphi(c')}\sum_{\chi: \cond'(\chi) = c'} \chi(-a) g'(\bar{\chi}) w(g_\chi) t_\chi.
+	f_z(q) = \frac{w(f) }{\varphi(d')}\sum_{\chi: \cond'(\chi) = d'} \chi(-a) g'(\bar{\chi}) w(f \otimes \chi) f_\chi^{!}(q).
 \]
-Here $t_\chi$ is as follows: let $M_\chi$ denote the level of $g_\chi := f \otimes \chi$. Then
+Here 
+
+\begin{itemize}
+
+\item $w(f)$ and $w(f \otimes \chi)$ are the pseudo-eigenvalues of $W_N$. 
+\item $g'(\chi)$ is the modified Gauss sum in . 
+\item $\cond'$ is the modified conductor of a Dirichlet character in. 
+\item $f_\chi^{!}$ is as follows: let $M_\chi$ denote the level of  $f \otimes \chi$. Then
 \[
-t_\chi = \sum_{(S_1, S_2) \in B_{S_{\chi_{nt}},M_\chi}} (-1)^{|S_1|} a_{p(S_1)}(g_\chi)  \left(\frac{N}{M_\chi p(S_1)^2p(S_2)^3} \right)^{k/2}\chi(p(S_2)) \overline{g_\chi | B_{\frac{N}{M_\chi p(S_1) p(S_2)^2}}}.
+f_\chi^{!} = \sum_{(S_1, S_2) \in B_{S_{\chi_{nt}},M_\chi}} (-1)^{|S_1|} a_{p(S_1)}(f \otimes \chi)  \left(\frac{N}{M_\chi p(S_1)^2p(S_2)^3} \right)^{k/2}\chi(p(S_2)) \overline{f \otimes \chi | B_{\frac{N}{M_\chi p(S_1) p(S_2)^2}}}.
 \]
+where the notations are from . 
+\end{itemize}
 \end{theorem}
 
 
