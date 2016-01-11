@@ -573,7 +573,7 @@ $nt = b/tr$,  $\chi_{tr} = \prod_{j \in I} \chi_j$, and $\chi_{nt} = \chi/\chi_{
 \begin{equation} \label{modified gauss sum}
 	g'(\chi) = (-1)^{|I|} \chi_{nt}(tr) g(\chi_{nt}). 
 \end{equation}
-Here $g(\chi)$ is the usual Gauss sum of $\chi$: if $\chi$ is a character modulo $d$, then $g(\chi) = \sum_{a=1}^{d} e^{\frac{2\pi i a}{d}} \chi(a)$.
+Here $g(\chi)$ is the usual Gauss sum of $\chi$: if $\chi$ is a character modulo $d$, then $g(\chi) = \sum_{a=1}^{d} e^{\frac{2\pi i a}{d}} \chi(a)$. If $\chi = \chi_0$ is the trivial character, we set $g(\chi_0) = 0$. 
 \end{Definition}
 
 
@@ -864,7 +864,6 @@ If $\chi$ is a Dirichlet character such that the $f\otimes \chi$ has the same le
 \]
 \end{Lemma}
 
-\red{to-do: add formula for twists}
 
 \begin{proof}
 By [BH], taking $n =  r = 1$, we have 
@@ -888,7 +887,7 @@ $\frac{12}{\gcd(12, v_p(\Delta))}$.
 \end{Lemma}
 
 The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup 
-of $Gal(L/\bQ)$, where $L$ is the smalles t number field over which $E$ acquires good reduction \red{(to-do: check this)}.
+of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}.
 
 For $p = 2$ or $3$, the order of $\varphi$ can be determined using Kraus's result \url{http://gdz.sub.uni-goettingen.de/dms/load/img/?PPN=GDZPPN002231468&IDDOC=219018}, or Dokchitser's paper Euler factors determine local Weil representations. 
 
@@ -909,6 +908,42 @@ an algebraic number with miminal polynomial $x^{20} + 109/121 x^15 + 2861/1331 x
 So $w = - \epsilon_{11} \epsilon_\infty = \epsilon_{11}$. Using the numerical algorithm \ref{alg: pseudo-eigenvalue},
 we compute $w(f \otimes \chi) = 0.642573377564283 + 0.766224154177894i$. This confirms the computation. 
 \end{Example}
+
+
+\section{Norm of first terms computations}
+
+We keep the assumptions from the previous section, that $f$ is a newform in $S_2(\Gamma_0(N))$, attached to an elliptic curve $E/\bQ$. We assume $f$ is twist-minimal and $p \geq 5$ is a prime dividing the conductor $N$ such that 
+$v_p(N) = 2$.  In this case, the cusp $z_p = \left[\frac{-p}{N} \right]$ is of width one, and the $q$-expansion of $f$ at $z_p$
+takes an especially simple form.  We summarize this in the lemma below. 
+\begin{Lemma}
+With the assumptions above, there exists a Galois-invariant set of numbers $\{b_1, \ldots, b_{p-1}\} \subseteq \bQ(\zeta_p)$, such that 
+\[
+	f_{z_p}(q) = \sum_{n \geq 1} a_n(f) b_{n\mod{p}} q^n. 
+\]
+More precisely, the $b_j$ are given by 
+\[
+ b_j = w(f) \sum_{\chi: \cond(\chi) = p} g(\bar{\chi}) w(f\otimes \chi) \chi(n)
+\]
+\end{Lemma}
+
+\begin{proof}
+First, the assumptions imply that $a_{n}(f) =  0$ if $p \mid n$. So the right hand side of the formula is well-defined. 
+The formulae then follow directly from Theorem \ref{thm: ExpansionFormula}.   We have $b_j \in \bQ(\zeta_p)$ since the cusp $z_p$ is defined over $\bQ(\zeta_p)$. \red{(fixme: check this)}. Moreover, the cusps $\{z_p^{(j)} = \frac{-jp}{N}: 1 \leq j \leq p-1\}$ form a Galois orbit on $X_0(N)$, and one has 
+\[
+	a_n(f_{z_p^{(j)}}) = a_{jn}(f_{z_p}), \, \forall n \geq 1, 1 \leq j \leq p-1. 
+\]
+In particular, we have $\{b_j\} = \{a_1(f_{z_p^{(j)}})\}$. Since the latter set is Galois-invariant, so is the former. 
+\end{proof}
+
+We remark that it is clear from the formula of $b_j$ that they are algebraic number. However, the formula does not imply directly that they lie in $\bQ(\zeta_p)$. 
+
+It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. We give another formula of $a_1(f_{z_p})$ in light of the previous section. 
+
+\begin{Lemma}
+Keeping the assumptions in the previous two sections, we have 
+$$a_1(f_{z_p}) = \frac{}{}$$
+\end{Lemma}
+
 
 \chapter{Things I tried to do but did not end up giving a nice result}
 
