@@ -209,9 +209,11 @@ Let $k$ be a positive even integer and let $f \in S_k(\Gamma_0(N))$ be a nonzero
 Then $f$ has a Fourier expansion at the cusp infinity: $$f = \sum_{n \geq 1} a_n q^n$$
 where $a_n$ are complex numbers and $q = e^{2 \pi i \tau}$. 
 We are concerned with the problem of computing the Fourier expansion of $f$ at other cusps. When $N$ is 
-square-free, this problem is solved by Asai \red{[fixme: give reference]}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in [Edixhoven], where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in [Ed], for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
+square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in [Edixhoven], where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in [Ed], for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
 
-The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}, which gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one. Along the way, we have developed algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. Section contains some examples. % In section, we describe an alternative approach and 
+The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}. The former gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one, and the latter describes how to use the formula to explicitly compute such expansion. Along the way, we will develop algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. 
+
+Section contains some examples. % In section, we describe an alternative approach and 
 
 \section{Preliminaries}
 
@@ -285,7 +287,7 @@ Let $f$ be a normalized newform in $S_k(\Gamma_0(N))$ and $z$ be a cusp on $X_0(
 For $f \in S_k(\Gamma_1(N), \epsilon)$ a newform with expansion $f = \sum_n a_n(f) q^n$ and $\chi$ a Dirichlet character, the {\it twist} $f_\chi$ is a modular form with expansion $f_\chi (q) = \sum a_n(f) \chi(n)  q^n$. 
 
 \begin{Lemma}\cite[Proposition 3.1]{atkin1978twists}
-Let $F \in S_k(\Gamma_1(N), \epsilon)$, where $\epsilon$ is a character of conductor $N'$.  Let $\chi$ be a character modulo $M$. Put $\tilde{N} = lcm{N, N'M, M^2}$. Then $F_\chi \in S_k(\Gamma_1(\tilde{N}), \epsilon \chi^2)$.
+Let $F \in S_k(\Gamma_1(N), \epsilon)$, where $\epsilon$ is a character of conductor $N'$.  Let $\chi$ be a character modulo $M$. Put $\tilde{N} = lcm(N, N'M, M^2)$. Then $f_\chi \in S_k(\Gamma_1(\tilde{N}), \epsilon \chi^2)$.
 \end{Lemma}
 
 In particular, when $\epsilon$ is the trivial character and the conductor $M$ of $\chi$ satisfies $M^2 \mid N$, we have
@@ -297,6 +299,7 @@ We quote two more results from \cite{atkin1978twists}, which we will use extensi
 \[
 	f |U_d = \sum a_{nd} q^n, \,  f |B_d = \sum a_n q^{nd}.
 \]
+It is easy to see that for any positive integers $d,d'$, we have $U_d$ commutes with $B_{d'}$.
 
 
 
@@ -310,23 +313,23 @@ Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $F$ b
 \end{Lemma}
 
 
-\begin{Lemma}\cite[Theorem 3.2]{atkin1978twists}
-Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $\chi$ be a character with conductor equal a power of $q$.  Let $F$ be a newform in $S_k(\Gamma_1(N), \epsilon)$. Then $f \otimes \chi$  is a newform in $S_k(\Gamma_1(Q'M,\epsilon \chi^2)$, where $Q'$ is a power of q, such that $$F_\chi  = f \otimes \chi - (f \otimes \chi) |U_q |B_q.$$
+\begin{Lemma}\cite[Theorem 3.2]{atkin1978twists} \label{lemma: fchi}
+Let $q \mid N$ and $Q$ be the $q$-primary part of $N$. Write $N = QM$. Let $\chi$ be a character whose conductor equals a power of $q$.  Let $f$ be a newform in $S_k(\Gamma_1(N), \epsilon)$. Then $f \otimes \chi$  is a newform in $S_k(\Gamma_1(Q'M,\epsilon \chi^2)$, where $Q'$ is a power of $q$. Moreover, we have $$f_\chi  = f \otimes \chi - (f \otimes \chi) |U_q |B_q.$$
 \end{Lemma}
 
 Since our goal is to compute expansions of newforms on $\Gamma_0(N)$, we will make the following assumptions: 
 from now, unless otherwise noted, we assume $f$ has trivial character, and that $\cond(\chi)^2 \mid N$.
 
 
-Next, we consider the problem of identifying the newform $f \otimes \chi$. This includes finding its level, which we denote by $M_\chi$, and its $q$-expansion to arbitrarily many terms. We will assume that we have an oracle which, given weight $k$ and level $N$, computes the expansions of all newforms in $S_k(\Gamma_1(N))$ to arbitrarily many terms (for example, use the algorithm in \cite{stein2007modular}).
+Next, we consider the problem of identifying the newform $f \otimes \chi$. This includes finding its level and its $q$-expansion to arbitrarily many terms. We will assume that we have an oracle which, given weight $k$ and level $N$, computes the expansions of all newforms in $S_k(\Gamma_1(N))$ to arbitrarily many terms (for example, use the algorithm in \cite{stein2007modular}).
 
-Now we proceed on how to recognise the level of $f \otimes \chi$ from the coefficients of $f$. One potential obstacle is that we do not know all Fourier coefficients of $f \otimes \chi$. We only know that $a_n(f \otimes \chi)  = a_n(f)\chi(n)$   when $\gcd(n, N) = 1$. This can be overcome using a variant of Sturm's argument. First we prove a lemma.
+Now we proceed on how to recognise the level of $f \otimes \chi$ from the coefficients of $f$. One potential obstacle is that we do not know all Fourier coefficients of $f \otimes \chi$: we only know that $a_n(f \otimes \chi)  = a_n(f)\chi(n)$   when $\gcd(n, N) = 1$. This can be overcome using a variant of Sturm's argument. First we prove a lemma.
 \begin{Lemma}
-Let $f \in S_k(N, \epsilon)$ be a normalized newform. Then $f|U_q|B_q \in S_k(Nq^2, \epsilon)$.
+Let $f \in S_k(N, \epsilon)$ be a normalized newform and $q$ be any positive integer. Then $f|U_q|B_q \in S_k(Nq^2, \epsilon)$.
 \end{Lemma}
 
 \begin{proof}
-We use a standard fact that for any integer $d \geq 1$, the map $f \mapsto f|B_d$ takes $S_k(N, \epsilon)$ to 
+It is a standard fact that for any integer $d \geq 1$, the map $f \mapsto f|B_d$ takes $S_k(N, \epsilon)$ to 
 $S_k(Nd, \epsilon)$. To prove the lemma, we consider two separate cases. First, assume $q \nmid N$, then we have 
 $T_q = U_q + q^{k-1} \epsilon(q) B_q$. By our assumption, we have $f|T_q = a_q(f) f$. Therefore, we have 
 $f|U_q|B_q = f|(T_q - q^{k-1} \epsilon(q) B_q)|B_q = a_q(f)f|B_q - q^{k-1} \epsilon(q) f|B_q^2$. Hence $f|U_q|B_q \in S_k(Nq^2, \epsilon)$. \\
@@ -336,7 +339,7 @@ Now assume $q \mid N$, so $U_q = T_q$. Hence $f|U_q|B_q = a_q(f) f|B_q \in S_k(N
 The next proposition generalised the usual Sturm bound argument for modular forms. 
 
 \begin{Prop}
-Let $g_1$, $g_2$ be two normalised newforms of levels $N_1 \mid N_2$ and the same nybentypus character $\epsilon$. Assume $\epsilon$ has prime power conductor $Q = q^\beta$ such that  $Q^2 \mid N$. Let 
+Let $g_1$, $g_2$ be two normalised newforms of levels $N_1 \mid N_2$ and the same nybentypus character $\epsilon$. Assume $\epsilon$ has prime power conductor $Q = q^\beta$ such that  $Q^2 \mid N_1$. Let 
 $B$ be the Sturm bound for the congruence subgroup $\Gamma_1(Nq^2)$. Suppose 
 \[
 	a_n(g_1) = a_n(g_2), \, \mbox{for all }1 \leq n \leq B \mbox{ such that } \gcd(n,q) = 1.
@@ -349,9 +352,7 @@ Following \cite{atkin1978twists}, we define the operator $K_q$ on the space of m
 \[
 	g|K_q = g - g|U_q|B_q. 
 \]
-Then the assumption is equivalent to the statement that $\delta  = (g_1 -g_2) |K_q$ has $a_n(\delta) = 0$ for all $1 \leq n \leq B$. Since $\delta \in S_k(Nq^2, \epsilon)$,  Sturm's theorem implies $\delta = 0$.
-
-We know from \cite[Theorem 5.7.1]{diamond2006first}  that $g_1 - g_2 \in S_k(N_2,\epsilon)^{old}$. Suppose $N_1 < N_2$, then $g_1$ is in the old subspace, hence so is $g_2$, a contradiction. Therefore we must have $N_1 = N_2$. It follows that $g_1 - g_2 \in S_k(N_2, \epsilon)^{new}$, since $g_1, g_2$ are newforms. This forces $g_1 - g_2  = 0$. 
+Then the assumption is equivalent to the statement that $\delta  = (g_1 -g_2) |K_q$ has $a_n(\delta) = 0$ for all $1 \leq n \leq B$. Since $\delta \in S_k(Nq^2, \epsilon)$,  Sturm's theorem implies $\delta = 0$. We then know from \cite[Theorem 5.7.1]{diamond2006first}  that $g_1 - g_2 \in S_k(N_2,\epsilon)^{old}$. Suppose $N_1 < N_2$, then $g_1$ is in the old subspace, hence so is $g_2$, a contradiction. Therefore we must have $N_1 = N_2$. It follows that $g_1 - g_2 \in S_k(N_2, \epsilon)^{new}$, since $g_1, g_2$ are newforms. Since the new subspace and the old subspace intersect trivially, we must have $g_1 - g_2  = 0$. 
 \end{proof}
 
 Now we are ready to describe the algorithm. 
@@ -421,8 +422,9 @@ Let $\epsilon$ be a Dirichlet character modulo $N$ and let $f$ be a newform in $
 
 
 \begin{Definition}
-The number $w_Q(f)$ is called the {\it pseudo-eigenvalue} of $W_Q$ on $f$. We write $w(f) = w_N(f)$. 
+The number $w_Q(f)$ is called the {\it pseudo-eigenvalue} of $W_Q$ on $f$. 
 \end{Definition}
+For ease of notations, we write $w(f) = w_N(f)$. 
 
 For a power series  $f = \sum_{n \geq 0} a_nq^n$, its complex conjugate, denoted by $f^*$, is $$f^*(q) = \sum \overline{a_n}q^n.$$ 
 
@@ -473,12 +475,12 @@ Now
 \end{align*}
 \end{proof}
 
-Suppose $\alpha, \beta \in \{z \in \bC | Im(z) > 0,  |z| = 1/\sqrt{N}\}$. Then it is easy to verify that $M = (xy)^{k/2-1} \otimes \{\alpha, \beta\}$ satisfies $W_N(M) = M^*$. Finally, we arrive at the algorithm to compute $w(f)$.
+Suppose $\alpha, \beta$ are distinct points on the arc $\{z \in \bC | Im(z) > 0,  |z| = 1/\sqrt{N}\}$. Then it is easy to verify that $M = (xy)^{k/2-1} \otimes \{\alpha, \beta\}$ satisfies $W_N(M) = M^*$. Finally, we arrive at the algorithm to compute $w(f)$.
 
 
 
 
-\begin{algorithm}[H]
+\begin{algorithm}[H] 
 \caption{Computing the pseudo-eigenvalue of newforms.}
 \label{alg: pseudo-eigenvalue}
 \begin{algorithmic}[1]
@@ -523,12 +525,12 @@ Conversely, if $(a,M) = 1$, we have
 	\phi(c')S_{c'}^u = \sum_{\chi: cond(\chi) \mid c'} \chi(u) R_\chi(c').
 \end{equation}
 
-For our convenience, we define a new set of operators, which are basically the conjugates of $S_c'$ and $R_\chi(c')$ by $W_N$. Let $A_c' = \abcd{1}{0}{c'}{1}$.  Then we have 
+For our convenience, we define some operators, which are essentially the conjugates of $S_c'$ and $R_\chi(c')$ by $W_N$. Let $A_c' = \abcd{1}{0}{c'}{1}$.  Then it is easy to verify the following matrix identity.
 \begin{Fact}
-$-N \cdot A_{N/c'}^{-1} = W_N S_{c'} W_N$
+$-N \cdot A_{N/c'}^{-1} = W_N S_{c'} W_N$.
 \end{Fact}
 
-From now on, we assume $c$ is a divisor of $N$ and $c' = \frac{N}{c}$. Then
+From now on, we assume $c$ is a divisor of $N$ and $c' = \frac{N}{c}$. Then as operators on modular forms, 
 \[
 	A_c^{-1} = W_N S_{c'} W_N.
 \]
@@ -546,130 +548,157 @@ Similar to Formula~\ref{formula: SR}, we have
 	 = \sum_{\cond(\chi) \mid c'} \chi(a) W_N R_\chi(c') W_N. 
 \end{equation}
 
-Finally, applying Formula~\ref{formula} to $f$, we arrive at
-\begin{eqnarray}
+Applying Formula~\ref{formula} to $f$, we arrive at
+\begin{eqnarray} \label{expansion0}
 	f_{[\frac{a}{c}]} \left( q\right) &= \frac{1}{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(-a) f| W_N R_\chi(c') W_N. \\ 
 	&= \frac{w(f) }{\varphi(c')}\sum_{\cond(\chi) \mid c'} \chi(-a) f| R_\chi(c')  W_N. 
 \end{eqnarray}
 
-Now it left to compute the expansions of  each $f| R_\chi(c') | W_N$ in the sum.
+Now it left to compute the expansions of  each $f| R_\chi(c') W_N$ in the sum.
 
 \section{Formula for the Fourier expansion of $f$ at width one cusps: Part 2}
 
-In this section, we describe how to compute the expansion of $f| R_\chi(c') | W_N$. First note the following identity between operators on $S_k(\Gamma_1(N), \epsilon)$: $$T_p = U_p  + \epsilon(p) p^{\frac{k}{2}}B_p.$$
+In this section, we describe how to compute the expansion of $f| R_\chi(c') W_N$. First note that $T_p = U_p  + \epsilon(p) p^{\frac{k}{2}}B_p$ as operators on $S_k(\Gamma_1(N), \epsilon)$. It follows that $T_p$ commutes with $B_d$ for any positive integer $d$. 
+ 
 
-We recall some notations and a result from \cite{delaunay2002thesis}, which states that $f | R_\chi(c')$ is a constant multiple of some twist $f_{\chi_{nt}}$. 
+We recall some notations and a result from \cite{delaunay2002thesis}.
 \begin{Definition}\cite[Definition III.2.4]{delaunay2002thesis}
 For a Dirichlet character $\chi$ modulo $b = \prod_{j \in J} p_j^{\alpha_j}$. Let $r = |J|$. Decompose $\chi$ uniquely as 
 $\chi = \chi_1 \cdots \chi_r$, where $\chi_i$ is a character modulo $p_j^{\alpha_j}$.  We define $\cond'(\chi)$ multiplicatively, by putting 
-\[
+\begin{equation} \label{modified conductor}
 	\cond'(\chi_j) = \begin{cases} \cond(\chi_j) & if \cond(\chi_j) > 1 \\ p_j & else \end{cases}
-\]
+\end{equation}
 Also, if $I = \{j \in J : \chi_j \mbox{ is trivial character modulo } p_j^{\alpha_j}\}$, we put $tr = \prod_{j \in I} p_j^{\alpha_j} $
 $nt = b/tr$,  $\chi_{tr} = \prod_{j \in I} \chi_j$, and $\chi_{nt} = \chi/\chi_{tr}$. Then we set
-\[
+\begin{equation} \label{modified gauss sum}
 	g'(\chi) = (-1)^{|I|} \chi_{nt}(tr) g(\chi_{nt}). 
-\]
-Here $g(\chi)$ is the usual Gauss sum associated with $\chi$.
+\end{equation}
+Here $g(\chi)$ is the usual Gauss sum of $\chi$: if $\chi$ is a character modulo $d$, then $g(\chi) = \sum_{a=1}^{d} e^{\frac{2\pi i a}{d}} \chi(a)$.
 \end{Definition}
 
 
-\begin{Lemma}\cite[Prop 2.6]{delaunay2002thesis}
-Let $c'$ be such that $c'^2 \mid N$. For a Dirichlet character $\chi$ mod $c'$, we have
-$$f|R_{\chi}(c') = \begin{cases} g'(\bar{\chi}) f_{\chi_{nt}} & if \cond'(\chi) = c \\ 0 & else  \end{cases}$$
+\begin{Lemma}\cite[Prop 2.6]{delaunay2002thesis} \label{lemma of delaunay}
+Let $c'$ be an integer such that $c'^2 \mid N$. For a Dirichlet character $\chi$ mod $c'$, we have
+$$f|R_{\chi}(c') = \begin{cases} g'(\bar{\chi}) f_{\chi_{nt}} & if \cond'(\chi) = c' \\ 0 & else.  \end{cases}$$
 \end{Lemma}
+
+Using this lemma, we can simplify formula \ref{expansion0} to 
+\begin{equation} \label{expansion01}
+	f_{[\frac{a}{c}]}= \frac{w(f) }{\varphi(c')}\sum_{\cond'(\chi) = c'} \chi(-a)g'(\bar{\chi}) f_{\chi_{nt}} | W_N. 
+\end{equation}
 
 
 Next, we compute $f_{\chi_{nt}}$ by the following: suppose $g  = f \otimes \chi_{nt}$. Then 
-\[
-	f_{\chi_{nt}} = \prod_{i=1}^r g | K_{p_i}.
-\]
-Moreover, we have $$K_{p} = 1  - U_{p} B_p =  \begin{cases} 1- (T_p - \chi_{nt}^2(p) p^{\frac{k}{2}} B_p) |B_p & p \nmid M \\  1 - T_p |B_p & p \mid M \end{cases}.$$ Using the commutativity of $T$ and $B$, we can write  $f_{\chi_{nt}}$ in the form $\sum c_i g(q^d_i)$, where $c_i$ and $d_i$ are constants. To give a precise formula, we use the following notation. For a finite set $S$ of integers, let $p(S) = \prod_{s \in S} s$ denote the product of all elements in $S$.
+\begin{equation} \label{twistformula1}
+	f_{\chi_{nt}} =  g |\prod_{i=1}^r K_{p_i}.
+\end{equation}
+Moreover, we have 
+\begin{equation} \label{twistformula2}
+K_{p} = 1  - U_{p} B_p =  \begin{cases} 1- (T_p - \chi_{nt}^2(p) p^{\frac{k}{2}} B_p) |B_p & p \nmid M \\  1 - T_p |B_p & p \mid M \end{cases}.
+\end{equation} Using the commutativity of $T_*$ and $B_*$, we can write  $f_{\chi_{nt}}$ in the form $\sum c_i (f \otimes \chi)(q^{d_i})$, where $c_i$ and $d_i$ are constants. To give a precise formula, we use the following notation. For a finite set $S$ of integers, let $\pi(S) = \prod_{s \in S} s$ denote the product of all elements in $S$. For a Dirichlet character $\chi$ of conductor $d$, let $S_\chi$ be the set of prime divisors of $d$. For any positive integer $M$ and any finite set of integers $S$, define 
 
+\begin{equation} \label{index set}
+\cB_{S,M} = \{(S_1, S_2) \in (2^\bZ)^2 | S_1, S_2 \subseteq S, S_1 \cap S_2 = \emptyset, \gcd(M, \pi(S_2)) = 1\}
+\end{equation} 
 
-\begin{theorem} \label{thm: formula1}
-Let $S_\chi = \{ p_1, \cdots, p_r\}$ be the set of prime divisors of $\cond(\chi)$. \\
-Let $\cB_{\chi,M} = \{(S_1, S_2) | S_1, S_2 \subseteq S_\chi, S_1 \cap S_2 = \emptyset, \gcd(M, p(S_2)) = 1. \}$. Write $g_\chi = f \otimes \chi$. Then
-	$$f_{\chi_{nt}} =  \sum_{(S_1, S_2) \in B_{S,M}} a_{p(S_1)}(g_\chi)  p(S_2)^{k/2} \chi_{nt}^2(p(S_2)) g_\chi | B_{p(S_1) p(S_2)^2}.$$
-\end{theorem}
+\begin{Prop} \label{thm: formula1}
+Let $k \geq 2$ be an even integer and let $f$ be a newform in $S_k(\Gamma_0(N))$. Then 
+	$$f_{\chi_{nt}} =  \sum_{(S_1, S_2) \in \cB_{S_\chi,M}} (-1)^{|S_1|}a_{\pi(S_1)}(g_\chi)  \pi(S_2)^{k/2} \chi_{nt}^2(\pi(S_2)) g_\chi | B_{\pi(S_1) \pi(S_2)^2}.$$
+Here $g_\chi = f \otimes \chi$, $M$ is the level of $g_\chi$ and $\cB_{S_\chi,M}$ is as in  \ref{index set}.
+\end{Prop}
+
+\begin{proof}
+This is a direct consequence of multiplying out \ref{twistformula1} using \ref{twistformula2}, using the fact that $T_p$ commutes with $B_d$, and noting that $T_p$ acts as multiplication by $a_p(g_\chi)$ on $g_\chi$.
+\end{proof}
 
 Theorem~\ref{thm: formula1} will be our starting point of computing the expansion of $f$ at width one cusps. 
 We will use it to compute $f_{\chi_{nt}} | W_N$.  First we prove two lemmas. 
 \begin{Lemma} \label{lemma: bdwn}
 Let $f$ be a newform of even weight $k$ on $\Gamma_1(M)$ and suppose $d, N$ are positive integers such that $Md \mid N$. Then
-   $$f| B_d|W_N = \left(\frac{N}{Md^2} \right)^{k/2}  w_M(f)  \overline{f|B_{\frac{N}{Md}}}.$$
-   where $w_M(f)$ is the pseudo-eigenvalue of $f$ defined in previous sections. 
+   $$f| B_d|W_N = \left(\frac{N}{Md^2} \right)^{k/2}  w(f)  (f|B_{\frac{N}{Md}})^{*}.$$
 \end{Lemma}
 \begin{proof} Straightforward computation.
 \begin{align*}
 f |B_d | W_N & = d^{-k/2} f | \abcd{d}{0}{0}{1} \abcd{0}{-1}{N}{0} \\ 
 & = d^{-k/2} f| \abcd{0}{-1}{M}{0} \abcd{N/md}{0}{0}{1} \abcd{d}{0}{0}{d} \\
 & = \left( \frac{N}{Md^2} \right)^{k/2} f | W_M | B_{N/Md} \\
-& = \left( \frac{N}{Md^2} \right)^{k/2} w_M(f) \bar{f} | B_{N/Md} \\ 
-& = \left( \frac{N}{Md^2} \right)^{k/2} w_M(f) \overline{f | B_{N/Md}}.
+& = \left( \frac{N}{Md^2} \right)^{k/2} w(f) f^* | B_{N/Md} \\ 
+& = \left( \frac{N}{Md^2} \right)^{k/2} w(f) (f | B_{N/Md})^*.
 \end{align*}
 \end{proof}
 
 Before stating the second lemma, we quote another result in \cite{li1975newforms} on the coefficients of a newform at primes dividing the level.
 \begin{Lemma}\cite[Theorem 3 (iii)]{li1975newforms}  \label{lemma: winnie-vanishing}
-Let $f = \sum_{n \geq 1} a_n(f) q^n$ be a normalized newform in $S_k(\Gamma_1(N), \epsilon)$, $p$ a prime dividing $N$.  Then \\
+Let $f = \sum_{n \geq 1} a_n(f) q^n$ be a normalized newform in $S_k(\Gamma_1(N), \epsilon)$ and let $p$ be a prime dividing $N$.  Then \\
 (1) If $\epsilon$ is a character modulo $N/p$ and  $p^2 \mid N$, then $a_p(f) = 0$. \\ 
 (2) If $\epsilon$ is a character modulo $N/p$ and  $p^2 \nmid N$, then $a_p(f)^2 = \epsilon(p) p^{k-2}$. \\ 
 (3) If $\epsilon$ is not a character modulo $N/p$, then $|a_p(f)| = p^{\frac{k-1}{2}}$.
 \end{Lemma}
 
 
-\begin{Lemma}
-Using notations in Theorem~\ref{thm: formula1}, and assume $(S_1, S_2) \in \cB_{S,M}$ is such that $a_{p(S_1)}(g_\chi) \neq 0$. Then 
-$M p(S_1) p(S_2)^2 \mid N$.
+\begin{Lemma} \label{lemma: well-definedness}
+Keep the notations in Proposition~\ref{thm: formula1}. If $(S_1, S_2) \in \cB_{S_\chi,M_\chi}$ is such that $a_{\pi(S_1)}(g_\chi) \neq 0$. Then 
+$M \pi (S_1) \pi(S_2)^2 \mid N$.
 \end{Lemma}
 
 \begin{proof}
-Let $p$ be a prime divisor of $N' := M p(S_1) p(S_2)^2$. If $p \nmid M$, then $\ord_p(N') \leq \ord_p(\cond(\chi)^2) \leq \ord_p(N)$. So we assume $p \mid M$, hence $p \nmid p(S_2)$. If $p \nmid p(S_1)$, then it follows from $M \mid N$; 
-if $p \mid p(S_1)$, we want to show that $\ord_p(M) < \ord_p(N)$. Suppose not, then $\ord_p(M) = \ord_p(N) \geq 2 \ord_p(\cond(\chi))$. Since $\cond(\chi^2) \leq \cond(\chi)$, we know $\chi^2$ is a character modulo $M/p$. Applying Lemma~\ref{lemma: winnie-vanishing} to the newform $g_\chi$ on level $M$, we see that $a_{p}(g_\chi) = 0$, hence $a_{p(S_1)}(g_\chi) = 0$ by multiplicativity.
+Let $p$ be a prime divisor of $N' := M \pi(S_1) \pi(S_2)^2$. If $p \nmid M$, then $\ord_p(N') \leq \ord_p(\cond(\chi)^2) \leq \ord_p(N)$. So we assume $p \mid M$, hence $p \nmid p(S_2)$. If $p \nmid p(S_1)$, then there's nothing to prove; 
+if $p \mid \pi(S_1)$, we want to show that $\ord_p(M) < \ord_p(N)$. Suppose not, then $\ord_p(M) = \ord_p(N) \geq 2 \ord_p(\cond(\chi))$. Since $\cond(\chi^2) \leq \cond(\chi)$, we know $\chi^2$ is a character modulo $M/p$. Applying case (1) of Lemma~\ref{lemma: winnie-vanishing} to the newform $g_\chi$, we see that $a_{p}(g_\chi) = 0$, hence $a_{\pi(S_1)}(g_\chi) = 0$ by multiplicativity.
 \end{proof}
 
-Applying Lemma~\ref{lemma: bdwn} to Theorem~\ref{thm: formula1}, we finally arrive at 
-
+Now we can state our main theorem from this chapter.
 % Main Theorem of expansion 
 
 \begin{theorem} \label{thm: ExpansionFormula}
-Let $k \geq 2$ be an even integer and let $f$ be a normalized newform in $S_k(\Gamma_0(N))$. Suppose $z = \frac{a}{c}$ is a cusp on $X_0(N)$ with width one and denominator $d_z$. Let $d' = \frac{N}{d_z}$. Then the Fourier expansion of $f$  at the cusp $z$ is 
+Let $k \geq 2$ be an even integer and let $f$ be a normalized newform in $S_k(\Gamma_0(N))$. Let $z$ be a cusp on $X_0(N)$ of width one. Write $z = \left[ \frac{a}{d} \right]$ such that $\gcd(a,d) = 1$, $d \mid N$ and $N \mid d^2$. Let $d' = \frac{N}{d}$. Then the Fourier expansion of $f$  at the cusp $z$ is 
 \[
 	f_z(q) = \frac{w(f) }{\varphi(d')}\sum_{\chi: \cond'(\chi) = d'} \chi(-a) g'(\bar{\chi}) w(f \otimes \chi) f_\chi^{!}(q).
 \]
-Here 
+Here
 
 \begin{itemize}
 
-\item $w(f)$ and $w(f \otimes \chi)$ are the pseudo-eigenvalues of $W_N$. 
-\item $g'(\chi)$ is the modified Gauss sum in . 
-\item $\cond'$ is the modified conductor of a Dirichlet character in. 
+\item $w(f)$ and $w(f \otimes \chi)$ are the pseudo-eigenvalues. 
+\item $g'(\chi)$ is the modified Gauss sum defined in \ref{modified gauss sum} . 
+\item $\cond'$ is the modified conductor of a Dirichlet character in \ref{modified conductor}. 
 \item $f_\chi^{!}$ is as follows: let $M_\chi$ denote the level of  $f \otimes \chi$. Then
 \[
-f_\chi^{!} = \sum_{(S_1, S_2) \in B_{S_{\chi_{nt}},M_\chi}} (-1)^{|S_1|} a_{p(S_1)}(f \otimes \chi)  \left(\frac{N}{M_\chi p(S_1)^2p(S_2)^3} \right)^{k/2}\chi(p(S_2)) \overline{f \otimes \chi | B_{\frac{N}{M_\chi p(S_1) p(S_2)^2}}}.
+f_\chi^{!} = \sum_{(S_1, S_2) \in \cB_{S_{\chi_{nt}},M_\chi}} (-1)^{|S_1|}a_{\pi(S_1)}(f \otimes \chi)  \left(\frac{N}{M_\chi \pi(S_1)^2 \pi(S_2)^3} \right)^{k/2}\chi^2(\pi(S_2)) (f \otimes \chi | B_{\frac{N}{M_\chi \pi (S_1) \pi(S_2)^2}})^*
 \]
-where the notations are from . 
+where the notations follow \ref{thm: formula1}.
 \end{itemize}
 \end{theorem}
 
+\begin{proof}
+We start from formula \ref{expansion01}:
+$$f_{[\frac{a}{c}]}= \frac{w(f) }{\varphi(c')}\sum_{\cond'(\chi) = c'} \chi(-a)g'(\bar{\chi}) f_{\chi_{nt}} | W_N.$$
+From \ref{thm: formula1}, we have 
+	$$f_{\chi_{nt}} =  \sum_{(S_1, S_2) \in \cB_{S_\chi,M_\chi}} (-1)^{|S_1|} a_{\pi(S_1)}(f \otimes \chi)  \pi(S_2)^{k/2} \chi_{nt}^2(\pi(S_2)) f \otimes \chi | B_{\pi(S_1) \pi(S_2)^2}.$$
+	To simplify notations, let $c(f, \chi, S_1, S_2) = (-1)^{|S_1|} a_{\pi(S_1)}(f \otimes \chi)  \pi(S_2)^{k/2} \chi_{nt}^2(\pi(S_2))$. Then 
+\begin{align*}
+	f_{\chi_{nt}} | W_N &= \sum_{(S_1, S_2) \in \cB_{S_\chi,M_\chi}} c(f, \chi, S_1, S_2) f \otimes \chi | B_{\pi(S_1) \pi(S_2)^2} W_N  \\
+& =  \sum_{(S_1, S_2) \in \cB_{S_\chi,M_\chi}} c(f, \chi, S_1, S_2) \left(\frac{N}{M_\chi (\pi(S_1) \pi(S_2)^2)^2} \right)^{k/2} w(f\otimes \chi) (f \otimes \chi | B_{\frac{N}{M_\chi \pi (S_1) \pi(S_2)^2}})^* \\
+& = w(f \otimes \chi) f_\chi^{!}. 
+\end{align*}
+Note that we applied Lemma~\ref{lemma: bdwn} to obtain the penultimate equality, and we could do that because of Lemma~\ref{lemma: well-definedness}. Now the result follows. 
+\end{proof}
 
 
-This theorem gives us an algorithm to compute the expansion of $f_z$, which we describe below. But first, we take a closer look at what ingredients goes into the expansion. Given a newform $f \in S_k(\Gamma_0(N))$ and a width one cusp $z$ of denominator $c$. We need to consider the twist of $f$ by all Dirichlet characters of conductor dividing $c$. 
-For each such character $\chi$, we then need to determine the level $M_\chi$ and $q$-expansion of the newform $f \otimes \chi$, the latter boils down to knowing $a_p(f \otimes \chi)$ for all $p \mid \cond(\chi)$. Then we need to compute the. Finally, we combine these information together and apply Throem~\ref{thm: ExpansionFormula} to compute $f_z$. 
+
+Theorem~\ref{thm: ExpansionFormula} gives us an algorithm to compute the expansion of $f_z$, which we will describe below. But first, we take a closer look at what ingredients goes into the expansion. Given a newform $f \in S_k(\Gamma_0(N))$ and a width one cusp $z$ of denominator $c$. We need to consider the twist of $f$ by all Dirichlet characters of conductor dividing $c$. 
+For each such character $\chi$, we then need to determine the level $M_\chi$ and $q$-expansion of the newform $f \otimes \chi$, the latter boils down to knowing $a_p(f \otimes \chi)$ for all primes $p \mid \cond(\chi)$. Then we need to compute the pseudo-eigenvalues of $f \otimes \chi$. Finally, we combine these information together and apply Throem~\ref{thm: ExpansionFormula} to compute $f_z$. 
 
 \begin{algorithm}[H]
 \caption{Computing Fourier coefficients of $f$ at width one cusps}
 \label{alg: qexp}
 \begin{algorithmic}[1]
     \Require $f \in S_k(\Gamma_0(N))$ a newform; $a, c$ -- coprime integers such that $N \mid c^2$; $B$ -- a positive integer. 
-    \Ensure The first $B$ Fourier coefficients of $f_{z}(q)$. 
+    \Ensure The first $B$ Fourier coefficients of $f_{\left[\frac{a}{c} \right]}(q)$. 
     
     \State  $c' \gets N/c$. $X \gets$ The set of all Dirichlet characters $\chi$ such that $\cond'(\chi) = c'$. 
     \State compute $w(f)$  using Algorithm~\ref{alg: pseudo-eigenvalue}. 
     \For{$\chi$ in $X$}   
-    	\State Compute $M_\chi$ and the expansion of $g_\chi := f \otimes \chi$ to $B$ terms, using  Algorithm~\ref{alg: twist}
-    	\State Compute $g'(\bar{\chi})$. 
+    	\State Using  Algorithm~\ref{alg: twist}, compute the level $M_\chi$ and the $q$-expansion of $g_\chi := f \otimes \chi$ to $B$ terms.
 	\State Compute $w(g_\chi)$ using Algorithm~\ref{alg: pseudo-eigenvalue}.
     \EndFor
     \State Apply Theorem~\ref{thm: ExpansionFormula} to compute $f_z$ to $B$ terms. 
@@ -793,7 +822,22 @@ $v_p(d(w_p(z))) = v_p(N) -  v_p(d(z))$ and $v_l(d(w_p(z))) = v_l(d(z))$ for prim
 \end{proof}
 \fi
 
-\section{Norm of first terms}
+\section{Automorphic representations; norm of first terms}
+
+In this section, we will restrict ourselves to the case when the Fourier coefficients of $f$ are rational numbers. Then 
+$f$ induces an admissible reprensetation $\pi_f$ of $GL_2(\bA_\bQ)$. We will see that the expansion of $f$ at all cusps can also be computed from the local component $\pi_{f,p}$. Loeffler and Weinstein gave an algorithm to compute such 
+local components. 
+
+We will restrict ourselves to the simplest case when $f$ is twist-minimal, which means that the conductor of $\pi_f$ is the smallest among all  twists $\pi_{f \otimes \chi}$. 
+
+We will follow the notations of David Loeffler and use the formula of Francois Brunault. Also, I will use Jacquet-Langlands, 
+Gelbart, and Bushnell-Henniart. 
+
+\red{Okay, what is my heuristics for general $k$? What is it for $\Gamma_1(N)$? What happens on the automorphic side?}
+
+\red{Also there's the question about normalization, which was never specified.}
+
+\red{Raw data?}
 
 Let $z$ be a width one cusp of denominator $c$. Then the first coefficient $a_1(f_z)$ is an element in $K_f(\zeta_{c'})$. For simplicity, we assume that $c' = p^{\alpha}$ is a prime power. It can be proved using automorphic representations + local langlands correspondence that there exists $\beta$ such that $p^\beta a_1(f_z) \in \bar{\bZ}$.  One question is: what prime ideals appears in the prime factorisation of $(a_1(f,z))$?  It seems from our numerical data, that
 \[
@@ -803,9 +847,84 @@ The following is a table of data.
 
 (fix: add table)
 
- 
+\subsection{Cuspidal local constants}
 
- 
+We keep the assumptions that $f$ is a newform attached to an elliptic curve $E/\bQ$ and $f$ is twist-minimal. Assume 
+$p$ is a prime dividing the conductor $N$ of $E$ such that $v_p(N) = 2$. Then there exists a character 
+$\varphi: \bF_{p^2}^{\times} \to \bC^{\times}$ which determines $\pi_{f,p}$. We will prove 
+
+\begin{Lemma} \label{cuspidal constant}
+Let $\psi: \bQ_p \to \bC^{\times}$ be a character of level one (e.g. $\psi(x) = e(\{\frac{x}{p}\}_p)$). Then
+\[
+	\epsilon(\pi_{f,p}, 1/2, \psi)  = \frac{-1}{p} \sum_{x \in \bF_{p^2}^{\times}} \psi( x + x^p) \varphi(x). 
+\]
+If $\chi$ is a Dirichlet character such that the $f\otimes \chi$ has the same level as $f$. Then 
+\[
+	\epsilon(\pi_{f \otimes \chi,p}, 1/2, \psi)  = \frac{-1}{p} \sum_{x \in \bF_{p^2}^{\times}} \psi( x + x^p) \varphi(x) \bar{\chi}(x^{p+1}). 
+\]
+\end{Lemma}
+
+\red{to-do: add formula for twists}
+
+\begin{proof}
+By [BH], taking $n =  r = 1$, we have 
+\begin{equation} 
+	p^2 \epsilon(\pi_{f,p}, 1/2, \psi) \cdot \text{id} = \sum_{x \in GL_2(\bF_p)} \psi(tr(x)) \pi_{f,p}^{\vee}(x).
+\end{equation}
+where $\pi_{f,p}^{\vee}$ denotes the contragredient representation. The representation $\pi_{f,p}$ has dimension $(p-1)$.
+Taking traces, we obtain 
+\begin{equation} \label{cuspidal const}
+	p^2 (p-1) \epsilon(\pi_{f,p}, 1/2, \psi) \cdot \text{id} = \sum_{x \in GL_2(\bF_p)} \psi(tr(x)) Tr(\pi_{f,p}^{\vee}(x)).
+\end{equation}
+By assumption, $\pi_{f,p}$ arises from a cupsidal representation of the finite group $GL_2(\bF_p)$, which is in turn induced from $\varphi$. (See Fulton-Harris), we have formulae for $Tr(\pi_{f,p}^{\vee}(x))$. Splitting the sum corresponding to four types of conjugacy classes, we computed $S_1 =  (p-1)  \sum_{x \in \bF_p^{\times}} \psi(2x)$, $S_2 = (p^2-1) \sum_{x \in \bF_p^{\times}} \psi(2x) (-1)$, $S_3 = 0$, and $S_4=  (p^2-p)/2 \sum_{x \in \bF_{p^2} \setminus \bF_p} \psi(tr(x))(\overline{\varphi(x) + \varphi(x^p)})$. So the sum on the right hand side of \ref{cuspidal const}  equals $(p-p^2) \sum_{x \in \bF_{p^2}^{\times}} \psi(tr(x)) \overline{\varphi(x)}$. Dividing by $p^2(p-1)$ gives the formula.
+
+\end{proof}
+
+Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. 
+
+\begin{Lemma}[See Kraus?]
+Let $\Delta$ denote the minimal discriminant of $E$. Then for $p \geq 5$, the order of $\varphi$ is equal to 
+$\frac{12}{\gcd(12, v_p(\Delta))}$.
+\end{Lemma}
+
+The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup 
+of $Gal(L/\bQ)$, where $L$ is the smalles t number field over which $E$ acquires good reduction \red{(to-do: check this)}.
+
+For $p = 2$ or $3$, the order of $\varphi$ can be determined using Kraus's result \url{http://gdz.sub.uni-goettingen.de/dms/load/img/?PPN=GDZPPN002231468&IDDOC=219018}, or Dokchitser's paper Euler factors determine local Weil representations. 
+
+We remark that for elliptic curves, $v_2(N)$ is at most 8 and $v_3(N)$ is at most 5. For the sake of simplicity, we do not treat the case when $v_p(N) > 2$ here, but we point out the local constants can be  also computed from formula in [BH], 
+once the local component is determined using [DW]. 
+
+\begin{Example}
+An example with trivial central character.  Let $f$ be the newform attached to $E = \bf{121a}$. Using Sage, we computed $w(f) = -1$. Since the weight of $f$ is 2, we know $\epsilon_\infty = -1$ (since the central character of $\pi_f$ is trivial, the level of the additive character $\psi_\infty$ does not matter). The discriminant of $E$ is $\Delta = -121$, so $\varphi$ has order 6. Using Lemma~\ref{cuspidal constant}, we computed that
+$\epsilon_{11}(\pi_{f,11}, 1/2) = -1$. This verifies $w(f) = - \prod_{p \leq \infty} \epsilon_p$. 
+\end{Example}
+
+\begin{Example}
+We give an example with nontrivial central character. Let $f$ be as in the previous example, and let $\chi$ be the Dirichlet character of $\bF_{11}^{\times}$ defined by $\chi(2) = e^{2\pi i /10}$. Lemma~\ref{cuspidal constant} gives 
+\[
+	\epsilon_{11}(\pi_{f \otimes \chi,11}, 1/2) = 0.64..+0.76..i
+\]
+an algebraic number with miminal polynomial $x^{20} + 109/121 x^15 + 2861/1331 x^10 + 109/121x^5 + 1$.
+So $w = - \epsilon_{11} \epsilon_\infty = \epsilon_{11}$. Using the numerical algorithm \ref{alg: pseudo-eigenvalue},
+we compute $w(f \otimes \chi) = 0.642573377564283 + 0.766224154177894i$. This confirms the computation. 
+\end{Example}
+
+\chapter{Things I tried to do but did not end up giving a nice result}
+
+generalizing the ``congruence number'' definition using other cusps.  
+
+Prove the ``$\pm 1$ mod p'' guess. 
+
+Generalize another paper by William on computing order of component groups. (The original paper uses a trick which 
+William fails to remember). 
+
+Prove even index for Chow-Heegner points. 
+
+Computing the critical subgroup for 5077a (multimodular is not practical). 
+
+Critical points of reduction of modular parametrization. 
+
 
 \nocite{*}
 \bibliographystyle{alpha}
