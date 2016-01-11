@@ -937,12 +937,22 @@ In particular, we have $\{b_j\} = \{a_1(f_{z_p^{(j)}})\}$. Since the latter set 
 
 We remark that it is clear from the formula of $b_j$ that they are algebraic number. However, the formula does not imply directly that they lie in $\bQ(\zeta_p)$. 
 
-It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. We give another formula of $a_1(f_{z_p})$ in light of the previous section. 
+We give another formula of $a_1(f_{z_p})$ in light of the previous section. 
 
-\begin{Lemma}
+\begin{Lemma} \label{formula: first term}
 Keeping the assumptions in the previous two sections, we have 
-$$a_1(f_{z_p}) = \frac{}{}$$
+$$a_1(f_{z_p}) = \frac{\sum_{x \in \bF_{p^2}^{\times}} \psi(x+x^p+x^{p+1}) \varphi(x)}{\sum_{x \in \bF_{p^2}^{\times} }\psi(x+x^p) \varphi(x)}. $$
 \end{Lemma}
+
+\begin{Example}
+Let $f$ be the newform attached to $E  =\bf{49a}$. One checks that $f$ is twist-minimal and $\varphi$ has order 4. Using Lemma~\ref{formula: first term}, we computed $$a_1(f_{-1/7}) = -\frac{5}{7} \zeta_{7}^{5} - \frac{3}{7} \zeta_{7}^{4} - \frac{1}{7} \zeta_{7}^{3} + \frac{1}{7} \zeta_{7}^{2} + \frac{3}{7} \zeta_{7} - \frac{2}{7} = 0.623489... + 1.29468...i. $$
+The numerical algorithm gives $a_1(f_{-1/7}) = 0.623489801858733...+ 1.29468991410431...i$. Hence our formulae are 
+consistent for this example.
+\end{Example}
+
+
+It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. From the 
+above discussion, we see that there are at most three possibilities for each $p$, corresponding to the order of $\varphi$ being 3,4 or 6.
 
 
 \chapter{Things I tried to do but did not end up giving a nice result}
