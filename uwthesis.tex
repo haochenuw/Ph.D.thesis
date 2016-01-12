@@ -58,8 +58,6 @@
 \newcommand{\Haotodo}[1]{\tinytodo[color=red!20]{#1}}
 \newcommand{\Kristintodo}[1]{\tinytodo[color=blue!20]{#1}}
 
-\renewcommand{\algorithmicrequire}{{\bf Input:}}
-\renewcommand{\algorithmicensure}{{\bf Output:}}
 
 
 %
@@ -199,7 +197,96 @@ Abstract goes here.
 
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
 
-\chapter{Chow-Heegner points computations} 
+
+\subsection{Preliminaries}
+Let $E$ be an elliptic curve over $\bQ$ and let $L(E,s)$ be the  $L$-function of $E$. The rank part of the Birch and Swinnerton-Dyer (BSD) conjecture states that
+\[
+	\rank(E(\bQ)) = \ord_{s=1}L(E,s).
+\]
+The right hand side is called the {\em analytic rank of $E$}, and is denoted by $r_{\an}(E)$. The left hand side is called the {\em algebraic rank of $E$}. The rank part of the BSD conjecture is still open when $r_{\an}(E) > 1$, and its proof for the case $r_{\an}(E) = 1$ uses the {\em Gross-Zagier formula}, which relates the value of certain $L$-functions to heights of Heegner points.
+
+Let $N$ denote the conductor of $E$. The modular curve $X_0(N)$
+is a nonsingular  projective curve defined over $\bQ$. Since $E$ is modular(Breuil, Conrad, Diamond, and Taylor \cite{breuil2001modularity}), there is a surjective morphism $\varphi:X_0(N) \to E$ defined over $\bQ$. Let $\omega_E$ be the invariant differential on $E$ and let $\omega =  \varphi^*(\omega_E)$. Then $\omega$ is a holomorphic differential on $X_0(N)$ and we have $\omega  = c f(z) dz$, where $f$ is the normalized newform attached to $E$ and
+$c$ is a nonzero constant. In the rest of the paper, we fix the following notations: the elliptic curve $E$, the conductor $N$, the morphism $\varphi$, and the differential $\omega$. Let $R_\varphi$ be the ramification divisor of $\varphi$.
+
+
+
+\begin{Definition}[Mazur and Swinnerton-Dyer \cite{mazur-sd}]
+The {\em critical subgroup} of $E$ is
+\[
+	E_{\crit}(\bQ)  = \langle \tr(\varphi([z])) : [z] \in \supp R_\varphi \rangle,
+\]
+where $\tr(P) = \sum_{\sigma: \bQ(P) \to \bar{\bQ}} P^{\sigma}$.
+\end{Definition}
+
+Since the divisor $R_\varphi$ is defined over $\bQ$, every point $[z]$ in its
+support is in $X_0(N)(\overline{\bQ})$, hence $\varphi([z]) \in E(\overline{\bQ})$, justifying the trace operation. The group $E_{\crit}(\bQ)$ is a subgroup of $E(\bQ)$. Observe that $R_\varphi = \Div(\omega)$, thus $\deg R_{\varphi} = 2g(X_0(N))-2$. In the rest of the paper, we use the notation $\Div(\omega)$ in place of the ramification divisor $R_\varphi$. In addition, we will assume $E$ is an optimal elliptic curve, so $\varphi$ is unique up to sign. This justifies the absence of $\varphi$ in the notation $E_{\crit}(\bQ)$.
+
+Recall the construction of {\em Heegner points}: for an imaginary quadratic order $\cO = \cO_d$ of discriminant $d < 0$,
+let $H_d(x)$ denote its {\em Hilbert class polynomial}.
+
+\begin{Definition}
+\label{def:heegner}
+A point $[z] \in X_0(N)$ is a {\em ``generalized Heegner point''} if there exists a negative discriminant $d$ s.t.
+$H_d(j(z)) = H_d(j(Nz)) = 0$.
+If in addition we have $(d,2N) = 1$, then $[z]$ is a {\em Heegner point}.
+\end{Definition}
+
+For any discriminant $d$, let $E_d$ denote the quadratic twist of $E$ by $d$. Then the Gross-Zagier formula in \cite{gross1986heegner} together with a non-vanishing theorem for $L(E_d,1)$ (see, for example, Bump, Friedberg, and Hoffstein \cite{bump1990nonvanishing}) implies the following
+
+\begin{theorem}
+\label{thm0}
+(1) If $r_{\an}(E) = 1$, then there exists a Heegner point $[z]$ on $X_0(N)$ such that  $\tr(\varphi([z]))$ has infinite order in $E(\bQ)$. \\
+(2) If $r_{\an}(E) \geq 2$, then $\tr(\varphi([z])) \in E(\bQ)_{\tors}$ for every  ``generalized Heegner point'' $[z]$ on $X_0(N)$.
+\end{theorem}
+
+The first case in the above theorem is essential to the proof of rank BSD conjecture for $r_{\an}(E) = 1$. We observe that the defining generators of the critical subgroup also take the form $\tr(\varphi([z]))$. Then a natural question is:
+
+\begin{question}
+Does there exist an elliptic curve $E$ defined over $\bQ$ such that \\
+$r_{\an}(E) \geq 2$ and $\rank(E_{\crit}(\bQ)) >0$?
+\end{question}
+We will show that the answer is negative for all elliptic curves with conductor $N <1000$, using {\em critical polynomials} attached to elliptic curves.
+
+
+
+\subsection{Main results}
+\label{sec:form of result}
+Let $E, N, \varphi$, and $\omega$ be as defined previously, and write $\Div(\omega) = \sum_{[z] \in X_0(N)} n_z[z]$. Let $j$ denote the $j$-invariant function.
+\begin{Definition}
+The {\em critical j-polynomial} of $E$ is
+\begin{equation*}
+	F_{E,j}(x) = \prod_{z \in \supp \Div(\omega), j(z) \neq \infty}(x-j(z))^{n_z}.
+\end{equation*}
+\end{Definition}
+Because $\Div(\omega)$ is defined over $\bQ$ and has degree $2g(X_0(N))-2$, we have $F_{E,j}(x) \in \bQ[x]$ and $\deg F_{E,j} \leq 2g(X_0(N))-2$, where equality holds if $\Div(\omega)$ does not contain cusps. For any non-constant modular function $h \in \bQ(X_0(N))$, the {\em critical $h$-polynomial} of $E$ is defined similarly, by replacing $j$ with $h$.
+
+In this paper we give two algorithms {\em Poly Relation} and {\em Poly Relation-YP} to
+compute critical polynomials. The algorithm {\em Poly Relation} computes the critical $j$-polynomial $F_{E,j}$, and the algorithm {\em Poly Relation} computes the critical $h$-polynomial $F_{E,h}$ for some modular function $h$ chosen within the algorithm. We then relate the critical polynomials to the critical subgroup via the following theorem. Recall that 
+$H_d(x)$ denotes the Hilbert class polynomial associated to a negative discriminant $d$. We prove the following theorem.
+\begin{theorem}
+\label{thm1}
+Suppose $r_{\an}(E) \geq 2$, and assume at least one of the following holds: \\
+(1) $F_{E,h}$ is irreducible for some non-constant function $h \in \bQ(X_0(N))$. \\
+(2) There exist negative discriminants $D_k$ and positive integers $s_k$ for $1 \leq k \leq m$ with
+$\bQ(\sqrt{D_{k}}) \neq \bQ(\sqrt{D_{k'}})$ for all $k \neq k'$, and an irreducible polynomial $F_0 \in \bQ[x]$, such that 
+\[
+F_{E,j} = \prod_{k =1}^m H_{D_{k}}^{s_k}\cdot F_0.
+\]
+
+Then $\rank(E_{\crit}(\bQ))  = 0$.
+\end{theorem}
+Combining Theorem~\ref{thm1} with our computation of critical polynomials, we verified the main result of 
+this paper stated in the following corollary.
+\begin{Corollary}
+\label{cor2}
+For all elliptic curves $E$ of analytic rank 2 and conductor $N$ smaller than 1000, the rank of $E_{\crit}(\bQ)$ is zero.
+\end{Corollary}
+
+This paper is organized as follows: in Sections \ref{sec: IPR} and \ref{sec: yang pair}, we describe the algorithms {\em Poly Relation} and {\em Poly Relation-YP}. In Section \ref{sec: crit}, we prove Theorem~\ref{thm1}. Last, in Section \ref{sec: table}, we show a table of critical polynomials for all elliptic curves with rank 2 and conductor smaller than 1000, and  prove Corollary~\ref{cor2}.
+
+
+
  
 % ========== Chapter 1
 
@@ -997,6 +1084,154 @@ As an observation, we found that the primes $l$ in the third column of the above
 \]
 It would be interesting to prove or disprove this in general. 
 
+\chapter{Index of Chow-Heegner points}
+
+We consider a special case of the Chow-Heegner points that has a simple description due to Shouwu Zhang. Let $E,F$ be nonisogenous elliptic curves defined over $\bQ$ of the same conductor $N$. The Chow-Heegner point $P_{E,F} \in E(\bQ)$ is constructed by the following procedure: take any point on $F(\bC)$, take its inverse image on $X_0(N)$, then map that image down to $E$ and take the sum the resulting points. In \cite{darmon2015algorithms}, Darmon, Daub, Lichtenstein and Rotger developed an algorithm to compute Chow-Heegner points via iterated integrals. In \cite{stein2012numerical}, Stein developed a fast and conceptually easy algorithm to numerically compute Chow-Heegner points. The following theorem is proved by Yuan-Zhang-Zhang in \cite{yuan2011triple}: 
+\begin{theorem}[Yuan-Zhang-Zhang] \label{thm: yzz}
+Let $L(E, F, F, s) = L(E, s) · L(E, Sym^2(F), s)$.
+Assume that the local root numbers of $L(E,F,F,s)$ at every prime of bad reduction is +1 and that the root number at 
+infinity is $-1$. Then 
+\[
+	\hat{h}(P_{E,F}) = (\star) \cdot L'(E,F,F,\frac{1}{2}),
+\]
+where $(\star)$ is nonzero.
+\end{theorem}
+In particular, when the analytic rank of $E$ is at least two, the Chow-Heegner point $P_{E,F}$ is torsion. When the rank of $E(\bQ)$ is one, we consider the index $i_{E,F} = [E(\bQ)/tors: \bZ P_{E,F}]$. Theorem~\ref{thm: yzz} combined with the Bloch-Kato conjecture on critical values of motivic $L$-functions suggests that this index might be linked to interesting arithmetic invariants related to $E$ and $F$.  \\
+
+Numerical evidence in  \cite{stein2012numerical} suggests that the index $i_{E,F}$ is always divisible by 2, when it is finite. I proved the following theorem.
+\begin{theorem} \label{thm: evenindex}
+Let $\sigma_0(N)$ denote the number of distinct prime factors of $N$. If 
+\[
+	\sigma_0(N) > \log_2(\# E[2](\bQ)) + \log_2(\# F[2](\bQ)) + 2,
+\]
+then $P_{E,F} \in 2E(\bQ)$. Hence the index $i_{E,F}$ is divisible by 2, if it is finite.
+\end{theorem}
+
+I prove the theorem in Section 5.2. In Section 5.3,  I develop an exact algorithm to compute the Chow-Heegner point, using the methods in Chapter 2. 
+
+\red{fixme: add all possible references: [CE], [Darmon], [Daub]. }
+
+\section{Definitions}
+
+We recall the definition from \cite{stein2012numerical}. Consider a pair $E,F$ of nonisogenous optimal elliptic curves over $\bQ$ of the same conductor $N$ and fix modular parametrizations from $X_0(N)$ to both curves. 
+
+Let $(\varphi_E)_*$ and $(\varphi_F)^*$ denote the pushforward and pullback map on divisors. Let $Q \in F(\bC)$ be any point, we define $$P_{E,F, Q} = \sum (\varphi_E)_* (\varphi_F)^*(Q),$$ where $\sum$ means the sum of the points in the divisor, using the group law on $E$. By \cite[Proposition~1.1]{stein2012numerical}, $P_{E,F,Q}$ is independent of the choice of $Q$. Let $P_{E,F} = P_{E,F,Q}$ for any choice of $Q$. Since we may choose $Q  = \cO \in \bF(\bQ)$, it follows that 
+$P_{E,F} \in E(\bQ)$. 
+
+\section{The index}
+
+We make the additional assumption $r_{an}(E) = 1$. We consider the index $$i_{E,F} = [E(\bQ)/tors: \bZ P_{E,F}].$$ 
+
+\begin{Lemma} \label{lem: inf fields}
+Let $F: y^2  = x^3 + Ax+B$ be an elliptic curve with $A,B \in \bZ$. Let $f_t(x) = x^3 + Ax+B - t^2$ Then the set $$\{K_t = \bQ[x]/(f_t(x)): t \in \bZ \}$$
+contains infinitely many cubic fields.
+\end{Lemma}
+
+\begin{proof}
+Note there are finitely many $t$ such that $f_t(x)$ is reducible. So we may forget about this possibility. Now suppose for contradiction that the claim is false, then there exists a cubic field $K$ such that $K =  K_t$ for infinitely many $t \in \bZ$. 
+However, $K = K_t$ implies $E(K)$ contains the point $P_t = (\alpha_t, t)$, where $\alpha_t$ is a root of $f_t(x)$. Moreover, the point $P_t$ lies in $E(\cO_K)$. Hence we must have that $E(\cO_K)$ is an infinite set. This is a contradiction, since $E(\cO_K)$ is finite by Siegel's theorem.
+\end{proof}
+
+We quote a lemma of Calegari and Emerton \cite{calegari2009elliptic}.
+
+\begin{Lemma}
+Let $E/k$ be an elliptic curve and let $A$ be the group of automorphisms of $E$ as a curve over $k$.
+Suppose $W$ is a finite elementary abelian 2-subgroup  of $A$. Then the order of $W$ divides
+twice the order of $E[2](k)$.
+\end{Lemma}
+
+
+
+
+\begin{theorem}
+Let $E,F$ be elliptic curves defined over $\bQ$, with the same conductor $N$. Let $\sigma_0(N)$ denote the number of distinct prime factors of $N$. If 
+\[
+	\sigma_0(N) > \log_2(|E(\bQ)[2]|) + \log_2(|F(\bQ)[2]|) + 2,
+\]
+then $P_{E,F} \in 2E(\bQ)$. In particular, if $\sigma_0(N) \geq 7$, then the condition holds automatically, and $P_{E,F} \in 2E(\bQ)$.
+\end{theorem}
+
+\begin{proof}
+Consider the group $\cW$ of Atkin-Lehner involutions on $X_0(N)$. This group is elementary 2-abelian,
+and it descends to automorphisms on $F$ and automorphisms on $E$, as curves. So we have a map 
+\[
+	\pi: \cW \to Aut(E) \times Aut(F)
+\]
+By the Lemma above, we have $im(p_1 \circ \pi) \leq 2|E[2](\bQ)|$ and $im(p_2 \circ \pi) \leq 2|F[2](\bQ)|$. Hence the size of the image of $\pi$ is bounded above by $4 |E(\bQ)[2]| \cdot |F(\bQ)[2]|$. But we also know that
+\[
+	|\cW|  = 2^{\sigma_0(N)}.
+\]
+Hence our assumption implies that $\ker(\pi)$ is nontrivial. Equivalently, there exists $w \in \cW$ that acts as identity on both $E$ and $F$. Now we consider the following diagram:
+\begin{center}
+\begin{tikzcd}
+& X_0(N) \arrow[d]  \arrow[ddr]  \arrow[ddl]& \\
+& X_0(N)/w \arrow[dl] \arrow[dr] &\\
+E &  & F
+\end{tikzcd}
+\end{center}
+Let $\cO \in F(\bQ)$ be the identity element. 
+We have $P_{E,F} = P_{E,F,\cO} = \sum (\varphi_{E})_* (\varphi_F)^*(O) = \sum (\tilde{\varphi_E})_* \pi_* \pi^* \tilde{\varphi_F}^*(O) =   2\sum (\tilde{\varphi_E})_* \tilde{\varphi_F}^*(O) \in 2E(\bQ)$. 
+\end{proof}
+
+
+%Question: Can we sharpen this? Note that we can have $W(z) = z + P$, because this would mean
+%that the Atkin-Lehner has no fixed point, which is possible only when $Q  \neq N$.
+
+\section{Applying the idea of \textbf{IPR} to the computation of Chow-Heegner points}
+
+Take $E,F$ to be two non-isogeneous elliptic curves of 
+the same conductor $N$ and let $\varphi, \psi$ denote the modular parametrisations of $E,F$, respectively. The {\em Chow-Heegner point} associated to the pair $(E,F)$ is defined by 
+\[
+	P_{E,F} = \sum \varphi(\psi^{*}(Q)), \forall Q \in F(\bC) 
+\]
+We state two facts: (1) $P_{E,F}$ is independent of the choice of $Q$(hence the notation); (2) $P_{E,F} \in E(\bQ)$. 
+
+We present an algorithm that either computes the Chow-Heegner point $P_{E,F}$ or outputs fail. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. Note that there exists an algorithm to compute the q-expansions of $x_E,x_F,y_E$ and $y_F$.  
+
+\begin{algorithm}
+\caption{Using polynomial relation to compute the Chow-Heegner point $P_{E,F}$}          % give the algorithm a caption
+\label{IPR}                           % and a label for \ref{} commands later in the document
+\begin{algorithmic} [1]               % enter the algorithmic environment
+    \Require  $E, F$  = non-isogeneous elliptic curves of conuductor $N$; $q$-expansions of $x_E, y_E$, $x_F,y_F$. 
+    \Ensure the Chow-Heegner point $P_{E,F}$. 
+    \State{$u_E \Leftarrow (x_F)^{-1}$ and $u_F \Leftarrow (x_F)^{-1}$}. 
+    \State{Use the algorithm \textbf{IPR} to compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
+    \State $f_{ch,x}(x) \Leftarrow F_{E,F}(x,0)$.
+    \State Repeat steps 2-5 for $v_E = (y_E)^{-1}$ and $u_F$, get $f_{ch,y}(x)$.
+    \State $K \Leftarrow$ the splitting field of $f_{ch,x}$. Write $f_{ch,x}(x) = \prod (x-a_i), a_i \in K$.
+    \For{each $a_i$}
+	\State{Find a point $p_i = (a_i, b_i)$  on $E(\bar{\bQ})$}.
+	\If{$f_{ch,y}(b_i) = 0$}
+		\State $P_i = p_i$.
+	\Else
+         	\State $P_i = -p_i$. 
+	\EndIf
+    \EndFor
+\State Output $P_{E,F} = \sum_i P_i$.
+
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{Example}
+Consider $E = \textbf{89a}$ and $F = \textbf{89b}$. Here $\deg(\varphi_E) = 2$ and $\deg(\varphi_F) = 5$. Let 
+$D =  \varphi(\psi^*(\infty)) \in \Div(E)$. Define $G_1(x) = \prod_{P \in D} (x - x(P))$ 
+and $G_2(y) = \prod_{P \in D} (y - y(P))$. Using \textbf{IPR-CH}, we computed 
+\[
+G_1(x) = x^{4} + \frac{13}{4} x^{3} + \frac{17}{4} x^{2} + \frac{21}{4} x + \frac{9}{2}, \; G_2(y) = y^{4} + \frac{1}{8} y^{3} + \frac{21}{4} y^{2} + \frac{7}{2} y + 3.
+\]
+\end{Example}
+
+It turns out that $G_1(x)$ is irreducible over $\bQ$. Let $K$ be its splitting field, and write $G_1(x) = \prod (x-a_i)$ with $a_i \in K$. For each $a_i$, we found that $b_i = -\frac{8}{9} a_i^{3} - \frac{20}{9} a_i^{2} - \frac{28}{9} a_i - \frac{10}{3}$ is the corresponding root of $G_2$ such that $(a_i,b_i) \in E$. Hence 
+\[
+	P_{E,F} = \sum_{i=1}^4 P_i, \; \mbox{ where } P_i = (a_i, b_i).
+\]
+Carrying out the summation in Sage, we obtain $P_{E,F} = (\frac{3}{4},-\frac{15}{8})$. This agrees with Stein's result for 
+the pair (\textbf{89a},\textbf{89b}) in \cite{stein2011numerical}.
+
+
+
+
 \chapter{Things I tried to do but did not end up giving a nice result}
 
 generalizing the ``congruence number'' definition using other cusps.  
@@ -1006,7 +1241,6 @@ Prove the ``$\pm 1$ mod p'' guess.
 Generalize another paper by William on computing order of component groups. (The original paper uses a trick which 
 William fails to remember). 
 
-Prove even index for Chow-Heegner points. 
 
 Computing the critical subgroup for 5077a (multimodular is not practical). 
 
