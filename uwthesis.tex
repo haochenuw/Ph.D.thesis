@@ -879,17 +879,16 @@ By assumption, $\pi_{f,p}$ arises from a cupsidal representation of the finite g
 
 \end{proof}
 
-Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. 
+Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}. For $p = 2$ or $3$, the order of $\varphi$ can be determined using results of \cite{kraus1990defaut}. 
+The case $p \geq 5$ is easy, as we have the following lemma: 
 
-\begin{Lemma}[See \cite{kraus1990defaut}]
+\begin{Lemma}\cite[Proposition 1]{kraus1990defaut}
 Let $\Delta$ denote the minimal discriminant of $E$. Then for $p \geq 5$, the order of $\varphi$ is equal to 
 $\frac{12}{\gcd(12, v_p(\Delta))}$.
 \end{Lemma}
 
-The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup 
-of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}.
 
-For $p = 2$ or $3$, the order of $\varphi$ can be determined using results of \cite{kraus1990defaut}, or Dokchitser's paper Euler factors determine local Weil representations. \cite{loeffler2010computation}
+%, or Dokchitser's paper Euler factors determine local Weil representations. \cite{loeffler2010computation}
 
 We remark that for elliptic curves, $v_2(N)$ is at most 8 and $v_3(N)$ is at most 5. For the sake of simplicity, we do not treat the case when $v_p(N) > 2$ here, but we point out the local constants can be  also computed from formula in \cite{bushnell2006local}, 
 once the local component is determined using \cite{loeffler2010computation}. 
@@ -951,17 +950,52 @@ consistent for this example.
 \end{Example}
 
 
-It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. From the 
+It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. For example, they relate to critical points of modular parametrizaiton of $E$ in the following way:
+\begin{Lemma}
+Let $\fq$ be a prime ideal in $\bQ(\zeta_p)$ lying above a prime $q \neq p$, such that $\fq \mid a_1(f_{z_p)}$ and $q \nmid a_1(f_{z_p})$. Then $F_{E,j}(x)$ is not integral at $q$.
+\end{Lemma}
+
+\begin{proof}
+\red{fixme: add proof.}
+\end{proof}
+
+From the 
 above discussion, we see that there are at most three possibilities for each $p$, corresponding to the order of $\varphi$ being 3,4 or 6. 
 
-Consider $N_{f,p} = Norm(a_1(f_{z_p})) \in \bZ$. It is easy to show that we always have $p \mid N_{f,p}$. The following is a table of the prime divisors of the norm. 
+Consider $N_{f,p} = Norm(a_1(f_{z_p})) \in \bZ$. It is easy to show that we always have $p \mid N_{f,p}$. The following is a table of the prime divisors of the norm, when such primes exist.
 
 \begin{table}
+\centering
 \caption{table of prime divisors $l \neq p$ of $N_{f,p}$}
 \begin{tabular}{c|c|c}
-p & order of $\varphi$ & primes  \\
+$p$ & order of $\varphi$ & primes  $l \neq p, l \mid N_{f,p}$ \\ \hline
+17 & 3 & 509 \\
+19 & 4 & 37 \\
+23 & 3 & 1103 \\
+23 & 4 & 47 \\
+29 & 3 & 173 \\
+31 & 4 & 557 \\
+41 & 3 & 1209, 9103 \\
+41 & 6 & 163 \\
+43 & 4 & 4129 \\
+47 & 3 & 13034039 \\
+47 & 4 & 2819 \\
+53 & 3 & 107, 317, 8161 \\
+53 & 6 & 107  \\
+59 & 3 & 1061, 537173407 \\
+59 & 4 & 827, 42953 \\
+67 & 4 & 2143, 10853 \\
+71 & 3 & 634532719903 \\
+71 & 4 & 6613947917 \\
+71 & 6 & 3407 
 \end{tabular}
 \end{table}
+
+As an observation, we found that the primes $l$ in the third column of the above table all satisfy a congurence relation
+\[
+	l \equiv \pm 1 \mod{p}. 
+\]
+It would be interesting to prove or disprove this in general. 
 
 \chapter{Things I tried to do but did not end up giving a nice result}
 
