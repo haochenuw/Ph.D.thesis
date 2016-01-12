@@ -49,6 +49,8 @@
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
 \usepackage{amsmath,mathtools}
+\usepackage{commath} % for the \dif operator.
+\newcommand{\cE}{\mathcal{E}}
 
 \usepackage[textwidth=50,textsize=tiny]{todonotes}
 \setlength{\marginparwidth}{2cm}
@@ -284,6 +286,240 @@ For all elliptic curves $E$ of analytic rank 2 and conductor $N$ smaller than 10
 \end{Corollary}
 
 This paper is organized as follows: in Sections \ref{sec: IPR} and \ref{sec: yang pair}, we describe the algorithms {\em Poly Relation} and {\em Poly Relation-YP}. In Section \ref{sec: crit}, we prove Theorem~\ref{thm1}. Last, in Section \ref{sec: table}, we show a table of critical polynomials for all elliptic curves with rank 2 and conductor smaller than 1000, and  prove Corollary~\ref{cor2}.
+
+
+\section{The algorithm {\em Poly relation}}
+\label{sec: IPR}
+
+Let $C/\bQ$ be a nonsingular projective curve. For a rational function $r \in \bQ(C)$, let $\Div_0(r)$ denote its divisor of 
+zeros, and define $\deg r=  \deg(\Div_0(r))$.
+\begin{Definition}
+Let $C/\bQ$ be a nonsingular projective curve, and let $r, u$ be two non-constant rational functions on $C$. 
+A {\em minimal polynomial relation between $r$ and $u$} is an irreducible polynomial $P(x,y) \in \bQ[x,y]$ such that $P(r,u) = 0$ and $deg_x(P) \leq \deg u, \deg_y(P) \leq \deg r$.
+\end{Definition}
+Minimal polynomial relation always exists and is unique up to scalar multiplication.
+Write $\Div(r) =  \sum_{[z] \in X_0(N)} n_z[z]$ and $P(x,y) = f_n(y)x^n + \cdots + f_1(y)x + f_0(y)$. We will prove that  
+
+\begin{Prop}\label{prop: multiplicity}
+If $\bQ(C) = \bQ(r,u)$ and $\gcd(f_0(y), f_n(y)) = 1$, then there is a constant $c \neq 0$ s.t.
+\[
+		f_0(y) = c \prod_{z \in\Div_{0}(r) \setminus \Div_{\infty}(u)} (y - u(z))^{n_z}.
+\]
+\end{Prop}
+
+\begin{proof}
+Dividing $P(x,y)$ by $f_n(y)$, we get $x^n + \cdots + \frac{f_0(x)}{f_n(y)}$, which is a minimal polynomial of $r$ over $\bQ(u)$. So $\Norm_{\bQ(r,u)/\bQ(u)}(r) = \frac{f_0(u)}{f_n(u)}$. The rest of the proof uses a fact on extensions of valuations(see, for example,  \cite[Theorem 17.2.2]{stein2012algebraic}), which we now quote.
+
+\begin{Lemma}\label{lem: valuations}
+Suppose $v$ is a nontrivial valuation on a field $K$ and let $L$ be a finite extension of $K$. Then for any $a \in L$,
+\[
+	\sum_{1 \leq j \leq J} w_j(a) = v(\Norm_{L/K}(a)),
+\]
+where the $w_j$ are normalized valuations equivalent to extensions of $v$ to $L$.
+\end{Lemma}
+
+We continue with the proof. For any $z_0 \in C$ such that $u(z_0) \neq \infty$, consider the valuation $v = \ord_{(u - u(z_0))}$ on $\bQ(u)$. The set of extensions of $v$ to $\bQ(C) = \bQ(r,u)$ is in bijection with $\{ z \in C : u(z) = u(z_0) \}$. Take $a = r$ and
+apply Lemma~\ref{lem: valuations}, we obtain
+\[
+\sum_{z: u(z) = u(z_0)} \ord_z(r)  = \ord_{u-u(z_0)} \frac{f_0(u)}{f_n(u)}.
+\]
+Combining the identities for all $z_0 \in C \setminus \Div_\infty(u)$, we have for some constant $c$,
+\[
+	\prod_{z \in \Div(r): u(z) \neq \infty}{(y-u(z))^{n_z}}	=	c  \cdot \frac{f_0(y)}{f_n(y)}.
+\]
+If $r(z) = 0$, then the condition $\gcd(f_0(y), f_n(y)) = 1$ implies that $f_0(u(z)) = 0$ and $f_n(u(z)) \neq 0$. Therefore,
+since $\gcd(f_0,f_n) = 1$, we must have 
+\[
+		f_0(y) = c \prod_{z \in \Div_{0}(r) \setminus \Div_{\infty}(u)} (y - u(z))^{n_z}.
+\]
+This completes the proof.
+\end{proof}
+
+For completeness we also deal with the case where $u(z) = \infty$, which was left out in the above proof. The corresponding valuation on $\bQ(u)$ is $\ord_{\infty}$ defined by 
+$\ord_{\infty}(g/h) = \deg g - \deg h$ for $0 \neq g,h  \in \bQ[u]$. We derive that 
+\begin{equation*}
+	\sum_{z: u(z) = \infty} \ord_z(r)  = \deg f_n - \deg f_0.
+\end{equation*}
+
+Next we apply Proposition \ref{prop: multiplicity} to the computation of $F_{E,j}$.
+In the rest of the paper, $\dif j = j'(z)dz$ is viewed as a differential on $X_0(N)$.
+Fix the following two modular functions on $X_0(N)$:
+\begin{equation}
+\label{eq: ru}
+r = j(j-1728) \frac{\omega}{\dif j}, \;  u = \frac{1}{j}.
+\end{equation}
+
+
+First we compute the divisor of $r$. Let $\cE_2(N)$ and $\cE_3(N)$ denote
+the set of elliptic points of order 2 and 3 on $X_0(N)$, respectively. Then
+\begin{equation}
+\label{eq: divdj}
+	\Div(\dif j) =  -j^*(\infty) - \sum_{c = cusp} c + \frac{1}{2} \left( j^*(1728) - \sum_{z \in \cE_2(N)} z \right) + \frac{2}{3} \left( j^*(0) - \sum_{z \in \cE_3(N)} z \right).
+\end{equation}
+Writing $j^*(\infty) = \sum_{c = cusp} e_c[c]$, we obtain
+\begin{equation}
+\label{eq: divr}
+	\Div(r) = \Div(\omega) + \frac{1}{2} \left( j^*(1728) + \sum_{z \in \cE_2(N)} z \right) +  \frac{1}{3} \left( j^*(0) + 2\sum_{z \in \cE_3(N)} z \right)- \sum_{c = cusp} (e_c-1)[c].
+\end{equation}
+Note that (\ref{eq: divr}) may not be the simplified form of $\Div(r)$, due to possible cancellations when $\supp \Div(\omega)$ contains cusps. But since the definition of $F_{E,j}$ only involves critical points that are not cusps, the form of $\Div(r)$ in (\ref{eq: divr}) works fine for our purpose.
+
+Next we show $\bQ(r,u) = \bQ(X_0(N))$ for the functions $r, u$ in (\ref{eq: ru}). First we prove a lemma.
+
+\begin{Lemma}
+\label{lem: different}
+Let $N > 1$ be an integer and $f \in S_2(\Gamma_0(N))$ be a normalized newform. Suppose $\alpha \in SL_2(\bZ)$   and $f|[\alpha] = f$, then $\alpha \in \Gamma_0(N)$.
+\end{Lemma}
+
+\begin{proof}
+Write $\alpha = \abcd{a}{b}{M}{d}$. First we show that it suffices to consider the case
+where $d = 1$. Since $(M,d) = 1$, there exists $y,w \in \bZ$ such that $My+dw = 1$. By replacing $(y,w)$ with $(y+kd, w-kM)$ if necessary, we may
+assume $(y,N) = 1$. Now we can find $x,z \in \bZ$ such that $\gamma = \abcd{x}{y}{Nz}{w} \in \Gamma_0(N)$, and  $\alpha \gamma = \abcd{*}{*}{M}{1} \in \SL_2(\bZ)$ with $f|[\alpha\gamma] = f[\gamma] =f $. We then further reduce 
+to the case where $\alpha = \abcd{1}{0}{M}{1}$, by noticing that $\abcd{1}{-b}{0}{1}  \in \Gamma_0(N)$ and
+\[
+	\abcd{1}{-b}{0}{1} \cdot \abcd{a}{b}{M}{1} = \abcd{1}{0}{M}{1}.
+\]
+
+Let $w_N = \abcd{0}{-1}{N}{0}$ be the Fricke involution on $X_0(N)$. Then $f|[w_N] = \pm f$, hence $f|[w_N\alpha w_N] = f$. We compute that $w_N\alpha w_N = \abcd{-N}{M}{0}{-N}$, thus
+$f(q) = f|[\abcd{-N}{M}{0}{-N}](q) = f(q \zeta_N^{-M})$, where $\zeta_N = e^{2 \pi i /N}$.
+The leading term of $f(q)$ is $q$, while the leading term of  $f(q \zeta_N^{-M})$ is $\zeta_N^{-M} q$. So we must have $\zeta_N^{-M} =1$, i.e., $N \mid M$. Hence $\alpha \in \Gamma_0(N)$ and the proof is complete.
+\end{proof}
+
+\begin{Prop}
+\label{prop: gen}
+Let $r, u$ be the two functions on $X_0(N)$ defined in (\ref{eq: ru}), then $\bQ(r,u) = \bQ(X_0(N))$.
+\end{Prop}
+
+\begin{Lemma}
+Let $g$ be the genus of $X_0(N)$. If $T \geq 2g-2$ is a positive integer, then $rj^T$ and $u$ satisfy the second condition of Proposition \ref{prop: multiplicity}.
+
+%i.e., if $P(x,y) = f_n(y)x^n + \cdots + f_1(y)x + f_0(y)$ is a minimal polynomial relation of $rj^T$ and $u$, then $\gcd(f_n, f_0) = 1$.
+\end{Lemma}
+
+\begin{proof}
+Let $r_1 = rj^T$. When $T \geq 2g-2$, the support of  $\Div_\infty(r_1)$ is the set of all cusps. Suppose $\gcd(f_n, f_0) >1$. Let  $p(y)$ be an irreducible factor of $\gcd(f_0,f_n)$. Consider the valuation $\ord_p$ on the field $K(y)$. Since $P(x,y)$ is irreducible, there exists
+an integer $i$ with $0<i<n$ such that $p(y) \nmid f_i$.  Thus the Newton polygon of $P$ with respect to the valuation 
+$\ord_p$ has at least one edge with negative slope and one edge with positive slope. Therefore, for any Galois extension of $L$ of $K(u)$ containing $K(r,u)$ and a valuation $\ord_{\fp}$ on $L$ extending $\ord_p$, where $\fp$ is an irreducible polynomial in $L[y]$ dividing $p(y)$, there exists two conjugates $r', r''$ of $r$ such that $\ord_{\fp}(r') < 0$ and $\ord_{\fp}(r'') >0$. This implies that $\Div_0(r') \cap \Div_\infty(r'') \neq \emptyset$. Fix $L = K(X(N))$, then all conjugates of $r_1$  in $K(X(N))/K(u)$ are of the form $r_1(\alpha z)$ for some $\alpha \in \SL_2(\bZ)$, Hence the set of poles of any conjugate of $r_1$ is the set of all cusps on $X(N)$, a contradiction.
+\end{proof}
+
+
+Note that for any $T \in \bZ$, we have $\bQ(rj^T,u) = \bQ(r,u) = \bQ(X_0(N))$. Hence when $T \geq 2g-2$, the pair $(rj^T,u)$ satisfies both assumptions of Proposition \ref{prop: multiplicity}. We thus obtain
+\begin{theorem}
+Let $T \geq 2g-2$ be a positive integer and let 
+\[
+P(x,y) = f_n(y)x^n + \cdots + f_1(y)x + f_0(y)
+\]
+be a minimal polynomial relation of $rj^T$ and $u$. Then there exist integers $A$, $B$ and a nonzero constant $c$ such that
+\[
+		F_{E,j}(y) = c f_0(1/y) \cdot y^{A} (y - 1728)^B.
+\]
+The integers $A$ and $B$ are defined as follows. Let $\epsilon_i(N) = |\cE_i(N)|$ for $i$ = 2 or 3 %denote the number of elliptic points on $X_0(N)$ of period $i$.
+and let $d_N = [SL_2(\bZ): \Gamma_0(N)]$, then $A = \deg f_n - T \cdot d_N - \frac{1}{3}(d_N + 2\epsilon_3(N))$ and $B = -\frac{1}{2}(d_N+\epsilon_2(N))$.
+\end{theorem}
+%    Text of article.
+
+\begin{proof}
+Write $\Div(\omega) =\sum_{[z] \in X_0(N)} n_z[z]$. Applying Proposition \ref{prop: multiplicity} to $rj^T$ and $u$, we get
+\begin{equation*}
+	\prod_{z: u(z) \neq 0,\infty} (y-u(z))^{n_z} \cdot (y-1/1728)^{\frac{1}{2}(d_N+\epsilon_2(N))}  = c f_0(y)
+\tag{a}
+\end{equation*}
+and
+\begin{equation*}
+	\sum_{z: u(z) = \infty} \ord_z(\omega) + T \cdot d_N + \frac{1}{3}(d_N + 2\epsilon_3(N))  = \deg f_n - \deg f_0.
+\tag{b}
+\end{equation*}
+To change from $u = \frac{1}{j}$ to $j$, we replace $y$ by $1/y$ in (a) and multiply both sides by $y^{\deg f_0}$ to obtain
+\[
+	\prod_{z: j(z) \neq 0,\infty} (y-j(z))^{n_z} \cdot (y-1728)^{\frac{1}{2}(d_N+\epsilon_2(N))}  = c f_0(1/y)y^{\deg f_0}.
+\]
+The contribution of $\{z \in \Div(\omega): j(z) = 0\}$ to $F_{E,j}$ can be computed from (b), so
+\begin{align*}
+	F_{E,j}(y)
+	 &= c \cdot y^{\deg f_n - \deg f_0 -  T \cdot d_N - \frac{1}{3}(d_N + 2\epsilon_3(N))}y^{\deg f_0} \cdot (y-1728)^{-\frac{1}{2}(d_N+\epsilon_2(N))} f_0(1/y) \\
+	& = c \cdot y^{\deg f_n - T \cdot d_N - \frac{1}{3}(d_N + 2\epsilon_3(N))}(y-1728)^{-\frac{1}{2}(d_N+\epsilon_2(N))} f_0(1/y).
+\end{align*}
+\end{proof}
+
+Now we describe the algorithm {\em Poly Relation}.
+\begin{algorithm}[H]
+\caption{{\em Poly relation}}
+\label{IPR}
+\begin{algorithmic}[1]
+    \Require $E$ = Elliptic Curve over $\bQ$; $N$ =  conductor of $E$;  $f$ = the newform attached to $E$. 
+    Values of $g =  g(X_0(N))$, $d_N, \epsilon_2(N)$, $\epsilon_3(N)$, and $c_N$ = number of cusps of $X_0(N)$.
+    \Ensure The critical $j$-polynomial $F_{E,j}(x)$.
+    \State  Fix a large integer $M$. $T := 2g-2$.
+    \State  $r_1:= j^{2g-1}(j-1728)\frac{f}{j'}$, $u: = \frac{1}{j}$.
+    \State $\deg r_1 :=  (2g-1)d_N - c_N, \deg u := d_N$.
+    \State Compute the $q$-expansions of $r_1$ and $u$ to $q^{M}$.
+    \State Let $\{c_{a,b}\}_{0 \leq a \leq \deg u, 0 \leq b \leq \deg r_1}$ be unknowns, compute a vector that spans the one-dimensional vector space \\
+    $K$ = $\{(c_{a,b}) : \sum c_{a,b} r(q)^a u(q)^b \equiv 0 \pmod {q^M} \}$.
+
+	\State $P(x,y) :=  \sum c_{a,b}x^ay^b$. Write $P(x,y) = f_n(y)x^n + \cdots + f_1(y)x + f_0(y)$.
+	\State $A := \deg f_n - T \cdot d_N - \frac{1}{3}(d_N + 2\epsilon_3(N))$, $B :=  -\frac{1}{2}(d_N+\epsilon_2(N))$.
+	\State Output $F_{E,j}(x) = c f_0(1/x) \cdot x^{A} (x - 1728)^B$.
+\end{algorithmic}
+\end{algorithm}
+
+Note that an upper bound on the number of terms $M$ in the above algorithm can be taken to be $2\deg r \deg u +1$, by the following lemma.
+\begin{Lemma}
+Let $r, u \in \bQ(X_0(N))$ be non-constant functions. If there is a polynomial $P \in \bQ[x,y]$
+such that $\deg_x P \leq \deg u$, $\deg_y P \leq \deg r$, and
+\[
+	P(r,u) \equiv 0 \pmod{q^M}
+\]
+for some $M > 2\deg u \deg r$,  then $P(r,u) = 0$.
+\end{Lemma}
+
+\begin{proof}
+Suppose $P(r,u)$ is non-constant as a rational function on $X_0(N)$, then $\deg P(r,u) \leq \deg r^{\deg u} u^{\deg r} = 2\deg u \deg r$. It follows from $P(r,u) \equiv 0 \pmod{q^M}$ that $\ord_{[\infty]}P(r,u) \geq M$. Since $M> 2\deg u \deg r$, the number of zeros of $P(r,u)$ is greater than its number of poles, a contradiction. Thus $P(r,u)$ is a constant function. But then $P(r,u)$ must be 0 since it has a zero at $[\infty]$. This completes the proof.
+\end{proof}
+
+\begin{Remark}
+When $N$ is square free, there is a faster method that computes $F_{E,j}$ by computing
+the {\em Norm} of the modular form $f$, defined as $\Norm(f) = \prod f|[A_i]$, where $\{ A_i \}$ is
+a set of right coset representatives of $\Gamma_0(N)$ in $\SL_2(\bZ)$. This approach is
+inspired by Ahrlgen and Ono \cite{ahlgren2003weierstrass}, where $j$-polynomials of Weierstrass points on $X_0(p)$ are computed for $p$ a prime.
+\end{Remark}
+
+\begin{Remark}
+\label{rem: in practice}
+In practice, in order to make the algorithm faster, we make different choices of $r$ to make $\deg r$ small. 
+Let $\eta$ denote the Dedekind $\eta$-function and let $\Delta =  \eta^{24}$ denote the discriminant modular 
+form of level 1 and weight 12. When $4 \mid N$ we may take $r_4 = \frac{\omega jh_2}{\dif j (32+h_4)}$, where $h_2 = \frac{\Delta(z)-512\Delta(2z)}{\Delta(z)+256\Delta(2z)}$ and $h_4 = (\eta(z)/\eta(4z))^8$. Then $\Div(r_4) = \Div(\omega) + D - D'$, where $D$ and $D'$
+are supported on the cusps of $X_0(N)$, and $\deg D = c_N - \delta$, where $\delta$ is the number of
+cusps on $X_0(N)$ that are equivalent to $[\infty]$ modulo $\Gamma_0(4)$. Hence $r_4$ has a relatively small degree
+and is better suited for computation.
+\end{Remark}
+
+\begin{Remark}
+In order to speed up the computation, instead of taking $T = 2g-2$ in the algorithm, we may take $T = 0$. First, if $\Div(\omega)$ does not contain cusps(for example, this happens if $N$ is square free), then the functions $r$ and $u$ already satisfies the assumptions of Proposition \ref{prop: multiplicity}. Second, if $\Div(\omega)$ does contain cusps, then $\deg (r)$ will be smaller than its set value
+in the algorithm, due to cancellation between zeros and poles. As a result, the vector space $K$ will have dimension greater than 1. Nonetheless, using a basis of  $K$, we could construct a set of polynomials $P_i(x,y)$ with $P_i(r,u) = 0$. Now $P(x,y)$ is the greatest common divisor of the $P_i(x,y)$.
+\end{Remark}
+
+We show a table of critical $j$-polynomials. Recall that $H_d(x)$ denotes the Hilbert class polynomial associated to a negative discriminant $d$. We use Cremona's labels \cite{cremona2004elliptic} for elliptic curves in Table~\ref{table: small}.
+
+\begin{table}[h]
+   \centering
+   \caption{Critical polynomials for some elliptic curves with conductor smaller than $100$}
+   \vspace{5mm}
+    \begin{tabular}{ | l | l | l |p{5cm} |}
+    \hline
+    $E$ & $g(X_0(N))$ & Factorization of $F_{E,j}(x)$     \\[5pt] \hline \hline
+    37a & 2 & $H_{-148}(x)$ \\ \hline
+    37b & 2 &  $H_{-16}(x)^2$  \\ \hline
+    44a &   4  &   $H_{-44}(x)^2$ \\ \hline
+    48a &  3   &  $1$ \footnotemark \\ \hline
+    67a &  5  &  $x^8 + 1467499520383590415545083053760x^7 + \cdots$ \\ \hline
+    89a &  7  & $H_{-356}(x)$ \\ \hline
+    \end{tabular}
+    \label{table: small}
+   \end{table}
+
+\footnotetext[1]{In this case $\Div(\omega) = [1/4] + [3/4] + [1/12] +[7/12]$ in supported
+on cusps.}
+
+\red{fixme: yang pair and the rest of ciritcal points paper}
 
 
 
