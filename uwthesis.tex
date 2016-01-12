@@ -164,7 +164,7 @@ Abstract goes here.
 \thispagestyle{plain}
 %
 \begin{glossary}
-\item[argument] replacement text which customizes a \LaTeX\ macro for each particular usage.
+\item[An item] a description of item.
 \end{glossary}
  
 %
@@ -182,7 +182,7 @@ Abstract goes here.
 %
 % ----- dedication
 %
-\dedication{\begin{center} to all of you\end{center}}
+\dedication{\begin{center} to my better self\end{center}}
 
 %
 % end of the preliminary pages
@@ -519,7 +519,272 @@ We show a table of critical $j$-polynomials. Recall that $H_d(x)$ denotes the Hi
 \footnotetext[1]{In this case $\Div(\omega) = [1/4] + [3/4] + [1/12] +[7/12]$ in supported
 on cusps.}
 
-\red{fixme: yang pair and the rest of ciritcal points paper}
+
+\section{Yang pairs and the algorithm {\em Poly Relation-YP}}
+\label{sec: yang pair}
+
+The main issue with the algorithm {\em Poly Relation} is efficiency. The matrix we used to solve for $\{c_{a,b}\}$ has size roughly of the same magnitude as conductor $N$. As $N$ gets around $1000$, computing the matrix kernel quickly becomes impractical. So a new method is needed.
+
+We introduce an algorithm {\em Poly Relation-YP} to compute critical polynomials attached to elliptic curves. The algorithm is inspired by an idea of Yifan Yang in \cite{yang2006defining}. The algorithm {\em Poly Relation-YP} does not compute the critical $j$-polynomial. Instead, it computes a critical $h$-polynomial, where $h$ is some non-constant modular function on $X_0(N)$ chosen within the algorithm. First we restate a lemma of Yang.
+\begin{Lemma}[Yang \cite{yang2006defining}]
+\label{lem: yanggood}
+Suppose $g$, $h$ are modular functions on $X_0(N)$ with a unique pole of order $m$, $n$ at the cusp $[\infty]$, respectively, such that $\gcd(m,n) =1$. Then \\
+(1) $\bQ(g,h) = \bQ(X_0(N))$. \\
+(2) If the leading Fourier coefficients of $g$ and $h$ are both 1, then there is a minimal
+polynomial relation between $g$ and $h$ of form
+\begin{equation}
+\label{eq: yang}
+	y^m - x^n + \sum_{a,b \geq 0, am+bn < mn} c_{a,b}x^ay^b.
+\end{equation}
+\end{Lemma}
+
+\begin{Definition}
+A pair of two non-constant modular functions on $X_0(N)$ is said to be a {\em Yang pair} if they satisfy the assumptions of Lemma \ref{lem: yanggood}. 
+\end{Definition}
+Following \cite{yang2006defining}, we remark that in order to find a minimal polynomial relation of a Yang pair, we can compute the Fourier expansion of $y^m - x^n$ and use products of form $x^ay^b$ to cancel the pole at $[\infty]$ until we reach zero. This approach is significantly faster than the method we used in {\em Poly Relation}, which finds a minimal polynomial relation of two arbitrary modular functions. This gain in speed is the main motivation of introducing {\em Poly Relation-YP}.
+
+
+Let 
+\[ 
+\eta = q^{\frac{1}{24}}\prod_{n \geq 1}(1-q^n)
+\] be the Dedekind $\eta$ function.
+For any positive integer $d$, define the function $\eta_d$ as $\eta_d(z) = \eta(dz)$. 
+
+Let $N$ be a positive integer. An {\em $\eta$-product of level $N$} is a function of the form 
+\[ 
+h(z) = \prod_{d \mid N} \eta_d(z)^{r_d}
+\]
+where $r_d \in \bZ$ for all $d \mid N$.
+
+The next theorem of Ligozat gives sufficient conditions for a $\eta$-product to be a modular function on $X_0(N)$.
+\begin{Lemma}[Ligozat's Criterion \cite{ligozat1975courbes}]
+Let $h = \prod_{d \mid N} \eta_d(z)^{r_d}$ be an $\eta$-product of
+level $N$. Assume the following: \\
+(1)  $\sum_d r_d \frac{N}{d} \equiv 0 \pmod{24}$; (2)  $\sum_d r_d d \equiv 0 \pmod{24}$;
+(3)  $\sum_d r_d = 0$;  \\
+(4) $\prod_{d \mid N} (\frac{N}{d})^{r_d} \in \bQ^2$.  \\
+Then $h$ is a modular function on  $X_0(N)$.
+\end{Lemma}
+
+If $h \in \bQ(X_0(N))$ is an $\eta$-product, then the divisor $\Div(h)$ is supported on the cusps of $X_0(N)$. The next theorem allows us to construct $\eta$-products with prescribed divisors.
+
+\begin{Lemma}[Ligozat \cite{ligozat1975courbes}]
+\label{lem:ligozat}
+Let $N > 1$ be an integer. For every positive divisor $d$ of $N$, let $(P_d)$ denote the sum of all cusps on $X_0(N)$ of denominator $d$. Let $\phi$ denote the Euler's totient function. Then there exists an explicitly computable $\eta$-product $h \in \bQ(X_0(N))$ such that
+\[
+\Div(h) = m_d( \, (P_d) - \phi(\gcd(d,N/d))[\infty] \,)
+\]
+for some positive integer $m_d$.
+\end{Lemma}
+
+\begin{Remark}
+\label{rem: expliciteta}
+By `explicitly computable' in Lemma~\ref{lem:ligozat}, we mean that one can compute a set of integers $\{r_d :  d\mid N \}$ that defines the $\eta$-product $h$ with desired property. It is a fact that the order of
+vanishing of an $\eta$ product at any cusp of $X_0(N)$  is an linear combination of
+the integers $r_d$. So prescribing the divisor of an $\eta$-product is equivalent to giving a
+linear system on the variables $r_d$. Thus we can solve for the $r_d$'s and obtain the $q$-expansion of $h$ from the $q$-expansion of $\eta$.
+\end{Remark}
+
+The next proposition is a direct consequence of Lemma~\ref{lem:ligozat}.
+\begin{Prop}
+\label{cor: majorize}
+Let $D \geq 0 $ be a divisor on $X_0(N)$ such that $D$ is supported on the cusps. Then there exists an explicitly computable $\eta$-product $h \in \bQ(X_0(N))$ such that $\Div(h)$ is of the form $D' - m[\infty]$, where $m$ is a positive integer and $D' \geq D$.
+\end{Prop}
+
+Recall our notation from section \ref{sec: IPR} that $r = j(j-1728)\frac{\omega}{\dif j}$.
+\begin{Prop}
+\label{prop: niceproduct}
+There exists an explicitly computable function $h \in \bQ(X_0(N))$ such that \\ (1) The functions $rh$ and $j(j-1728)h$
+form a Yang pair; \; \\
+ (2) $j(j-1728)h$ is zero at all cusps of $X_0(N)$ except the cusp $[\infty]$.
+\end{Prop}
+
+\begin{proof}
+Let $T = \Div_\infty(j)$. Note that the support of $T$ is the set of all cusps. From (\ref{eq: divr}) we have $\Div_{\infty}(r) \leq T$, $\Div(j(j-1728)) = 2T$, $\ord_{[\infty]}(T) = 1$, and $\ord_{[\infty]}(r) = 0$. Applying Proposition~\ref{cor: majorize} to the divisor $D = 4(T-[\infty])$,  we obtain an $\eta$-product $h \in \bQ(X_0(N))$ such that $\Div(h) = D' - m[\infty]$, where $D' \geq D$ and $m \geq 0$. Then $\Div_{\infty}(rh) = m[\infty]$ and $\Div_{\infty}(j(j-1728)h) = (m+2)[\infty]$. If $m$ is odd, then $(m,m+2) = 1$ and (1) follows. Otherwise, we can replace $h$ by $jh$. Then a similar argument shows that $rh$ and $j(j-1728)h$ have a unique pole at $[\infty]$ and have degree $m+1$ and $m+3$, respectively. Since $m$ is even in this case, we have $(m+1, m+3) = 1$ and (1) holds.
+
+What we just showed is the existence of an $\eta$-product $h \in \bQ(X_0(N))$ s.t. either $h$ or $jh$ satisfies (1).  Now (2) follows from the fact that $\Div_{0}(j(j-1728)h) > 2(T-[\infty])$ and $\Div_{0}(j^2(j-1728)h) > (T-[\infty])$.
+\end{proof}
+
+Let $h$ be a modular function that satisfies the conditions of Proposition~\ref{prop: niceproduct}. The next theorem allows us to compute $F_{E,j(j-1728)h}(x)$. For ease of notation, let $\tilde{r} = rh$ and $\tilde{h} = j(j-1728)h$.
+
+
+
+\begin{theorem}
+\label{thm: yangpoly}
+Suppose $h$ is a modular function on $X_0(N)$ that satisfies the conditions in
+Proposition~\ref{prop: niceproduct}.  Let $P(x,y)$ be a minimal polynomial relation of $\tilde{r}$ and $\tilde{h}$ of form (\ref{eq: yang}). Write  $P(x,y) = f_n(y)x^n + \cdots + f_1(y)x + f_0(y)$, and let $g$ be the genus of $X_0(N)$, then
+\[
+		F_{E,\tilde{h}}(x) = x^{2g-2-\deg h}f_0(x).
+\]
+\end{theorem}
+
+\begin{proof}
+The idea  is to apply Proposition \ref{prop: multiplicity} to the Yang pair $(\tilde{r}, \tilde{h})$. By Lemma \ref{lem: yanggood}, every Yang pair satisfies its first assumption. To see the second assumption holds, observe that $f_n(y) = -1$ in (\ref{eq: yang}), so $\gcd(f_n(y),f_0(y))$ = 1. Hence we can apply Proposition \ref{prop: multiplicity} and obtain
+\[
+ 	f_0(y) = \prod_{z \in\Div_{0}(\tilde{r}) \setminus \Div_{\infty}(\tilde{h})} (y - \tilde{h}(z))^{n_z}.
+\]
+By construction of $h$, there is a divisor $D \geq 0$ on $X_0(N)$ supported on the finite set $j^{-1}(\{0,1728\}) \cup h^{-1}(0)$, such that $\Div(rh) = \Div(\omega) + D - (\deg h)[\infty]$. Taking degrees on both sides shows $\deg D = \deg h - (2g-2)$.  Since $\tilde{h}(z) = 0$ for all $z \in \supp D$, we obtain
+\[
+	f_0(x) = F_{E,\tilde{h}}(x) \cdot x^{\deg h -2g+2}.
+\]
+This completes the proof.
+\end{proof}
+
+
+Next we describe the algorithm {\em Poly Relation-YP}.
+
+\begin{algorithm}[H]
+\caption{{\em Poly Relation-YP}}
+\begin{algorithmic} [1]
+    \Require $E$ = Elliptic Curve over $\bQ$, $f$ = the newform attached to $E$.
+    \Ensure a non-constant modular function $h$ on $X_0(N)$ and the critical $\tilde{h}$-polynomial $F_{E,\tilde{h}}$, where $\tilde{h} = j(j-1728)h$.
+    \State Find an $\eta$ product $h$ that satisfies Proposition~\ref{prop: niceproduct}.
+
+    \State $\tilde{r} :=  j(j-1728)h\frac{f}{j'}$, \; $\tilde{h} := j(j-1728)h$.
+    \State $M := (\deg \tilde{r} +1)(\deg \tilde{h} + 1)$.
+    \State Compute $q$-expansions of $\tilde{r}$, $\tilde{h}$ to $q^{M}$.
+    \State Compute a minimal polynomial relation $P(x,y)$ of form (\ref{eq: yang}) \\using the method mentioned after Lemma \ref{lem: yanggood}.
+    \State Output $F_{E,\tilde{h}}(x) = x^{2g-2-\deg h}P(0,x)$.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{Remark}
+The functions $\tilde{r}$ and $\tilde{h}$ in the above algorithm are constructed in order that Theorem
+ \ref{thm: yangpoly} has a nice and short statement. However, their degrees are large, which is not optimal for computational purposes. In practice, one can make different choices of two modular functions with smaller degrees to speed up the computation. This idea is illustrated in the following example.
+\end{Remark}
+
+\begin{Example}
+\label{ex: 664a}
+Let $E$ be the elliptic curve 
+\[
+	E: y^2 = x^{3} - 7 x + 10
+\]
+labeled as ``664a1'' in Cremona's table. Then $r_{\an}(E) = 2$, and $X_0(664)$ has genus 81.  Let $r = r_4$ be as defined in Remark~\ref{rem: in practice}. Using the method described in Remark~\ref{rem: expliciteta}, we found two $\eta$-products \\ 
+\[h_1 =  (\eta_2)^{-4}(\eta_4)^6 (\eta_8)^4 (\eta_{332})^6 (\eta_{664})^{-12}, \, h_2 = (\eta_2)^{-1} (\eta_4) (\eta_{166})^{-1} (\eta_8)^2 (\eta_{332})^5 (\eta_{664})^{-6}
+\]with the following properties: $h_1, h_2 \in \bQ(X_0(N))$, $\Div(rh_1) = \Div(\omega)  +  D -247[\infty]$, where $D \geq 0$ is supported on cusps, and $\Div(h_2)  = 21[1/332] + 61[1/8] + 21[1/4] - 103[\infty]$. Since (247,103) =1, the functions $rh_1$ and $h_2$ form a Yang pair. We then computed
+\[
+	F_{E,h_2}(x) =  x^{160} - 14434914977155584439759730967653459200865032120265600267555196444 x^{158}  + \cdots.
+\]
+The polynomial $F_{E,h_2}$ is irreducible in $\bQ[x]$. \end{Example}
+
+\section{The critical subgroup $E_{crit}(\bQ)$}
+\label{sec: crit}
+Recall the definition of the critical subgroup for an elliptic curve $E/\bQ$: 
+\[
+E_{\crit}(\bQ) = \langle \tr(\varphi(e)): e \in \supp \Div(\omega)\rangle.
+\]
+Observe that to generate $E_{\crit}(\bQ)$, it suffices to take one representative from each Galois orbit of $\supp \Div(\omega)$. Therefore, if we let $n_{\omega}$ denote the number of Galois orbits in $\Div(\omega)$, then 
+\[
+\rank(E_{\crit}(\bQ)) \leq n_{\omega}.
+\]
+For any rational divisor $D = \sum_{[z] \in X_0(N)} n_z [z]$ on $X_0(N)$, let $p_{D} = \sum_{z \in \supp D} n_z \varphi([z])$, then $p_D \in E(\bQ)$. Note that $p_D = 0$ if $D$ is a principal divisor. The point $p_{\Div(\omega)}$ is a linear combination of the defining generators of $E_{\crit}(\bQ)$.
+\begin{Lemma}
+\label{lem: ell}
+$6 \, p_{\Div(\omega)} \equiv  - 3 \sum_{c \in \cE_2(N)} \varphi(c) - 4 \sum_{d \in \cE_3(N)}  \varphi(d) \pmod{E(\bQ)_{\tors}}$.
+\end{Lemma}
+
+\begin{proof}
+Let $r_0 = \omega/\dif j$, then $r_0 \in \bQ(X_0(N))$, hence $p_{\Div(r_0)}  =0$.
+From $\Div(r_0) = \Div(\omega) - \Div(\dif j)$, we deduce that $p_{\Div(\omega)} = p_{\Div(\dif j)}$. The lemma then follows from the formula of $\Div(\dif j)$ given in (\ref{eq: divdj}) and the fact that the image of any cusp under $\varphi$ is torsion.
+\end{proof}
+
+\begin{Prop}
+\label{prop: irr}
+Assume at least one of the following holds: \\ (1) $r_{\an}(E) \geq 2$; \\(2) $X_0(N)$ has no elliptic point. \\Then $\rank(E_{\crit}(\bQ)) \leq n_\omega - 1$.
+\end{Prop}
+
+\begin{proof}
+By Lemma~\ref{lem: ell} and Theorem~\ref{thm0}, either assumption implies that $p_{\Div(\omega)}$ is torsion. But $p_{\Div(\omega)}$ is a linear combination of the $n_\omega$ generators of $E_{\crit}(\bQ)$, so these generators are linearly dependent in $E_{\crit}(\bQ) \otimes \bQ$. Hence the rank of $E_{\crit}(\bQ)$ is smaller than $n_\omega$.
+\end{proof}
+
+Now we are ready to prove Theorem~\ref{thm1}. \\
+{\bf Proof of Theorem~\ref{thm1}}.
+First, note that the definition of $F_{E,j}$ only involves critical points that are not cusps.
+However, since images of cusps under $\varphi$ are torsion, we can replace $\Div(\omega)$ by $\Div(\omega) \setminus  \{\mbox{ cusps of } X_0(N)\}$ if necessary and assume that $\Div(\omega)$ does not contain cusps.  \\
+(1) Let $d = \deg F_0$, then there exists a Galois orbit in $\Div(\omega)$
+of size $d$, and the other $(2g-2-d)$ points in $\Div(\omega)$ are CM points. Let $z$ be any one of the $(2g-2-d)$  points, then  $j(z)$ is a root of $H_{D_k}(x)$ and $z \in \bQ(\sqrt{D_k})$. Since $\Div(\omega)$ is invariant under the Fricke involution $w_N$, one sees that $j(Nz)$ is also a root of $F_{E,j}$. Therefore, $j(Nz)$ is the root of $H_{D_{k'}}(x)$ for some $1 \leq k' \leq m$.  Since $z$ and $Nz$ define the same quadratic field, we must have $\bQ(\sqrt{D_k}) = \bQ(\sqrt{D_{k'}})$, which implies $k = k'$ by our assumption. It follows
+that $[z]$ is a ``generalized Heegner point''(as defined in Definition~\ref{def:heegner}) and  $\tr(\varphi([z]))$ is torsion.  By the form of $F_{E,j}$, there exists a point $[z_0] \in \supp \Div(\omega)$ such that $j(z_0)$  is a root of $F_0$. Then we have $\rank(E_{\crit}(\bQ))= \rank(\langle \tr(\varphi([z_0]) \rangle) = \rank(\langle p_{\Div(\omega)} \rangle)$. Finally, Lemma~\ref{lem: ell} implies $\langle p_{\Div(\omega)} \rangle = 0$, and it follows that $\rank(E_{\crit}(\bQ)) = 0$.
+
+(2) If $F_{E,h}$ is irreducible,  then we necessarily have $n_\omega = 1$, and the claim follows from Proposition \ref{prop: irr}.
+
+\begin{Remark}
+Christophe Delaunay has an algorithm to compute $\Div(\omega)$ numerically as equivalence classes of points in the upper half plane(see \cite{delaunay2002thesis} and \cite{delaunay2005critical}). A table of critical points for the elliptic curve 
+\[
+	E: y^2 + y = x^{3} + x^{2} - 2 x
+\]
+with rank 2 and Cremona label ``389a'' is presented in \cite[Appendix B.1]{delaunay2002thesis}. The results suggested that $\Div(\omega)$ contains two Heegner points of discriminant 19, and the critical subgroup $E_{\crit}(\bQ)$ is torsion. Using the critical $j$-polynomial for ``389a'' in Table~\ref{table: rank two}, we can confirm the numerical results of Delaunay.
+\end{Remark}
+
+
+\section{Data: critical polynomials for rank two elliptic curves}
+\label{sec: table}
+The columns of Table~\ref{table: rank two} are as follows. The column labeled $E$ contains labels
+of elliptic curves, and those labeled $g$ contains the genus of $X_0(N)$, where $N$ is the conductor of $E$. The column labeled $h$ contains a modular function on $X_0(N)$: either the $j$ invariant or some $\eta$-product. The last column contains the factorization of the critical $h$-polynomial of $E$ defined in Section ~\ref{sec:form of result}. The factors of $F_{E,j}$ that are Hilbert class polynomials are written out explicitly. Table \ref{table: rank two} contains {\em all} elliptic curves with conductor $N \leq 1000$ and rank 2. By observing that all the critical polynomials in the table satisfy one of the assumptions of
+Theorem~\ref{thm1}, we obtain Corollary~\ref{cor2}.
+
+
+From our computation, it seems hard to find an elliptic curve $E/\bQ$ with $r_{\an}(E) \geq 2$ and $\rank(E_{\crit}(\bQ)) > 0$. Nonetheless, some interesting questions can be raised.
+
+\begin{question}
+\label{q1}
+For all elliptic curves $E/\bQ$, does $F_{E,j}$ always factor in $\bQ[x]$ as a product of Hilbert class polynomials and one irreducible polynomial?
+\end{question}
+
+If the answer to Question~\ref{q1} is positive, then we would know $E_{\crit}(\bQ)$ is torsion wheneve $r_{an}(E) \geq 2$. 
+
+
+
+Another way to construct rational points on $E$ is to take any cusp form $g \in S_2(\Gamma_0(N), \bZ)$ and define $E_{g}(\bQ) = \langle \tr(\varphi([z]) : [z] \in \supp \Div(g(z)dz) \rangle$.
+\begin{question}
+Does there exist $g \in S_2(\Gamma_0(N), \bZ)$ such that $E_{g}(\bQ)$ is non-torsion?
+\end{question}
+
+\begin{Remark}
+Consider the irreducible factors of $F_{E,j}$ that are {\em not} Hilbert class polynomials. It turns out that their constant terms has many small
+primes factors, a property also enjoyed by Hilbert class polynomials. For example, consider the polynomial  $F_{67a, j}$. It is irreducible and not equal to any Hilbert class polynomial, while its constant term has factorization
+\[
+2^{68} \cdot 3^{2} \cdot 5^{3} \cdot 23^{6} \cdot 443^{3} \cdot 186145963^{3}.
+\]
+It is interesting to investigate the properties of these polynomials.
+\end{Remark}
+
+\red{fixme: delete the remark below}
+\begin{Remark}
+The polynomial relation $P(x,y)$ between $r$ and $u$ can be applied to other computational problems regarding modular forms attached to elliptic curves. For example, one could use it for the computation of $q$-expansions of newforms at all cusps(see the incoming paper \cite{chen2015expansion}).
+\end{Remark}
+
+
+   \begin{table}[H]
+   \caption{Critical polynomials for elliptic curves of rank 2 and conductor $<1000$}
+   \vspace{5mm}
+   \centering
+    \begin{tabular}{ | l |  l  | l  |p{4.4cm}  |}
+    \hline
+    $E$ & $g(X_0(N))$   & $h$ & $\mbox{ Factorization of } F_{E,h}(x)$     \\ \hline \hline
+    389a & 32  & $j$ & $H_{-19}(x)^2 (x^{60}+ \cdots)$ \\ \hline
+    433a & 35  & $j$ &  $x^{68}+\cdots$  \\ \hline
+     446d & 55  & $j$ &  $x^{108}+\cdots$ \\ \hline
+    563a & 47  & $j$ &  $H_{-43}(x)^2 (x^{90} - \cdots)$   \\ \hline
+    571b& 47  & $j$ &  $H_{-67}(x)^2 (x^{90} - \cdots)$ \\ \hline
+    643a& 53  & $j$ &  $H_{-19}(x)^2 (x^{102} - \cdots)$ \\ \hline
+    664a & 81    &   $\frac{\eta_4\eta_8^2 \eta_{332}^5}{\eta_{166}\eta_{664}^{6}{\eta_2}}$ & $x^{160} - \cdots$ \\ \hline
+    655a& 65  & $j$ &  $x^{128} - \cdots$ \\  \hline
+    681c& 75  & $j$ &  $x^{148} - \cdots$ \\  \hline
+    707a & 67  & $j$ & $x^{132} - \cdots$  \\ \hline
+    709a& 58  & $j$ &  $x^{114} - \cdots$\\ \hline
+    718b& 89  & $j$ &  $ H_{-52}(x)^2 (x^{172} - \cdots)$\\ \hline
+    794a& 98  & $j$ &  $H_{-4}(x)^2 (x^{192} - \cdots)$\\ \hline
+    817a& 71  & $j$ &  $x^{140} - \cdots$\\ \hline
+    916c & 113   & $j$ &$H_{-12}(x)^8(x^{216}+\cdots)$  \\ \hline
+
+
+    944e & 115    & $\frac{\eta_{16}^4 \eta_{4}^2}{\eta_8^6}$ & $x^{224} - \cdots$ \\ \hline
+    997b& 82  & $j$ &  $H_{-27}(x)^2 (x^{160} - \cdots)$\\ \hline
+    997c& 82  & $j$ &  $x^{162} - \cdots$\\ \hline
+    \end{tabular}
+    \label{table: rank two}
+   \end{table}
+
 
 
 
@@ -529,7 +794,7 @@ on cusps.}
 \chapter{Fourier expansions of modular forms forms at all cusps}
 
 Let $k$ be a positive even integer and let $f \in S_k(\Gamma_0(N))$ be a nonzero cusp form.
-Then $f$ has a Fourier expansion at the cusp infinity: $$f = \sum_{n \geq 1} a_n q^n$$
+Then $f$ has a Fourier expansion at the cusp infinity: $$f = \sum_{n \geq 1} a_n(f) q^n$$
 where $a_n$ are complex numbers and $q = e^{2 \pi i \tau}$. 
 We are concerned with the problem of computing the Fourier expansion of $f$ at other cusps. When $N$ is 
 square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in [Edixhoven], where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in [Ed], for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
@@ -1095,11 +1360,6 @@ Let $c$ be a cusp of denominator $d$ and let $d' = N/d$. Then
 %Choose a form $0 \neq g \in S_k(\Gamma_1(N))$ with rational Fourier coefficients such that 
 %$h = \frac{f}{g}$ is non-constant. From [Cox, ] it is easy to see that $h \in $. Then we have 
 %\end{proof}
-
-\section{Denominators}
-
-
-
 \section{Examples}
 
 Let $E = {\bf 50a}$ and consider the 4 cusps of denominator 10 on $X_0(50)$. The corresponding first terms 
@@ -1424,6 +1684,8 @@ We state two facts: (1) $P_{E,F}$ is independent of the choice of $Q$(hence the 
 
 We present an algorithm that either computes the Chow-Heegner point $P_{E,F}$ or outputs fail. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. Note that there exists an algorithm to compute the q-expansions of $x_E,x_F,y_E$ and $y_F$.  
 
+\red{fixme: talk about how to use PARI to get $x_E(q)$}
+
 \begin{algorithm}
 \caption{Using polynomial relation to compute the Chow-Heegner point $P_{E,F}$}          % give the algorithm a caption
 \label{IPR}                           % and a label for \ref{} commands later in the document
@@ -1431,7 +1693,7 @@ We present an algorithm that either computes the Chow-Heegner point $P_{E,F}$ or
     \Require  $E, F$  = non-isogeneous elliptic curves of conuductor $N$; $q$-expansions of $x_E, y_E$, $x_F,y_F$. 
     \Ensure the Chow-Heegner point $P_{E,F}$. 
     \State{$u_E \Leftarrow (x_F)^{-1}$ and $u_F \Leftarrow (x_F)^{-1}$}. 
-    \State{Use the algorithm \textbf{IPR} to compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
+    \State{Mimicing steps 4-7 of Algorithm~\ref{IPR},  compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
     \State $f_{ch,x}(x) \Leftarrow F_{E,F}(x,0)$.
     \State Repeat steps 2-5 for $v_E = (y_E)^{-1}$ and $u_F$, get $f_{ch,y}(x)$.
     \State $K \Leftarrow$ the splitting field of $f_{ch,x}$. Write $f_{ch,x}(x) = \prod (x-a_i), a_i \in K$.
