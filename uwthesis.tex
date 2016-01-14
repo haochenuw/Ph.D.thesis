@@ -1526,6 +1526,22 @@ Keeping the assumptions in the previous two sections, we have
 $$a_1(f_{z_p}) = \frac{\sum_{x \in \bF_{p^2}^{\times}} \psi(x+x^p+x^{p+1}) \varphi(x)}{\sum_{x \in \bF_{p^2}^{\times} }\psi(x+x^p) \varphi(x)}. $$
 \end{Lemma}
 
+\begin{proof} 
+In this special case, formula [] simplifies to 
+\begin{align*}
+	a_1(f_{z_p}) &= w(f) \sum_{\chi: \cond(\chi) = p}  g(\bar{\chi}) w(f \otimes \chi) \\
+	& = \sum_{\chi: \cond(\chi) = p}  g(\bar{\chi}) w(f \otimes \chi) w(f)^{-1} \, (\text{since } w(f)^2 =1) \\
+	& =  \sum_{\chi: \cond(\chi) = p}  g(\bar{\chi}) \frac{\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi)}{\epsilon_p(\pi_f,1/2,\psi)}.
+\end{align*}
+
+We explain the last equality: first we have $w(f) =  \prod_{l \leq \infty} \epsilon_l(\pi_{f,l}, 1/2, \psi)$ and $w(f \otimes \chi) =  \prod_{l \leq \infty} \epsilon_l(\pi_{f \otimes \chi, l}, 1/2, \psi)$. Since $\chi$ has conductor $p$, we know the epsilon factors are the same except for $l = p$. Hence $\frac{w(f \otimes \chi)}{w(f)} = \frac{\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi)}{\epsilon_p(\pi_f,1/2,\psi)}$. 
+
+Now by a formula in [Brunault, private communication], we have  $$\sum_{\chi: \cond(\chi) = p}  g(\bar{\chi})\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi) = \frac{-1}{p}\sum_{x \in \bF_{p^2}^{\times}} \psi(x+x^p+x^{p+1}) \varphi(x).$$
+This combined with our Lemma~\ref{cuspidal constant} gives the result. 
+
+Brunault, private communication.  \red{fixme: add ref}.
+\end{proof}
+
 \begin{Example}
 Let $f$ be the newform attached to $E  =\bf{49a}$. One checks that $f$ is twist-minimal and $\varphi$ has order 4. Using Lemma~\ref{formula: first term}, we computed $$a_1(f_{-1/7}) = -\frac{5}{7} \zeta_{7}^{5} - \frac{3}{7} \zeta_{7}^{4} - \frac{1}{7} \zeta_{7}^{3} + \frac{1}{7} \zeta_{7}^{2} + \frac{3}{7} \zeta_{7} - \frac{2}{7} = 0.623489... + 1.29468...i. $$
 The numerical algorithm gives $a_1(f_{-1/7}) = 0.623489801858733...+ 1.29468991410431...i$. Hence our formulae are 
