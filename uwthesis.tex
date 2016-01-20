@@ -51,6 +51,9 @@
 \usepackage{amsmath,mathtools}
 \usepackage{commath} % for the \dif operator.
 \newcommand{\cE}{\mathcal{E}}
+\newcommand{\N}{\mathfrak{N}}
+\renewcommand{\H}{\mathcal{H}}
+\newcommand{\fl}{\mathfrak{l}}
 
 \usepackage[textwidth=50,textsize=tiny]{todonotes}
 \setlength{\marginparwidth}{2cm}
@@ -197,6 +200,80 @@ Abstract goes here.
 
 \chapter{Introduction}
 
+\section{Elliptic Curves}
+A {\em nonsingular projective curve} $X/\bQ$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $\bQ$. We'll abbreviate it with `curve'.
+
+For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $\bQ$, called its {\em function field}. We have the following
+\begin{Fact}
+\label{fact: degree}
+If $x$ is a non constant rational function,  then $[k(X): k(x)] = \deg x$.
+\end{Fact}
+
+An {\em elliptic curve }over $\bQ$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in \bQ$ and $4A^3+27B^2 \neq 0$. Elliptic curves are examples of curves of genus 1.
+
+\section{Modular curves}
+
+
+Modular curve: The {\em modular group} $SL_2(\bZ)$ is the group of integer matrices with determinant 1. For each integer $N > 1$, consider the subgroup 
+\[
+	\Gamma_0(N) = \left \{ \abcd{a}{b}{c}{d} \in SL_2(\bZ):  N \mid c \right\}
+\]
+The {\em modular curve} $X_0(N)$ is defined by $\Gamma_0(N) \backslash (H \cup \bP^1(\bQ))$. The 
+equivalence classes of $\bP^1(\bQ)$ under $\Gamma_0(N)$ are called {\em cusps}. The set of cusps is finite.
+
+Fact: $X_0(N)$ is a nonsingular projective algebraic curve.
+
+\section{Modular forms}
+
+Notation: Let $\H$ denote the complex upper half plane.
+For each integer $k$, the weight-k action of $SL_2(\bZ)$ on functions $f: H \to \bC$ as follows: 
+suppose $g  = \abcd{a}{b}{c}{d} \in SL_2(\bZ)$, define
+\[
+	f|[g]_k(z) = (cz+d)^{-k}f(gz).
+\]
+In this report we'll only consider the cases $k = 0$ or $k = 2$. We will omit the $k$ in the subscript, since we always 
+mean $k = 2$ when $f$ is a modular form of weight 2, and $k = 0$ when $f$ is a modular function.
+\begin{Definition}
+A {\em modular form} of weight 2 and level $N$ is a holomorphic function $f: \H \to \bC$ satisfying  \\
+(1) $f|[g]_2 = f$ for all $g \in \Gamma_0(N)$. \\
+(2) $f$ can be holomorphically extended to $\H \cup \bP^1(\bQ)$. 
+\end{Definition}
+A modular form $f$ is a {\em cusp form} if  $f$ is zero at all cusps. For the precise definition of modular form, see  \cite[I.2]{diamond2005first}.
+
+The vector space $S_2(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is finite dimensional, and we have an isomorphism 
+\[
+	S_2(\Gamma_0(N)) \cong \Omega^1(X_0(N)(\bC)), 
+\]
+which sends $f$ to $f(z)dz$. As a consequence, $\dim_\bC  S_2(\Gamma_0(N)) = g(X_0(N))$.
+
+We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}(see \cite[V.8]{diamond2005first} for the precise definition of newforms).
+In particular, all cusp forms attached to elliptic curves defined over $\bQ$ are newforms. We summarise some properties of newforms below:
+
+(a) Newforms have q-expansions $f(q) = \sum_{n \geq 1} a_nq^n$ where $q  = e^{2\pi i z}$, $a_1= 1$, and $a_n \in \bZ$
+for all $n > 1$. There exists algorithms to compute the coefficients $a_n$. In fact, all modular functions and modular forms 
+used in this report, unless otherwise noted, have rational q-expansions, i.e., $\sum_{n \geq -m}b_nq^n$ with $b_i \in \bQ$
+
+(b) For each $N$ we have an elementary abelian 2-group $W \subseteq Aut_\bQ(X_0(N))$, which we 
+call the {\em Atkin-Lehner Group}, with generators $\{w_p\}_{p \mid N}$. The non-trivial elements of $W$ are called {\em Atkin-Lehner} involutions. They act on $S_2(\Gamma_0(N))$ by invertible linear transformations. Any newform $f$ is an eigenvector of every $w \in W$ with eigenvalue $\pm1$, i.e., $f|w = \pm f$. In particular, we have $f|{w_N} = (-1)^{r_{an}(E)}f$ where $w_N = \prod_{p \mid N} w_p$ is also called the Fricke involution.
+
+We state the {\em modularity theorem}:
+
+\begin{theorem} (Wiles, Taylor et al.)
+For every elliptic curve $E/\bQ$ with conductor $N$ there exists a surjective morphism 
+\[
+	\varphi: X_0(N) \to E
+\]
+defined over $\bQ$. Moreover,  $\varphi^*(\omega_E) = c \cdot 2\pi i f_E(z) dz$  where $f_E$ is a newform of weight 2 and level $N$, called \textbf{the modular form attached to $E$}, and $c \in \bC^{\times}$.
+\end{theorem}
+
+Let $\omega_f$ denote the differential $f(z)dz \in S_2(\Gamma_0(N))$. Every elliptic curve $E$ has a {\em period lattice} $\Lambda$, which is a lattice in $\bC$. There is an isomorphism $\iota: E \cong \bC/\Lambda$. The composition $\iota \circ \varphi: X_0(N) \to \bC/\Lambda$ can be written as 
+\[
+	[z] \mapsto \int_{z}^{\infty} \omega_f \pmod{\Lambda}. 
+\]
+
+
+\red{fixme: define newforms. Maybe use Cornell-Silverman.}
+
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
 
 
@@ -278,14 +355,134 @@ F_{E,j} = \prod_{k =1}^m H_{D_{k}}^{s_k}\cdot F_0.
 
 Then $\rank(E_{\crit}(\bQ))  = 0$.
 \end{theorem}
-Combining Theorem~\ref{thm1} with our computation of critical polynomials, we verified the main result of 
-this paper stated in the following corollary.
+Combining Theorem~\ref{thm1} with our computation of critical polynomials, we verified the main result of this chapter stated in the following corollary.
 \begin{Corollary}
 \label{cor2}
 For all elliptic curves $E$ of analytic rank 2 and conductor $N$ smaller than 1000, the rank of $E_{\crit}(\bQ)$ is zero.
 \end{Corollary}
 
-This paper is organized as follows: in Sections \ref{sec: IPR} and \ref{sec: yang pair}, we describe the algorithms {\em Poly Relation} and {\em Poly Relation-YP}. In Section \ref{sec: crit}, we prove Theorem~\ref{thm1}. Last, in Section \ref{sec: table}, we show a table of critical polynomials for all elliptic curves with rank 2 and conductor smaller than 1000, and  prove Corollary~\ref{cor2}.
+
+\section{The norm method}
+
+
+Let $E$ be an elliptic curve over $\bQ$ with square free conductor $N$, and let $f$ be the associated newform. Taking $A_1, \cdots, A_n$ to be a set of representatives for $\Gamma_0(N) \backslash SL_2(\bZ)$, we define
+
+\begin{Definition}
+The {\em norm} of $f$ is the product 
+\[
+\Norm_N(f) = \prod_{i=1}^n f|[A_i]_2
+\]
+\end{Definition}
+By construction, we know that $\Norm_N(f)$ is a modular form of weight $2n$ on $SL_2(\bZ)$.
+\begin{Remark}
+In practice we normalise  $\Norm_N(f)$ so that its $q$-expansion has leading coefficient 1. 
+\end{Remark}
+
+We recall from \cite[III.7]{diamond2005first} the formulae for the number of {\em elliptic points} on $\Gamma_0(N)$ of order 2 and 3:
+
+\[
+\epsilon_2(N) = \prod_{p \mid N} \left( 1+\left(\frac{1}{p}\right) \right), \; \epsilon_3(N) = \prod_{p \mid N} \left( 1+\left(\frac{-3}{p}\right) \right). 
+\]
+Let $E_4, E_6$ be the {\em Eisenstein series} of level 1 weight 4 and 6, respectively. Let 
+$\Delta$ be the {\em discriminant modular form}, which is a cusp form of level 1 and weight 12.
+
+\begin{theorem}
+If
+\[
+    F_f(q) = \frac{\Norm_N(f)(q)}{\Delta^A E_4^B E_6^C}
+\]
+where 
+\begin{align*}
+B = \epsilon_3(N)k,  \; \; C = \frac{\epsilon_2(N)k}{2}, \; \mbox{ and } A = \frac{k[SL_2(\bZ):\Gamma_0(N)]-4B-6C}{12}.
+\end{align*}
+Then $F_{E,j}(j(q)) = F_f(q)$.
+\end{theorem}
+
+
+If we can compute $\Norm_N(f)$, we will have an algorithm to compute $F_{E,j}(x)$ by `cancelling the poles'
+as done in \cite{ahlgren2003weierstrass}.  We are going to compute the q-expansion of $\Norm_N(f)$ when $N$ is square free. First, we deal with the case when $N = p$ is prime. Following \cite{ahlgren2003weierstrass}, 
+ we define
+\begin{Definition}
+For any holomorphic function $f: H \to \bC$
+\[
+     \mathfrak{N}_p(f) = f \cdot \prod_{i=0}^{p-1} f \left(\frac{z+i}{p} \right).
+\]
+\end{Definition}
+
+
+\begin{Lemma}\cite{ahlgren2003weierstrass}
+\label{lemma: ono}
+Let $f$ be a newform of prime level $p$, then $\Norm_p(f) = \N_p(f)$.
+\end{Lemma}
+
+This lemma allows us to compute the $q$-expansion of $\N_p(f)$ from the $q$-expansion of $f$.
+
+
+A slight generalization of Lemma \ref{lemma: ono} yields
+\begin{Lemma}(C.)
+\label{lemma: norm-sqfree}
+If $N$ is square free with prime factorization $N = p_1\cdots p_n$ then
+\[
+    \Norm_N(f) = \N_{p_1} \circ \N_{p_2} \circ \cdots \N_{p_n}(f).
+\]
+\end{Lemma}
+
+The key idea of the proof is that when $N$ is square free, the coset representatives of $\Gamma_0(N) \backslash SL_2(\bZ)$ have a simple description. To be precise, we state a lemma.
+\begin{Lemma}
+\label{lemma: cosrep}
+
+Let $p,M$ be positive integers with $p$ prime,$(p,M)  =1$. Consider the matrices
+\[
+	\alpha_i  = \abcd{1}{0}{iM}{1} , \; 0 \leq i \leq p-1, \alpha_p = \abcd{1}{(mp-1)/M}{M}{mp},
+\]
+where $m$ is any integer such that $mp \equiv 1 \pmod{M}$.
+Then 
+\[
+	\Gamma_0(pM) \backslash \Gamma_0(M) =  \bigcup_{i =0}^{p-1} \Gamma_0(pM) \alpha_i.
+\]
+\end{Lemma}
+
+The proof of Lemma \ref{lemma: cosrep} is omitted. Note that it is a special case of \cite[III, Ex 3.7.7]{diamond2005first}).
+
+
+\textit{Proof of Lemma} \ref{lemma: norm-sqfree}: We use induction on the number of prime divisors $\sigma(N)$ of 
+$N$. The case $\sigma(N) = 1$ is covered by Lemma \ref{lemma: ono}. For the inductive step, choose any prime $p \mid N$ and 
+write $N = pM$. Let $\{\beta_j\}$ be a set of coset representatives for $\Gamma_0(M) \backslash SL_2(\bZ)$. By Lemma
+\ref{lemma: cosrep}, if $\alpha_i  = \abcd{1}{0}{iM}{1}$, then
+\[
+	\Norm_N(f) = \sum_{i,j} f|{[\beta_j][\alpha_i]} = \sum_i \Norm_M(f)|[\alpha_i].
+\]
+We are going to show $SL_2(\bZ) = \cup \Gamma_0(p) \alpha_i$. This can be seen by 
+direct calculation:  first, $\abcd{1}{0}{iM}{1}\abcd{1}{0}{jM}{1}^{-1} = \abcd{*}{*}{(i-j)M}{1}$;
+second, $\abcd{1}{(mp-1)/M}{M}{mp}\abcd{1}{0}{iM}{1}^{-1} = \abcd{*}{*}{M(1-mpi)}{*}$. Therefore we have 
+\[
+	\Norm_N(f) = \Norm_p(\Norm_M(f)).
+\]
+Using the inductive hypothesis $\Norm_M(f) = \prod_{p \mid M} \N_p(f)$, we conclude that 
+$\Norm_N(f) = \prod_{p \mid N} \N_p(f)$. The proof is complete.
+
+
+Now we can describe our algorithm to compute $F_{E,j}$ when the conductor of $E$ is square free. 
+
+\begin{algorithm}
+\caption{Norm method to compute $F_{E,j}$ when $N_E$ is square free.}          % give the algorithm a caption
+\label{NORM}                           % and a label for \ref{} commands later in the document
+\begin{algorithmic} [1]               % enter the algorithmic environment
+    \Require  $E$ = Elliptic curve over $\bQ$ with conductor $N$.   
+    \Ensure The critical $j$-polynomial $F_{E,j}(x)$.
+    
+    \State{Use Lemma?, compute the $q$-expansion of $\Norm_N(f)$.}
+    \State{Use Theorem? to compute $F_f(q)$. Normalize $F_f(q) $ so that it has leading coefficient 1}.
+    \State{Set $n \Leftarrow -\ord_{q}F_f(q)$. Compute q-expansion of $j$ to precision $2n$}.
+    \While{$n >= 0$}
+	\State $a_n \Leftarrow q^{-n} \mbox{ coefficient } of F_f$.
+	\State{$F_f \Leftarrow F_f - a_nj^n$}.
+	\State $n \Leftarrow n - 1$.
+    \EndWhile
+    \State Output $F_{E,j}(x) = \sum_{i=0}^n a_ix^i$.
+\end{algorithmic}
+\end{algorithm}
+
 
 
 \section{The algorithm {\em Poly relation}}
@@ -659,7 +856,7 @@ Let $E$ be the elliptic curve
 \[
 	E: y^2 = x^{3} - 7 x + 10
 \]
-labeled as ``664a1'' in Cremona's table. Then $r_{\an}(E) = 2$, and $X_0(664)$ has genus 81.  Let $r = r_4$ be as defined in Remark~\ref{rem: in practice}. Using the method described in Remark~\ref{rem: expliciteta}, we found two $\eta$-products \\ 
+labeled as {\bf 664a1} in Cremona's table. Then $r_{\an}(E) = 2$, and $X_0(664)$ has genus 81.  Let $r = r_4$ be as defined in Remark~\ref{rem: in practice}. Using the method described in Remark~\ref{rem: expliciteta}, we found two $\eta$-products \\ 
 \[h_1 =  (\eta_2)^{-4}(\eta_4)^6 (\eta_8)^4 (\eta_{332})^6 (\eta_{664})^{-12}, \, h_2 = (\eta_2)^{-1} (\eta_4) (\eta_{166})^{-1} (\eta_8)^2 (\eta_{332})^5 (\eta_{664})^{-6}
 \]with the following properties: $h_1, h_2 \in \bQ(X_0(N))$, $\Div(rh_1) = \Div(\omega)  +  D -247[\infty]$, where $D \geq 0$ is supported on cusps, and $\Div(h_2)  = 21[1/332] + 61[1/8] + 21[1/4] - 103[\infty]$. Since (247,103) =1, the functions $rh_1$ and $h_2$ form a Yang pair. We then computed
 \[
@@ -1338,7 +1535,7 @@ $a_{p(\widetilde{S_1^*})}$. The other Fourier coefficients of $g_\chi$ can then 
 
 
 
-\section{Fields of definitions}
+\section{Field of definition}
 
 In the previous sections, we have described an algorithm to compute the Fourier coefficients of $f_z$ as complex numbers. In fact, the Fourier coefficients are algebraic numbers. More precisely, if $d$ is the denominator of  $z$ and $d' = N/d$, then $f_z (q) \in K_f(\zeta_{d'})[[q]]$. Here $K_f$ is the number field generated by the Fourier coefficients of $f$ (at the cusp $\infty$). In this section, we provide a proof of this fact. 
 
@@ -1347,7 +1544,7 @@ In the previous sections, we have described an algorithm to compute the Fourier 
 (2) For $s \in (\bZ/N\bZ)^*$, let $\tau_s \in Gal(\bQ(\zeta_N)/\bQ)$ be defined by $\tau_s(\zeta_N) = \zeta_N^s$. 
 Then 
 \[
-	\tau_s \left([\frac{a}{y}]\right) = \left[\frac{a}{ys'} \right], 
+	\tau_s \left(\left[\frac{a}{y}\right]\right) = \left[\frac{a}{ys'} \right], 
 \]
 where $s' \in \bZ$ is chosen so that $ss' \equiv 1 \mod{N}$. 
 \end{Lemma}
@@ -1366,20 +1563,25 @@ where $s' \in \bZ$ is chosen so that $ss' \equiv 1 \mod{d'}$.
 \end{Prop}
 
 \begin{proof}
-From part (2) of Lemma~\ref{stevens}, we see that if $z$ is a cusp of denominator $d$ and $s \equiv1 \mod{d'}$, then $\tau_s(z) = z$.  The claims now follow directly from this observation.
+From part (2) of Lemma~\ref{stevens}, we see that if $c$ is a cusp of denominator $d$ and $s \equiv1 \mod{d'}$, then $\tau_s(c) = c$.  The claims now follow directly from this observation.
 \end{proof}
 
 \begin{Prop} \label{field of definition}
 We have \\
-(1)	$\bQ(\{a_n(f, c)\}) \subseteq \bQ( \{a_n(f)\}, \zeta_{d'}).$ \\
+(1)	$\bQ(\{a_n(f_c)\}) \subseteq \bQ( \{a_n(f)\}, \zeta_{d'}).$ \\
 (2) Let $\sigma \in Gal(\bar{\bQ}/\bQ)$  be such that $\sigma|_{\bQ(\zeta_{N})} = \tau_s$. Then 
 \[
-	(f_z)^{\sigma} = (f^{\sigma})_{\tau_s(z)}.
+	(f_c)^{\sigma} = (f^{\sigma})_{\tau_s(c)}.
 \]
 \end{Prop}
 
 \begin{proof}
-First, (1) follows from (2), for if $\sigma$ fixes $\bQ( \{a_n(f)\}, \zeta_{d'})$, then $f^{\sigma} = \sigma$ and $\tau_s(z) = z$. To prove (2), first note that the function field of $X_0(N)$ is generated by j and $j_N$. So we may write write $f =  P(j,j_N)/Q(j,j_N)(dz)^k$, where $P, Q \in K_f[x,y]$. Now it suffices to prove it for $j_N$. \red{fixme: complete the proof}.
+First, (1) follows from (2), for if $\sigma$ fixes $\bQ( \{a_n(f)\}, \zeta_{d'})$, then $f^{\sigma} = \sigma$ and $\tau_s(z) = z$. To prove (2), let $g$ be a meromorphic modular form of weight $k$, level 1, and rational Fourier coefficients (for example, one can choose $g = (\dif j)^{k/2}$). Then it suffices to prove the claim for $f/g$, since $g|_k\gamma = g$ for all $\gamma \in SL_2(\bZ)$. Now $f/g$ is a rational function on $X_0(N)$. Since the function field of $X_0(N)$ is generated by $j$ and $j_N$, So we may write write $f/g =  P(j,j_N)/Q(j,j_N)$, where $P, Q \in K_f[x,y]$. Now fix$ \gamma_c \in SL_2(\bZ)$ such that $\gamma_c(\infty) = c$. Since $j|\gamma_c = j$, it suffices to prove the claim for $j_N$. 
+WLOG, we can assume $\gamma_c = \abcd{1}{ld}{0}{1}$, where $d  = d_z$ and $\gcd(l,N) = 1$. Then 
+$j_N | \gamma_c = j(N \gamma_c(z)) = j( \frac{dz+l'}{d'})= \sum a_n(j) e^{2\pi i \frac{l'}{d'}}q^{nd/d'}$, where $l'$ is an integer such that $l'l \equiv 1 \mod{d'}$. Hence for $\sigma$ in (2), we 
+have $(j_N | \gamma_c)^{\sigma} =  \sum a_n(j) e^{2\pi i \frac{l's}{d'}}q^{nd/d'}$. On the other hand, we compute 
+$(j_N^{\sigma})_{\tau_s(c)} = (j_N)_{\tau_s(c)} = j_N | \abcd{1}{lds'}{0}{1} = \sum a_n(j) e^{2\pi i \frac{l'}{d'}}q^{nd/d'}$. So
+$(j_N | \gamma_c)^{\sigma} = (j_N^{\sigma})_{\tau_s(c)}$. Hence the same claim for $f$ holds. 
 \end{proof}
 
 
@@ -1400,16 +1602,18 @@ of $q$-expansions at these cusps are
 \end{align*}
 
 As another examples, let $E = {\bf 98a}$ and $z = [\frac{1}{14}]$. We computed numerically that
+
+
+{\small
 \begin{align*}
-f_z(q) = \left(-0.755001687308946 - 0.172324208281817i\right)q + \left(0.441471704846525 - 0.916725441095080i\right)q^{2} \\ 
+f_c(q) = \left(-0.755001687308946 - 0.172324208281817i\right)q + \left(0.441471704846525 - 0.916725441095080i\right)q^{2} \\ 
 + \left(1.39294678431094 + 1.11083799261729i\right)q^{3} + \left(0.696473392155471 - 0.555418996308649i\right)q^{4} \\ 
 + \left(1.51000337461789 - 0.344648416563641i\right)q^{6} + \left(-3.80647894157196 \times 10^{-16} - 3.02371578407382i\right)q^{7} \\
 + \left(0.755001687308946 + 0.172324208281817i\right)q^{8} + \left(-0.441471704846525 + 0.916725441095080i\right)q^{9} +  \\ 
 \left(-0.882943409693050 - 1.83345088219016i\right)q^{12} + \left(-3.02000674923578 + 0.689296833127282i\right)q^{13} \\
 + \left(3.80647894157196 \times 10^{-16} + 3.02371578407382i\right)q^{14} + O(q^{15})
 \end{align*}
-
-
+}
 
 
 
@@ -1424,12 +1628,6 @@ local components.
 We will restrict ourselves to the simplest case when $f$ is twist-minimal, which means that the conductor of $\pi_f$ is the smallest among all  twists $\pi_{f \otimes \chi}$. 
 
 We will follow the notations of David Loeffler and use the formula of  \cite{brunault2012ramification}. 
-
-\red{Okay, what is my heuristics for general $k$? What is it for $\Gamma_1(N)$? What happens on the automorphic side?}
-
-\red{Also there's the question about normalization, which was never specified.}
-
-\red{Raw data?}
 
 Let $z$ be a width one cusp of denominator $c$. Then the first coefficient $a_1(f_z)$ is an element in $K_f(\zeta_{c'})$. For simplicity, we assume that $c' = p^{\alpha}$ is a prime power. It can be proved using automorphic representations + local langlands correspondence that there exists $\beta$ such that $p^\beta a_1(f_z) \in \bar{\bZ}$.  One question is: what prime ideals appears in the prime factorisation of $(a_1(f,z))$?  It seems from our numerical data, that
 \[
@@ -1545,10 +1743,8 @@ In this special case, formula [] simplifies to
 
 We explain the last equality: first we have $w(f) =  \prod_{l \leq \infty} \epsilon_l(\pi_{f,l}, 1/2, \psi)$ and $w(f \otimes \chi) =  \prod_{l \leq \infty} \epsilon_l(\pi_{f \otimes \chi, l}, 1/2, \psi)$. Since $\chi$ has conductor $p$, we know the epsilon factors are the same except for $l = p$. Hence $\frac{w(f \otimes \chi)}{w(f)} = \frac{\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi)}{\epsilon_p(\pi_f,1/2,\psi)}$. 
 
-Now by a formula in [Brunault, private communication], we have  $$\sum_{\chi: \cond(\chi) = p}  g(\bar{\chi})\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi) = \frac{-1}{p}\sum_{x \in \bF_{p^2}^{\times}} \psi(x+x^p+x^{p+1}) \varphi(x).$$
+Now by a formula in \cite{brunaultnotet}, we have  $$\sum_{\chi: \cond(\chi) = p}  g(\bar{\chi})\epsilon_p(\pi_{f \otimes \chi}, 1/2, \psi) = \frac{-1}{p}\sum_{x \in \bF_{p^2}^{\times}} \psi(x+x^p+x^{p+1}) \varphi(x).$$
 This combined with our Lemma~\ref{cuspidal constant} gives the result. 
-
-Brunault, private communication.  \red{fixme: add ref}.
 \end{proof}
 
 \begin{Example}
@@ -1557,16 +1753,73 @@ The numerical algorithm gives $a_1(f_{-1/7}) = 0.623489801858733...+ 1.294689914
 consistent for this example.
 \end{Example}
 
+\subsection{A result linking first term to critical polynomials}
 
-It is of interest to determine the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$. For example, they relate to critical points of modular parametrizaiton of $E$ in the following way:
-\begin{Lemma}
-Let $\fq$ be a prime ideal in $\bQ(\zeta_p)$ lying above a prime $q \neq p$, such that $\fq \mid a_1(f_{z_p)}$ and $q \nmid a_1(f_{z_p})$. Then $F_{E,j}(x)$ is not integral at $q$.
+One motivation to study the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$ is that they relate to critical points of modular parametrizaiton of $E$ in the following way:
+\begin{theorem} \label{thm: denominaotr}
+Suppose there exists a prime ideal $\fq$ in $\bQ(\zeta_p)$ lying above a prime $q \neq p$, such that $\fq \mid a_1(f_{z_p)}$ and  $\ord_q (a_1(f_{z_p})) < \frac{p-1}{2}$. Then $F_{E,j}(x)$ is not integral at $q$.
+\end{theorem}
+
+To prove the theorem, first we make some preparations in $p$-adic analysis. Let $p$ be a prime, $\bC_p$ be a completion of a choice of $\bar{\bQ}_p$. Let $q$ be a formal variable.  Let $\ord_p$ denote the p-adic valuation on $\bC_p$ and let $D(1)$ denote the open unit disk $$D(1) = \{x \in \bC_p: \ord_p(x) > 0\}.$$
+ 
+\begin{Lemma} \label{newton polygon}
+Let $f = 1 + \sum a_n q^n \in \bC_p[[q]]$ be such that $f$ converges on $D(1)$. Then the following are equivalent: \\
+(1)  there exists some $i$ such that $\ord_p(a_i) < 0$. \\
+(2)  there exists $\alpha \in D(1)$ with $f(\alpha) = 0$.
 \end{Lemma}
 
 \begin{proof}
-\red{fixme: add proof.}
+Consider the first segment of the Newton polygon of $f$. Assume (1) then the segment is necesarily finite, since otherwise $f$ does not . Hence by a theorem on Newton polygon, we have (2); now assume that (2) holds. Let $\lambda = -\ord_p(\alpha) < 0$. Assume towards contradiction that (1) is false. Let $N$ be the total horizontal length of all segments of $N(f)$ with slope $\leq \lambda$. The assumption then implies $N = 0$. Hence by Weierstrass preparation theorem, we know $f$ is nonzero on the closed disc $D(|\alpha|_p^{+})$, a contradiction to (2). 
 \end{proof}
 
+\begin{Prop}
+Suppose $K/\bQ_p$ is a finite extension with uniformizer $\pi$. Let $f_j: 1 \leq j \leq n$ be power series with constant terms one and let $F =  \prod_j f_j$.  Suppose there exists $i$ such that $\ord_\pi(a_i(f_1)) < 0$. Then there exists an index $i' \geq 1$ such that $\ord_\pi(a_{i'}(F)) < 0$.
+\end{Prop}
+
+\begin{proof}
+By Lemma~\ref{newton polygon}, the condition implies that $f_j$ converges on $D(1)$ for all $j$ and $f_1$ has a root in $D(1)$. Since $F$ is the product of the $f_j$'s, we know that $F$ has a root in $D(1)$. Hence the claim follows, again using Lemma~\ref{newton polygon}. 
+\end{proof}
+
+Fix a prime $\fp$ above $p$ in $\bar{\bQ}$. We say a laurent series $f \in \bar{\bQ}((q))$ is called integral at $p$ if $f = q^s(1 + \sum_{n \geq 1} a_n q^n)$ with $\ord_p(a_n) \geq 0$ for all $n$. One sees that if $f$ is integral, then $\frac{1}{f}$ is also integral. Product of two integral power series is integral. We similarly define the notion for a monic polynomial $F[x] \in \bQ[x]$ to be integral at $p$. 
+
+
+
+Let $K/\bQ$ be a cyclic extension with Galois group $G$. Let $n = [K:\bQ]$. Let $l$ be a prime, unramified in $K$. 
+Let $I \subseteq \cO_K$ be an ideal whose norm is a power of $l$, and let $H = \{\sigma \in G: \sigma(I) = I\}$ be the stabilizer of $I$ under the action of $G$. 
+\begin{Lemma}
+Assume that $H$ contains $G^2$, i.e., the subgroup of squares in $G$. Then $\ord_l(Norm(I)) \geq n/2$. 
+\end{Lemma}
+
+
+\begin{proof}
+Really we have two cases: $H = G$ and $H = G^2$. In the first case, $I$ is necessarily a power of $l$. Hence 
+$\ord_l(Norm(I)) \geq n$ indeed; in the second case, Let $\fl_1 ,\ldots, \fl_g$ denote the primes above $l$. Since $G$ is abelian, we know $Stab(\fl_i) = Stab(\fl_1)$ for any $i$, so let $H_0$ denote that stabilizer.  The action of $G/H_0$ on the set $\{ \fl_1 ,\ldots, \fl_g \}$ provides an embedding it as a cyclic subgroup of $S_g$, generated by a $g$-cycle $\tau$. If $g$ is odd; then $\tau^2$ is another $g$-cycle, so it does not fix any proper subset of $\{1,2, \ldots, g\}$, so again I is divisible by $l$; suppose $g$ is even, then $\tau^2$ factors as a product of two $(g/2)$-cycles $s_1$ and $s_2$. 
+WLOG $s_1 = (135 \cdots g-1)$. Then $I = (\fl_1 \fl_3 \ldots \fl_{g-1})^t$ for some positive integer $t$. Hence 
+$Norm(I) = l^{nt/2} \geq l^{n/2}$.  This completes the proof. 
+\end{proof}
+
+\begin{Lemma} \label{non-integral}
+For any prime $p$, $F_{E,j}$ is integral at $p$ if and only if $\Norm(f)$ is integral at $p$. 
+\end{Lemma}
+
+\begin{proof}
+Note that $\Norm(f)$ is integral at $p$ if and only if $F_f(q)$ is . Now we use the fact that $F_{E,j}(j(q)) = F_f(q)$. Suppose 
+$F_{E,j}$ is integral at $p$. Since $j(q)$ is integral at $p$, the coefficients of $F_f(q)$ have nonnegative valuations. Moreover, since $F_{E,j}(x$) is monic, the leading coefficient of $F_f(q)$ is 1. Hence $F_f(q)$ is integral at $p$. Now assume that $F_{f}(q)$ is integral at $p$. By examining Algorithm~\ref{NORM}, we see that the coefficients of $F_{E,j}$ lies in the ring generated over $\bZ$ by the coefficients of $F_f$ and coefficients of $j$. In particular, $F_{E,j}$ is integral at p.
+\end{proof}
+
+
+\begin{Prop} \label{prop: denominator}
+Let $b_1, \ldots, b_n$ be the ``first terms"  in our case. Assume for some prime $l$ we have $$0 < \ord_l(Norm(b_1)) < \frac{p-1}{2}.$$ Then $Norm(f)$ is not integral at $l$. 
+\end{Prop}
+
+\begin{proof}
+Since $\prod_{cusp z} \tilde{f}_z$ divides $\Norm(f) = \prod \widetilde{f|A_i}$,  by Lemma~\ref{newton polygon}, the claim will follow if we can show there exists $z$ and a prime ideal $\fl$ such that the normalized series $\tilde{f_z}(q) = \sum a_n b_n/b_1 q^n$ has a non-$\fl$-integral coefficient. So let us assume that this is not the case. Let $I$ be the $l$-part of the principal ideal $(b_1)$, and let $H \leq G = (\bZ/p\bZ)^{\times}$ denote the stablizer of $I$.  The assumption implies that $H$ does not contain $G^2$. Hence there exists an integer $j$ such that (1) $j$ is a square modulo $p$; (2) $\sigma_j(I) \neq I$; (3) $j \mod{p} \notin H$. Pick such an integer $j$ and set $c_j = b_j/b_1$. Then from (2) we see that there exists some prime ideal $\fl$ above $l$ such that $\ord_\fl(c_j) < 0$. By Dirichlet's theorem on primes in arithmetic progressions, we can find a prime $q \neq l$ such that $q^2 \equiv j \mod{p}$. Then $q \mod{p} \notin H$. 
+Hence there exists some prime $\fl'$ above $l$ such that $\ord_{\fl'}(c_q) < 0$. Recall that for any $n$ we have $a_n(f_z) = a_n(f) c_{n \mod {p}}$. Suppose towards contradiction that $\tilde{f_z}(q)$ is $l$-integral. Then $a_q(f)$ and $a_{q^2}(f)$ must be both divisible by $l$. But $a_{q^2} = a_q^2 - q$, so $q = l$, a contradiction. 
+\end{proof}
+
+Now we can see that Theorem~\ref{thm: denominator} is a direct consequence of Proposition~\ref{prop: denominator} and Lemma~\ref{non-integral}. 
+   
+\subsection{Data}
 From the 
 above discussion, we see that there are at most three possibilities for each $p$, corresponding to the order of $\varphi$ being 3,4 or 6. 
 
@@ -1629,9 +1882,6 @@ then $P_{E,F} \in 2E(\bQ)$. Hence the index $i_{E,F}$ is divisible by 2, if it i
 \end{theorem}
 
 I prove the theorem in Section 5.2. In Section 5.3,  I develop an exact algorithm to compute the Chow-Heegner point, using the methods in Chapter 2. 
-
-\red{fixme: add all possible references: [CE], [Darmon], [Daub]. }
-
 \section{Definitions}
 
 We recall the definition from \cite{stein2012numerical}. Consider a pair $E,F$ of nonisogenous optimal elliptic curves over $\bQ$ of the same conductor $N$ and fix modular parametrizations from $X_0(N)$ to both curves. 
@@ -1641,19 +1891,7 @@ $P_{E,F} \in E(\bQ)$.
 
 \section{The index}
 
-We make the additional assumption $r_{an}(E) = 1$. We consider the index $$i_{E,F} = [E(\bQ)/tors: \bZ P_{E,F}].$$ 
-
-\begin{Lemma} \label{lem: inf fields}
-Let $F: y^2  = x^3 + Ax+B$ be an elliptic curve with $A,B \in \bZ$. Let $f_t(x) = x^3 + Ax+B - t^2$ Then the set $$\{K_t = \bQ[x]/(f_t(x)): t \in \bZ \}$$
-contains infinitely many cubic fields.
-\end{Lemma}
-
-\begin{proof}
-Note there are finitely many $t$ such that $f_t(x)$ is reducible. So we may forget about this possibility. Now suppose for contradiction that the claim is false, then there exists a cubic field $K$ such that $K =  K_t$ for infinitely many $t \in \bZ$. 
-However, $K = K_t$ implies $E(K)$ contains the point $P_t = (\alpha_t, t)$, where $\alpha_t$ is a root of $f_t(x)$. Moreover, the point $P_t$ lies in $E(\cO_K)$. Hence we must have that $E(\cO_K)$ is an infinite set. This is a contradiction, since $E(\cO_K)$ is finite by Siegel's theorem.
-\end{proof}
-
-We quote a lemma of Calegari and Emerton \cite{calegari2009elliptic}.
+In this section, we make the additional assumption $r_{an}(E) = 1$. Consider the index $$i_{E,F} = [E(\bQ)/tors: \bZ P_{E,F}].$$  We quote a lemma of Calegari and Emerton \cite{calegari2009elliptic}.
 
 \begin{Lemma}[\cite{calegari2009elliptic}]
 Let $E/k$ be an elliptic curve and let $A$ be the group of automorphisms of $E$ as a curve over $k$.
@@ -1700,14 +1938,7 @@ We have $P_{E,F} = P_{E,F,\cO} = \sum (\varphi_{E})_* (\varphi_F)^*(O) = \sum (\
 
 \section{Applying the idea of \textbf{IPR} to the computation of Chow-Heegner points}
 
-Take $E,F$ to be two non-isogeneous elliptic curves of 
-the same conductor $N$ and let $\varphi, \psi$ denote the modular parametrisations of $E,F$, respectively. The {\em Chow-Heegner point} associated to the pair $(E,F)$ is defined by 
-\[
-	P_{E,F} = \sum \varphi(\psi^{*}(Q)), \forall Q \in F(\bC) 
-\]
-We state two facts: (1) $P_{E,F}$ is independent of the choice of $Q$(hence the notation); (2) $P_{E,F} \in E(\bQ)$. 
-
-We present an algorithm that either computes the Chow-Heegner point $P_{E,F}$ or outputs fail. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. Note that there exists an algorithm to compute the q-expansions of $x_E,x_F,y_E$ and $y_F$.  
+We develop an algorithm to compute the Chow-Heegner point $P_{E,F}$. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. Note that there exists an algorithm to compute the q-expansions of $x_E,x_F,y_E$ and $y_F$.  
 
 \red{fixme: talk about how to use PARI to get $x_E(q)$}
 
@@ -1761,8 +1992,7 @@ generalizing the ``congruence number'' definition using other cusps.
 
 Prove the ``$\pm 1$ mod p'' guess. 
 
-Generalize another paper by William on computing order of component groups. (The original paper uses a trick which 
-William fails to remember). 
+Generalize another paper by William on computing order of component groups. (The original paper uses a trick). 
 
 
 Computing the critical subgroup for 5077a (multimodular is not practical). 
