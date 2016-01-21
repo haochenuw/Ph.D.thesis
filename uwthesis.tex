@@ -1028,7 +1028,7 @@ In particular, the width of a cusp $z$ is one if and only if $N \mid d_z^2$.
 
 Suppose $f$ is a modular form on $\Gamma_0(N)$ of positive even weight $k$ and $\alpha \in GL_2(\bQ)$. Recall the weight-$k$ action is defined as 
 \[
-	f | \alpha (z)  = (\det(\alpha))^{k/2} (cz+d)^{-k} f(\alpha z), \, \alpha = \abcd{a}{b}{c}{d}.
+	f | \alpha (\tau)  = (\det(\alpha))^{k/2} (cz+d)^{-k} f(\alpha \tau), \, \alpha = \abcd{a}{b}{c}{d}.
 \]
 In particular, if $\alpha \in SL_2(\bZ)$, then $f | \alpha $ is a modular form on $\Gamma(N)$. So $f | \alpha $ has a $q$-expansion, which is a power series in $q^{\frac{1}{N}}$. A natural thing to do is to define the expansion of $f$ at the cusp $z$ as the expansion of $f | \alpha$. However,  note that this may not be well-defined: in general the expansion depends on the choice of $\alpha$. Nonetheless, when the cusp $z$ has width one, the expansion is indeed well-defined as a power series in $q$. 
 
@@ -1670,13 +1670,15 @@ By assumption, $\pi_{f,p}$ arises from a cupsidal representation of the finite g
 
 \end{proof}
 
-Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}. For $p = 2$ or $3$, the order of $\varphi$ can be determined using results of \cite{kraus1990defaut}. 
-The case $p \geq 5$ is easy, as we have the following lemma: 
+Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}. The case $p \geq 5$ is easy, as we have the following lemma: 
 
 \begin{Lemma}\cite[Proposition 1]{kraus1990defaut}
 Let $\Delta$ denote the minimal discriminant of $E$. Then for $p \geq 5$, the order of $\varphi$ is equal to 
 $\frac{12}{\gcd(12, v_p(\Delta))}$.
 \end{Lemma}
+
+We remark that for $p = 2$ or $3$, the order of $\varphi$ can be determined using results of \cite{kraus1990defaut}. 
+
 
 
 %, or Dokchitser's paper Euler factors determine local Weil representations. \cite{loeffler2010computation}
@@ -1695,7 +1697,7 @@ We give an example with nontrivial central character. Let $f$ be as in the previ
 	\epsilon_{11}(\pi_{f \otimes \chi,11}, 1/2) = 0.64..+0.76..i
 \]
 an algebraic number with miminal polynomial $x^{20} + 109/121 x^15 + 2861/1331 x^10 + 109/121x^5 + 1$.
-So $w = - \epsilon_{11} \epsilon_\infty = \epsilon_{11}$. Using the numerical algorithm \ref{alg: pseudo-eigenvalue},
+So $w = - \epsilon_{11} \epsilon_\infty = \epsilon_{11}$. Using the numerical Algorithm~\ref{alg: pseudo-eigenvalue},
 we compute $w(f \otimes \chi) = 0.642573377564283 + 0.766224154177894i$. This confirms the computation. 
 \end{Example}
 
@@ -1757,7 +1759,7 @@ consistent for this example.
 \subsection{A result linking first term to critical polynomials}
 
 One motivation to study the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$ is that they relate to critical points of modular parametrizaiton of $E$ in the following way:
-\begin{theorem} \label{thm: denominaotr}
+\begin{theorem} \label{thm: denominator}
 Suppose there exists a prime ideal $\fq$ in $\bQ(\zeta_p)$ lying above a prime $q \neq p$, such that $\fq \mid a_1(f_{z_p)}$ and  $\ord_q (a_1(f_{z_p})) < \frac{p-1}{2}$. Then $F_{E,j}(x)$ is not integral at $q$.
 \end{theorem}
 
@@ -1805,17 +1807,17 @@ For any prime $p$, $F_{E,j}$ is integral at $p$ if and only if $\Norm(f)$ is int
 
 \begin{proof}
 Note that $\Norm(f)$ is integral at $p$ if and only if $F_f(q)$ is . Now we use the fact that $F_{E,j}(j(q)) = F_f(q)$. Suppose 
-$F_{E,j}$ is integral at $p$. Since $j(q)$ is integral at $p$, the coefficients of $F_f(q)$ have nonnegative valuations. Moreover, since $F_{E,j}(x$) is monic, the leading coefficient of $F_f(q)$ is 1. Hence $F_f(q)$ is integral at $p$. Now assume that $F_{f}(q)$ is integral at $p$. By examining Algorithm~\ref{NORM}, we see that the coefficients of $F_{E,j}$ lies in the ring generated over $\bZ$ by the coefficients of $F_f$ and coefficients of $j$. In particular, $F_{E,j}$ is integral at p.
+$F_{E,j}$ is integral at $p$. Since $j(q)$ is integral at $p$, the coefficients of $F_f(q)$ have nonnegative valuations. Moreover, since $F_{E,j}(x$) is monic, the leading coefficient of $F_f(q)$ is 1. Hence $F_f(q)$ is integral at $p$. Now assume that $F_{f}(q)$ is integral at $p$. By examining Algorithm~\ref{NORM}, we see that the coefficients of $F_{E,j}$ lies in the ring generated over $\bZ$ by the coefficients of $F_f$ and coefficients of $j$. In particular, $F_{E,j}$ is integral at $p$.
 \end{proof}
 
 
 \begin{Prop} \label{prop: denominator}
-Let $b_1, \ldots, b_n$ be the ``first terms"  in our case. Assume for some prime $l$ we have $$0 < \ord_l(Norm(b_1)) < \frac{p-1}{2}.$$ Then $Norm(f)$ is not integral at $l$. 
+Let $b_1, \ldots, b_{p-1}$ be the ``first terms"  in our case. Assume for some prime $l$ we have $$0 < \ord_l(Norm(b_1)) < \frac{p-1}{2}.$$ Then $Norm(f)$ is not integral at $l$. 
 \end{Prop}
 
 \begin{proof}
-Since $\prod_{cusp z} \tilde{f}_z$ divides $\Norm(f) = \prod \widetilde{f|A_i}$,  by Lemma~\ref{newton polygon}, the claim will follow if we can show there exists $z$ and a prime ideal $\fl$ such that the normalized series $\tilde{f_z}(q) = \sum a_n b_n/b_1 q^n$ has a non-$\fl$-integral coefficient. So let us assume that this is not the case. Let $I$ be the $l$-part of the principal ideal $(b_1)$, and let $H \leq G = (\bZ/p\bZ)^{\times}$ denote the stablizer of $I$.  The assumption implies that $H$ does not contain $G^2$. Hence there exists an integer $j$ such that (1) $j$ is a square modulo $p$; (2) $\sigma_j(I) \neq I$; (3) $j \mod{p} \notin H$. Pick such an integer $j$ and set $c_j = b_j/b_1$. Then from (2) we see that there exists some prime ideal $\fl$ above $l$ such that $\ord_\fl(c_j) < 0$. By Dirichlet's theorem on primes in arithmetic progressions, we can find a prime $q \neq l$ such that $q^2 \equiv j \mod{p}$. Then $q \mod{p} \notin H$. 
-Hence there exists some prime $\fl'$ above $l$ such that $\ord_{\fl'}(c_q) < 0$. Recall that for any $n$ we have $a_n(f_z) = a_n(f) c_{n \mod {p}}$. Suppose towards contradiction that $\tilde{f_z}(q)$ is $l$-integral. Then $a_q(f)$ and $a_{q^2}(f)$ must be both divisible by $l$. But $a_{q^2} = a_q^2 - q$, so $q = l$, a contradiction. 
+Since $\prod_{cusp z} \tilde{f}_z$ divides $\Norm(f) = \prod \widetilde{f|A_i}$,  by Lemma~\ref{newton polygon}, the claim will follow if we can show there exists $z$ and a prime ideal $\fl$ such that the normalized series $\tilde{f_z}(q) = \sum a_n b_n/b_1 q^n$ has a non-$\fl$-integral coefficient. So let us assume that this is not the case. Let $I$ be the $l$-part of the principal ideal $(b_1)$, and let $H \leq G = (\bZ/p\bZ)^{\times}$ denote the stablizer of $I$.  The assumption implies that $H$ does not contain $G^2$. Hence there exists an integer $m$ such that (1) $m$ is a square modulo $p$; (2) $\sigma_m(I) \neq I$; (3) $j \mod{p} \notin H$. Pick such an integer $m$ and set $c_m= b_m/b_1$. Then from (2) we see that there exists some prime ideal $\fl$ above $l$ such that $\ord_\fl(c_m) < 0$. By Dirichlet's theorem on primes in arithmetic progressions, we can find a prime $r \neq l$ such that $l'^2 \equiv m \mod{p}$. Then $r \mod{p} \notin H$. 
+Hence there exists some prime $\fl'$ above $l$ such that $\ord_{\fl'}(c_r) < 0$. Recall that for any $n$ we have $a_n(f_z) = a_n(f) c_{n \mod {p}}$. Suppose towards contradiction that $\tilde{f_z}(q)$ is $l$-integral. Then $a_r(f)$ and $a_{r^2}(f)$ must be both divisible by $l$. But $a_{r^2} = a_r^2 - r$, so $r = l$, a contradiction. 
 \end{proof}
 
 Now we can see that Theorem~\ref{thm: denominator} is a direct consequence of Proposition~\ref{prop: denominator} and Lemma~\ref{non-integral}. 
