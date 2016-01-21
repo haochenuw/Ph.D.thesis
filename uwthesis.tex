@@ -912,7 +912,7 @@ Christophe Delaunay has an algorithm to compute $\Div(\omega)$ numerically as eq
 \[
 	E: y^2 + y = x^{3} + x^{2} - 2 x
 \]
-with rank 2 and Cremona label ``389a'' is presented in \cite[Appendix B.1]{delaunay2002thesis}. The results suggested that $\Div(\omega)$ contains two Heegner points of discriminant 19, and the critical subgroup $E_{\crit}(\bQ)$ is torsion. Using the critical $j$-polynomial for ``389a'' in Table~\ref{table: rank two}, we can confirm the numerical results of Delaunay.
+with rank 2 and Cremona label {\bf 389a} is presented in \cite[Appendix B.1]{delaunay2002thesis}. The results suggested that $\Div(\omega)$ contains two Heegner points of discriminant 19, and the critical subgroup $E_{\crit}(\bQ)$ is torsion. Using the critical $j$-polynomial for {\bf 389a} in Table~\ref{table: rank two}, we can confirm the numerical results of Delaunay.
 \end{Remark}
 
 
@@ -992,7 +992,7 @@ Let $k$ be a positive even integer and let $f \in S_k(\Gamma_0(N))$ be a nonzero
 Then $f$ has a Fourier expansion at the cusp infinity: $$f = \sum_{n \geq 1} a_n(f) q^n$$
 where $a_n$ are complex numbers and $q = e^{2 \pi i \tau}$. 
 We are concerned with the problem of computing the Fourier expansion of $f$ at other cusps. When $N$ is 
-square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in [Edixhoven], where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in [Ed], for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
+square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem is studied in the Ph.D. thesis of Christophe Delaunay and in \cite{couveignes2011computational}, where a numerical algorithm is proposed. We will give a numerical algorithm to compute such expansions.  Our approach is different from the one proposed in \cite{couveignes2011computational}, for they require working at a higher level: to compute expansions at cusps of denominator $Q$, one needs to compute period matrices for forms of level $NR^2$, where $R = \gcd(Q, \frac{N}{Q})$. As a contrast, our algorithm works at levels dividing $N$. 
 
 The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}. The former gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one, and the latter describes how to use the formula to explicitly compute such expansion. Along the way, we will develop algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. 
 
@@ -1002,7 +1002,7 @@ Section contains some examples. % In section, we describe an alternative approac
 
 Let $N \geq 1$ be an integer and let $X_0(N)$ be the modular curve of level $N$. 
 \begin{Definition}
-Let $z$ be a cusp on $X_0(N)$.  If $z \neq \infty$, write $z = [a/c]$ with $\gcd(a,c) =1$. The {\it denominator} of $z$ is $$d_z  = \gcd(c,N).$$. If $z = \infty$, we set $d_\infty = N$. Choose $\alpha \in SL_2(\bZ)$ such that $\alpha(\infty) = z$. 
+Let $z$ be a cusp on $X_0(N)$.  If $z \neq \infty$, write $z = [a/c]$ with $\gcd(a,c) =1$. The {\it denominator} of $z$ is $$d_z  = \gcd(c,N).$$ If $z = \infty$, we set $d_\infty = N$. Choose $\alpha \in SL_2(\bZ)$ such that $\alpha(\infty) = z$. 
 The {\it width} of $z$ is 
 \[
 	h_z = \left| \frac{SL_2(\bZ)_\infty}{(\alpha^{-1} \{\pm I\} \Gamma_0(N) \alpha)_\infty}\right|
@@ -1601,7 +1601,7 @@ of $q$-expansions at these cusps are
 	a_1(f, \frac{1}{10}) &= \frac{1}{5} \zeta_{5}^{3} - \frac{3}{5} \zeta_{5}^{2} + \frac{3}{5} \zeta_{5} - \frac{1}{5} \\ 
 	a_1(f, \frac{3}{10}) &= \frac{3}{5} \zeta_{5}^{3} + \frac{6}{5} \zeta_{5}^{2} + \frac{4}{5} \zeta_{5} + \frac{2}{5} \\
 	a_1(f, \frac{7}{10}) &= \frac{2}{5} \zeta_{5}^{3} - \frac{1}{5} \zeta_{5}^{2} - \frac{4}{5} \zeta_{5} - \frac{2}{5}\\
-	a_1(f, \frac{9}{10}) &=-\frac{6}{5} \zeta_{5}^{3} - \frac{2}{5} \zeta_{5}^{2} - \frac{3}{5} \zeta_{5} - \frac{4}{5}
+	a_1(f, \frac{9}{10}) &=-\frac{6}{5} \zeta_{5}^{3} - \frac{2}{5} \zeta_{5}^{2} - \frac{3}{5} \zeta_{5} - \frac{4}{5}.
 \end{align*}
 
 As another examples, let $E = {\bf 98a}$ and $z = [\frac{1}{14}]$. We computed numerically that
@@ -1637,8 +1637,6 @@ Let $z$ be a width one cusp of denominator $c$. Then the first coefficient $a_1(
 	\ord_\fq(a_1(f_z)) > 0 \implies \fq \cap \bZ \equiv \pm 1 \pmod {p}.
 \]
 The following is a table of data. 
-
-(fix: add table)
 
 \subsection{Cuspidal local constants}
 
