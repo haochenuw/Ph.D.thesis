@@ -165,13 +165,13 @@ In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 %
 % ----- glossary 
 %
-\chapter*{Glossary}      % starred form omits the `chapter x'
-\addcontentsline{toc}{chapter}{Glossary}
-\thispagestyle{plain}
+%\chapter*{Glossary}      % starred form omits the `chapter x'
+%\addcontentsline{toc}{chapter}{Glossary}
+%\thispagestyle{plain}
 %
-\begin{glossary}
-\item[An item] a description of item.
-\end{glossary}
+%\begin{glossary}
+%\item[An item] a description of item.
+%\end{glossary}
  
 %
 % ----- acknowledgments
@@ -188,7 +188,7 @@ In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 %
 % ----- dedication
 %
-\dedication{\begin{center} to my better self\end{center}}
+%\dedication{\begin{center} to my better self\end{center}}
 
 %
 % end of the preliminary pages
@@ -203,62 +203,91 @@ In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 
 \chapter{Introduction}
 
-\section{Elliptic Curves}
+\section{Elliptic curves}
 A {\em nonsingular projective curve} $X/\bQ$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $\bQ$. We'll abbreviate it with `curve'.
 
-For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $\bQ$, called its {\em function field}. We have the following
+For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $\bQ$, called the {\em function field} of $X$. We have the following
 \begin{Fact}
 \label{fact: degree}
 If $x$ is a non constant rational function,  then $[k(X): k(x)] = \deg x$.
 \end{Fact}
 
-An {\em elliptic curve }over $\bQ$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in \bQ$ and $4A^3+27B^2 \neq 0$. Elliptic curves are examples of curves of genus 1.
+Let $k$ be a field. An {\em elliptic curve} defined over $k$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in k$ and $4A^3+27B^2 \neq 0$. Alternatively, an elliptic curve over $k$ is a nonsingular projective over $k$ of genus one with a distinguished rational point. 
+
+Let $E$ be an elliptic curve defined over a field $k$.  It turns out that $E$ also has the structure of an algebraic group. 
+When $k = \bR$, the group addition can be visualized as a ``secant-chord'' operation: suppose $P,Q \in E(\bR)$, and let 
+$R$ be the third point of intersection of the line $PQ$ with $E$. Then $P+Q  = -R$. 
+
+Therefore, an elliptic curve over $k$ is an abelian variety over $k$ of dimension 1. In particular, for any extension 
+$k'/k$, the set $E(k')$ is an abelian group. 
+
+
+As for the structure of $E(k)$, we recall the famous Mordell-Weil theorem:
+\begin{theorem}
+If $K$ is a number field and $E$ is an elliptic curve over $K$. Then 
+$$E(K) \cong \bZ^r \times T$$
+for some integer $r \geq 0$ and some finite abelian group $T$. 
+\end{theorem}
+
+The integer $r$ in the above theorem is called the {\em rank} of $E(K)$. 
+
+\subsection{Reduction}
+
+\subsection{Conductor}
+Let $E/\bQ$ be an elliptic curve. Then there is a positive integer $N$, called the conductor of $E$, with the property that $N$ is divisible by the primes of bad reduction. When $p$ is a prime of bad reduction, there is a procedure to determine the highest power of $p$ dividing $N$, which we omit here. We only mention that when $p \geq 5$, we have $\ord_p(N) \leq 2$; when $p = 3, \ord_p(N) \leq 5$; when $p = 2, \ord_p(N) \leq 8$. 
+
+\subsection{$L$-function}
+
 
 \section{Modular curves}
 
 
-Modular curve: The {\em modular group} $SL_2(\bZ)$ is the group of integer matrices with determinant 1. For each integer $N > 1$, consider the subgroup 
+The {\em modular group} $SL_2(\bZ)$ is the group of integer matrices with determinant 1. For each integer $N > 1$, consider the subgroup 
 \[
 	\Gamma_0(N) = \left \{ \abcd{a}{b}{c}{d} \in SL_2(\bZ):  N \mid c \right\}
 \]
 The {\em modular curve} $X_0(N)$ is defined by $\Gamma_0(N) \backslash (H \cup \bP^1(\bQ))$. The 
 equivalence classes of $\bP^1(\bQ)$ under $\Gamma_0(N)$ are called {\em cusps}. The set of cusps is finite.
 
-Fact: $X_0(N)$ is a nonsingular projective algebraic curve.
+It turns out that $X_0(N)$ is a nonsingular projective algebraic curve. The genus of $X_0(N)$ is given by 
+the following genus formula (see, for example, Silverman). 
+\[
+	g(X_0(N)) =  fixme
+\]
 
 \section{Modular forms}
 
-Notation: Let $\H$ denote the complex upper half plane.
+Notation: Let $\H = \{z \in \bC: \Im(z) > 0\}$ denote the complex upper half plane.
 For each integer $k$, the weight-k action of $SL_2(\bZ)$ on functions $f: H \to \bC$ as follows: 
 suppose $g  = \abcd{a}{b}{c}{d} \in SL_2(\bZ)$, define
 \[
 	f|[g]_k(z) = (cz+d)^{-k}f(gz).
 \]
-In this report we'll only consider the cases $k = 0$ or $k = 2$. We will omit the $k$ in the subscript, since we always 
-mean $k = 2$ when $f$ is a modular form of weight 2, and $k = 0$ when $f$ is a modular function.
+We will omit the $k$ in the subscript, since we always mean $k = 2$ when $f$ is a modular form of weight 2, and $k = 0$ when $f$ is a modular function.
 \begin{Definition}
-A {\em modular form} of weight 2 and level $N$ is a holomorphic function $f: \H \to \bC$ satisfying  \\
-(1) $f|[g]_2 = f$ for all $g \in \Gamma_0(N)$. \\
+Let $N \geq 1$ and $k$ be integers.  A {\em modular form} of weight $k$ and level $N$ is a holomorphic function $f: \H \to \bC$ satisfying  \\
+(1) $f|[g]_k = f$ for all $g \in \Gamma_0(N)$. \\
 (2) $f$ can be holomorphically extended to $\H \cup \bP^1(\bQ)$. 
 \end{Definition}
-A modular form $f$ is a {\em cusp form} if  $f$ is zero at all cusps. For the precise definition of modular form, see  \cite[I.2]{diamond2005first}.
+A modular form $f$ is a {\em cusp form} if $f$ vanishes at all cusps. For the precise definition of vanishing at cusps, see  \cite[I.2]{diamond2005first}.
 
-The vector space $S_2(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is finite dimensional, and we have an isomorphism 
+The vector space $S_k(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is finite dimensional. In particular, when $k = 2$, we have an isomorphism 
 \[
 	S_2(\Gamma_0(N)) \cong \Omega^1(X_0(N)(\bC)), 
 \]
-which sends $f$ to $f(z)dz$. As a consequence, $\dim_\bC  S_2(\Gamma_0(N)) = g(X_0(N))$.
+which sends a cusp form $f$ to the differential $\omega_f = f(z)dz$. As a consequence, $\dim_\bC  S_2(\Gamma_0(N)) = g(X_0(N))$.
 
 We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}(see \cite[V.8]{diamond2005first} for the precise definition of newforms).
 In particular, all cusp forms attached to elliptic curves defined over $\bQ$ are newforms. We summarise some properties of newforms below:
 
-(a) Newforms have q-expansions $f(q) = \sum_{n \geq 1} a_nq^n$ where $q  = e^{2\pi i z}$, $a_1= 1$, and $a_n \in \bZ$
-for all $n > 1$. There exists algorithms to compute the coefficients $a_n$. In fact, all modular functions and modular forms 
-used in this report, unless otherwise noted, have rational q-expansions, i.e., $\sum_{n \geq -m}b_nq^n$ with $b_i \in \bQ$
+(a) Newforms have $q$-expansions $f(q) = \sum_{n \geq 1} a_nq^n$ where $q  = e^{2\pi i z}$, $a_1= 1$, and $a_n \in \bZ$
+for all $n > 1$. There exists algorithms to compute the coefficients $a_n$ using Hecke operators.
 
-(b) For each $N$ we have an elementary abelian 2-group $W \subseteq Aut_\bQ(X_0(N))$, which we 
+(b) For each positive integer $N$, we have an elementary abelian 2-group $W \subseteq Aut_\bQ(X_0(N))$, which we 
 call the {\em Atkin-Lehner Group}, with generators $\{w_p\}_{p \mid N}$. The non-trivial elements of $W$ are called {\em Atkin-Lehner} involutions. They act on $S_2(\Gamma_0(N))$ by invertible linear transformations. Any newform $f$ is an eigenvector of every $w \in W$ with eigenvalue $\pm1$, i.e., $f|w = \pm f$. In particular, we have $f|{w_N} = (-1)^{r_{an}(E)}f$ where $w_N = \prod_{p \mid N} w_p$ is also called the Fricke involution.
 
+
+\subsection{Modularity}
 We state the {\em modularity theorem}:
 
 \begin{theorem} (Wiles, Taylor et al.)
@@ -276,6 +305,9 @@ Let $\omega_f$ denote the differential $f(z)dz \in S_2(\Gamma_0(N))$. Every elli
 
 
 \red{fixme: define newforms. Maybe use Cornell-Silverman.}
+
+
+\section{Automorphic representation attached to newforms}
 
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
 
