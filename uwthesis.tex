@@ -118,9 +118,8 @@
 \Program{UW Mathematics}
 
 \Chair{William Arthur Stein}{Professor}{Department of Mathematics}
-\Signature{First committee member}
-\Signature{Next committee member}
-\Signature{etc}
+\Signature{Ralph Greenberg}
+\Signature{Max Lieblich}
 
 \copyrightpage
 
@@ -224,7 +223,7 @@ A point $x \in X$ is {\em ramified} under $\varphi$ if $|\varphi^{-1}(\varphi(x)
 \end{Definition}
 Fix the morphism $\varphi$. For each $x \in X$ there is a positive integer $e_{\varphi}(x)$ called the {\em ramification index of $\varphi$ at $x$}, and $x$ is ramified under $\varphi$ if and only if $e_{\varphi}(x) > 1$.
 
-Let $\bar{k}$ be a fixed algebraic closure of $k$. A {\em divisor} on a curve $X$ is a formal sum $D = \sum_{z \in X(\bar{k})} n_z[z]$ where $n_z = 0$ for all but finitely many $z \in X$. The set of divisors on $X$ form a free abelian group, which we denoe by $\Div(X)$. 
+Let $\bar{k}$ be a fixed algebraic closure of $k$. A {\em divisor} on a curve $X$ is a formal sum $D = \sum_{z \in X(\bar{k})} n_z[z]$ where $n_z = 0$ for all but finitely many $z \in X$. The set of divisors on $X$ form a free abelian group, which we denote by $\Div(X)$. 
 
 The Galois group $G_k := \Gal(\bar{k}/k)$ acts on the group $\Div(X)$ of divisors by $\sigma(\sum n_z[z]) = \sum n_z[\sigma(z)]$. We say a divisor $D \in \Div(X)$ is {\em defined over $k$} if it is invariant under this action. The subgroup of $G_k$-invariant divisors is denoted by $\Div_k(X)$. 
 
@@ -269,7 +268,7 @@ The integer $r$ in the above theorem is called the (algebraic) {\em rank} of $E(
 the rank of elliptic curves over $\bQ$ are bounded from above. 
 
 
-\subsection{Elliptic curves as complex torus} 
+\subsection{Elliptic curves as complex tori} 
 
 Every elliptic curve over $\bC$ is isomorphic to a complex torus $\bC/\Lambda$, where $\Lambda$ is a lattice in $\bC$. Two lattices give rise to isomorphic elliptic curves if and only if they are homothetic, i.e., there exists 
 a complex number $\alpha$ s.t. $\alpha \Lambda_1 = \Lambda_2$. The addition law on $\bC/\Lambda$ is simply induced by the addition on $\bC$. If $E = \bC/\Lambda$, then one  possible algebraic model of $E$ is 
@@ -282,7 +281,7 @@ $$g_3(\Lambda) = 140 \sum_{x \in \Lambda,  x \neq 0} \frac{1}{|x|^6}.$$
 \subsection{Reduction}
 For ease of exposition, we restrict our attention to the case $k = \bQ$.  Let $E$ be an elliptic curve defined over $\bQ$. 
 For each prime $p$, there exists a reduced curve $\tilde{E}$ defined over the finite field $\bF_p$, which is either an elliptic curve or a curve of genus zero. If $\tilde{E}$ is an elliptic curve, then we say that $p$ is a prime of {\em good reduction}, otherwise, we say $p$ is of {\em bad reduction}. Suppose $p$ is a prime of good reduction, then we have a 
-reduction map $\rho_p: E \to \tilde{E}$. Also, let $N_p$ denote the cardinarlity of the finite group $\tilde{E}(\bF_p)$, and let 
+reduction map $\rho_p: E \to \tilde{E}$. Also, let $N_p$ denote the cardinality of the finite group $\tilde{E}(\bF_p)$, and let 
 \[
 	a_p = p+1 - N_p. 
 \]
@@ -310,7 +309,7 @@ a_p(E) =
 \begin{cases}
 p+1 - |\tilde{E}(\bF_p| &  \mbox{ good reduction } \\
 1 &  \mbox{ split multiplicative reduction } \\
--1 & \mbox{ nonsplit multiplicative reduction } \\
+-1 & \mbox{ non-split multiplicative reduction } \\
 0 & \mbox{ otherwise }
 \end{cases} 
 \]
@@ -431,7 +430,7 @@ Suppose we have two levels $M \mid N$. Then for any divisor $d$ of $N/M$, there 
 \]
 
 \begin{Definition}
-The old subspace of $S_k(N)$ is the span of $\alpha_d(S_k(M))$ where $M, d$ range over all divisors of $N$ s.t. $Md \mid N$. The new subspace of $S_k(N)$ is the ortogonal complement of the old subspace under the Petersson inner product. 
+The old subspace of $S_k(N)$ is the span of $\alpha_d(S_k(M))$ where $M, d$ range over all divisors of $N$ s.t. $Md \mid N$. The new subspace of $S_k(N)$ is the orthogonal complement of the old subspace under the Petersson inner product. 
 \end{Definition}
 
 The new subspace of $S_k(N)$ has a basis consisting of simultaneous eigenforms under $T_p$ for all primes $p$. 
@@ -468,7 +467,7 @@ over places $v$ of $\bQ$:
 	\pi_f =  \prod_{v} \pi_{f,v},
 \]
 where each $\pi_{f,v}$ is an irreducible admissible representation of $GL_2(\bQ_v)$. The component $\pi_{f, \infty}$
-is determined by the weight $k$; when $p \nmid N$, the $p$-component $\pi_{f,p}$ is determined by $k, \epsilon$, and $a_p(f)$. The problem of determining the isomorphism class of $\pi_{f,p}$ when $p \mid N$ is more subtle and is solved by Loeffler and Weinstein in [fixme]. Their algorithm uses modular symbols and is now implemented in Sage. In section (fixme) of this thesis, we will take a numerical perspective and demonstrate how the pseudo-eigenvalues of Atkin-Lehner operators on newforms give information on the local components $\pi_{f,p}$ when  $p \mid N$. 
+is determined by the weight $k$; when $p \nmid N$, the $p$-component $\pi_{f,p}$ is determined by $k, \epsilon$, and $a_p(f)$. The problem of determining the isomorphism class of $\pi_{f,p}$ when $p \mid N$ is more subtle and is solved by Loeffler and Weinstein in \cite{loeffler2010computation}. Their algorithm uses modular symbols and is now implemented in Sage. In Section~\ref{sec: local components}, we will take a numerical perspective and demonstrate how the pseudo-eigenvalues of Atkin-Lehner operators on newforms give information on the local components $\pi_{f,p}$ when  $p \mid N$. 
 
 
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
@@ -1124,7 +1123,7 @@ From our computation, it seems hard to find an elliptic curve $E/\bQ$ with $r_{\
 For all elliptic curves $E/\bQ$, does $F_{E,j}$ always factor in $\bQ[x]$ as a product of Hilbert class polynomials and one irreducible polynomial?
 \end{question}
 
-If the answer to Question~\ref{q1} is positive, then we would know $E_{\crit}(\bQ)$ is torsion wheneve $r_{an}(E) \geq 2$. 
+If the answer to Question~\ref{q1} is positive, then we would know $E_{\crit}(\bQ)$ is torsion whenever $r_{an}(E) \geq 2$. 
 
 
 
@@ -1190,7 +1189,7 @@ square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem
 
 The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}. The former gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one, and the latter describes how to use the formula to explicitly compute such expansion. Along the way, we will develop algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. 
 
-Section [fixme] contains some examples. % In section, we describe an alternative approach and 
+Section~\ref{sec: examples} contains some examples. % In section, we describe an alternative approach and 
 
 \section{Preliminaries}
 
@@ -1663,7 +1662,7 @@ Note that we applied Lemma~\ref{lemma: bdwn} to obtain the penultimate equality,
 
 
 Theorem~\ref{thm: ExpansionFormula} gives us an algorithm to compute the expansion of $f_z$, which we will describe below. But first, we take a closer look at what ingredients goes into the expansion. Given a newform $f \in S_k(\Gamma_0(N))$ and a width one cusp $z$ of denominator $c$. We need to consider the twist of $f$ by all Dirichlet characters of conductor dividing $c$. 
-For each such character $\chi$, we then need to determine the level $M_\chi$ and $q$-expansion of the newform $f \otimes \chi$, the latter boils down to knowing $a_p(f \otimes \chi)$ for all primes $p \mid \cond(\chi)$. Then we need to compute the pseudo-eigenvalues of $f \otimes \chi$. Finally, we combine these information together and apply Throem~\ref{thm: ExpansionFormula} to compute $f_z$. 
+For each such character $\chi$, we then need to determine the level $M_\chi$ and $q$-expansion of the newform $f \otimes \chi$, the latter boils down to knowing $a_p(f \otimes \chi)$ for all primes $p \mid \cond(\chi)$. Then we need to compute the pseudo-eigenvalues of $f \otimes \chi$. Finally, we combine these information together and apply Theroem~\ref{thm: ExpansionFormula} to compute $f_z$. 
 
 \begin{algorithm}[H]
 \caption{Computing Fourier coefficients of $f$ at width one cusps}
@@ -1787,7 +1786,7 @@ $(j_N | \gamma_c)^{\sigma} = (j_N^{\sigma})_{\tau_s(c)}$. Hence the same claim f
 %Choose a form $0 \neq g \in S_k(\Gamma_1(N))$ with rational Fourier coefficients such that 
 %$h = \frac{f}{g}$ is non-constant. From [Cox, ] it is easy to see that $h \in $. Then we have 
 %\end{proof}
-\section{Examples}
+\section{Examples} \label{sec: examples}
 
 Let $E = {\bf 50a}$ and consider the 4 cusps of denominator 10 on $X_0(50)$. The corresponding first terms 
 of $q$-expansions at these cusps are  
@@ -1798,7 +1797,7 @@ of $q$-expansions at these cusps are
 	a_1(f, \frac{9}{10}) &=-\frac{6}{5} \zeta_{5}^{3} - \frac{2}{5} \zeta_{5}^{2} - \frac{3}{5} \zeta_{5} - \frac{4}{5}.
 \end{align*}
 
-As another examples, let $E = {\bf 98a}$ and $z = [\frac{1}{14}]$. We computed numerically that
+As another examples, let $E = {\bf 98a}$ and $c = [\frac{1}{14}]$. We computed numerically that
 
 
 {\small
@@ -1814,12 +1813,12 @@ f_c(q) = \left(-0.755001687308946 - 0.172324208281817i\right)q + \left(0.4414717
 
 
 
-\section{Automorphic representations; norm of first terms}
+\section{Automorphic representations; norm of first terms} \label{sec: local components}
 
 References: \cite{bushnell2006local}, \cite{loeffler2010computation}. \cite{brunault2012ramification}. \cite{kraus1990defaut}.  \cite{jacquet1972automorphic}. 
 
 In this section, we will restrict ourselves to the case when the Fourier coefficients of $f$ are rational numbers. Then 
-$f$ induces an admissible reprensetation $\pi_f$ of $GL_2(\bA_\bQ)$. We will see that the expansion of $f$ at all cusps can also be computed from the local component $\pi_{f,p}$. Loeffler and Weinstein gave an algorithm to compute such 
+$f$ induces an admissible representation $\pi_f$ of $GL_2(\bA_\bQ)$. We will see that the expansion of $f$ at all cusps can also be computed from the local component $\pi_{f,p}$. Loeffler and Weinstein gave an algorithm to compute such 
 local components. 
 
 We will restrict ourselves to the simplest case when $f$ is twist-minimal, which means that the conductor of $\pi_f$ is the smallest among all  twists $\pi_{f \otimes \chi}$. 
@@ -1860,7 +1859,7 @@ Taking traces, we obtain
 \begin{equation} \label{cuspidal const}
 	p^2 (p-1) \epsilon(\pi_{f,p}, 1/2, \psi) \cdot \text{id} = \sum_{x \in GL_2(\bF_p)} \psi(tr(x)) Tr(\pi_{f,p}^{\vee}(x)).
 \end{equation}
-By assumption, $\pi_{f,p}$ arises from a cupsidal representation of the finite group $GL_2(\bF_p)$, which is in turn induced from $\varphi$. (See Fulton-Harris), we have formulae for $Tr(\pi_{f,p}^{\vee}(x))$. Splitting the sum corresponding to four types of conjugacy classes, we computed $S_1 =  (p-1)  \sum_{x \in \bF_p^{\times}} \psi(2x)$, $S_2 = (p^2-1) \sum_{x \in \bF_p^{\times}} \psi(2x) (-1)$, $S_3 = 0$, and $S_4=  (p^2-p)/2 \sum_{x \in \bF_{p^2} \setminus \bF_p} \psi(tr(x))(\overline{\varphi(x) + \varphi(x^p)})$. So the sum on the right hand side of \ref{cuspidal const}  equals $(p-p^2) \sum_{x \in \bF_{p^2}^{\times}} \psi(tr(x)) \overline{\varphi(x)}$. Dividing by $p^2(p-1)$ gives the formula.
+By assumption, $\pi_{f,p}$ arises from a cuspidal representation of the finite group $GL_2(\bF_p)$, which is in turn induced from $\varphi$. (See Fulton-Harris), we have formulae for $Tr(\pi_{f,p}^{\vee}(x))$. Splitting the sum corresponding to four types of conjugacy classes, we computed $S_1 =  (p-1)  \sum_{x \in \bF_p^{\times}} \psi(2x)$, $S_2 = (p^2-1) \sum_{x \in \bF_p^{\times}} \psi(2x) (-1)$, $S_3 = 0$, and $S_4=  (p^2-p)/2 \sum_{x \in \bF_{p^2} \setminus \bF_p} \psi(tr(x))(\overline{\varphi(x) + \varphi(x^p)})$. So the sum on the right hand side of \ref{cuspidal const}  equals $(p-p^2) \sum_{x \in \bF_{p^2}^{\times}} \psi(tr(x)) \overline{\varphi(x)}$. Dividing by $p^2(p-1)$ gives the formula.
 
 \end{proof}
 
@@ -1890,7 +1889,7 @@ We give an example with nontrivial central character. Let $f$ be as in the previ
 \[
 	\epsilon_{11}(\pi_{f \otimes \chi,11}, 1/2) = 0.64..+0.76..i
 \]
-an algebraic number with miminal polynomial $x^{20} + 109/121 x^15 + 2861/1331 x^10 + 109/121x^5 + 1$.
+an algebraic number with minimal polynomial $x^{20} + 109/121 x^15 + 2861/1331 x^10 + 109/121x^5 + 1$.
 So $w = - \epsilon_{11} \epsilon_\infty = \epsilon_{11}$. Using the numerical Algorithm~\ref{alg: pseudo-eigenvalue},
 we compute $w(f \otimes \chi) = 0.642573377564283 + 0.766224154177894i$. This confirms the computation. 
 \end{Example}
@@ -1900,7 +1899,7 @@ we compute $w(f \otimes \chi) = 0.642573377564283 + 0.766224154177894i$. This co
 
 We keep the assumptions from the previous section, that $f$ is a newform in $S_2(\Gamma_0(N))$, attached to an elliptic curve $E/\bQ$. We assume $f$ is twist-minimal and $p \geq 5$ is a prime dividing the conductor $N$ such that 
 $v_p(N) = 2$.  In this case, the cusp $z_p = \left[\frac{-p}{N} \right]$ is of width one, and the $q$-expansion of $f$ at $z_p$
-takes an especially simple form.  We summarize this in the lemma below. 
+takes an especially simple form.  We summarize these observations in the lemma below. 
 \begin{Lemma}
 With the assumptions above, there exists a Galois-invariant set of numbers $\{b_1, \ldots, b_{p-1}\} \subseteq \bQ(\zeta_p)$, such that 
 \[
@@ -1952,7 +1951,7 @@ consistent for this example.
 
 \subsection{A result linking first term to critical polynomials}
 
-One motivation to study the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$ is that they relate to critical points of modular parametrizaiton of $E$ in the following way:
+One motivation to study the factorization of $a_1(f_{z_p})$ as a principal fractional ideal in $\bQ(\zeta_p)$ is that they relate to critical points of modular parameterization of $E$ in the following way:
 \begin{theorem} \label{thm: denominator}
 Suppose there exists a prime ideal $\fq$ in $\bQ(\zeta_p)$ lying above a prime $q \neq p$, such that $\fq \mid a_1(f_{z_p)}$ and  $\ord_q (a_1(f_{z_p})) < \frac{p-1}{2}$. Then $F_{E,j}(x)$ is not integral at $q$.
 \end{theorem}
@@ -1966,7 +1965,7 @@ Let $f = 1 + \sum a_n q^n \in \bC_p[[q]]$ be such that $f$ converges on $D(1)$. 
 \end{Lemma}
 
 \begin{proof}
-Consider the first segment of the Newton polygon of $f$. Assume (1) then the segment is necesarily finite, since otherwise $f$ does not . Hence by a theorem on Newton polygon, we have (2); now assume that (2) holds. Let $\lambda = -\ord_p(\alpha) < 0$. Assume towards contradiction that (1) is false. Let $N$ be the total horizontal length of all segments of $N(f)$ with slope $\leq \lambda$. The assumption then implies $N = 0$. Hence by Weierstrass preparation theorem, we know $f$ is nonzero on the closed disc $D(|\alpha|_p^{+})$, a contradiction to (2). 
+Consider the first segment of the Newton polygon of $f$. Assume (1) then the segment is necessarily finite, since otherwise $f$ does not . Hence by a theorem on Newton polygon, we have (2); now assume that (2) holds. Let $\lambda = -\ord_p(\alpha) < 0$. Assume towards contradiction that (1) is false. Let $N$ be the total horizontal length of all segments of $N(f)$ with slope $\leq \lambda$. The assumption then implies $N = 0$. Hence by Weierstrass preparation theorem, we know $f$ is nonzero on the closed disc $D(|\alpha|_p^{+})$, a contradiction to (2). 
 \end{proof}
 
 \begin{Prop}
@@ -1977,7 +1976,7 @@ Suppose $K/\bQ_p$ is a finite extension with uniformizer $\pi$. Let $f_j: 1 \leq
 By Lemma~\ref{newton polygon}, the condition implies that $f_j$ converges on $D(1)$ for all $j$ and $f_1$ has a root in $D(1)$. Since $F$ is the product of the $f_j$'s, we know that $F$ has a root in $D(1)$. Hence the claim follows, again using Lemma~\ref{newton polygon}. 
 \end{proof}
 
-Fix a prime $\fp$ above $p$ in $\bar{\bQ}$. We say a laurent series $f \in \bar{\bQ}((q))$ is called integral at $p$ if $f = q^s(1 + \sum_{n \geq 1} a_n q^n)$ with $\ord_p(a_n) \geq 0$ for all $n$. One sees that if $f$ is integral, then $\frac{1}{f}$ is also integral. Product of two integral power series is integral. We similarly define the notion for a monic polynomial $F[x] \in \bQ[x]$ to be integral at $p$. 
+Fix a prime $\fp$ above $p$ in $\bar{\bQ}$. We say a Laurent series $f \in \bar{\bQ}((q))$ is called integral at $p$ if $f = q^s(1 + \sum_{n \geq 1} a_n q^n)$ with $\ord_p(a_n) \geq 0$ for all $n$. One sees that if $f$ is integral, then $\frac{1}{f}$ is also integral. Product of two integral power series is integral. We similarly define the notion for a monic polynomial $F[x] \in \bQ[x]$ to be integral at $p$. 
 
 
 
@@ -2010,7 +2009,7 @@ Let $b_1, \ldots, b_{p-1}$ be the ``first terms"  in our case. Assume for some p
 \end{Prop}
 
 \begin{proof}
-Since $\prod_{cusp z} \tilde{f}_z$ divides $\Norm(f) = \prod \widetilde{f|A_i}$,  by Lemma~\ref{newton polygon}, the claim will follow if we can show there exists $z$ and a prime ideal $\fl$ such that the normalized series $\tilde{f_z}(q) = \sum a_n b_n/b_1 q^n$ has a non-$\fl$-integral coefficient. So let us assume that this is not the case. Let $I$ be the $l$-part of the principal ideal $(b_1)$, and let $H \leq G = (\bZ/p\bZ)^{\times}$ denote the stablizer of $I$.  The assumption implies that $H$ does not contain $G^2$. Hence there exists an integer $m$ such that (1) $m$ is a square modulo $p$; (2) $\sigma_m(I) \neq I$; (3) $j \mod{p} \notin H$. Pick such an integer $m$ and set $c_m= b_m/b_1$. Then from (2) we see that there exists some prime ideal $\fl$ above $l$ such that $\ord_\fl(c_m) < 0$. By Dirichlet's theorem on primes in arithmetic progressions, we can find a prime $r \neq l$ such that $l'^2 \equiv m \mod{p}$. Then $r \mod{p} \notin H$. 
+Since $\prod_{cusp z} \tilde{f}_z$ divides $\Norm(f) = \prod \widetilde{f|A_i}$,  by Lemma~\ref{newton polygon}, the claim will follow if we can show there exists $z$ and a prime ideal $\fl$ such that the normalized series $\tilde{f_z}(q) = \sum a_n b_n/b_1 q^n$ has a non-$\fl$-integral coefficient. So let us assume that this is not the case. Let $I$ be the $l$-part of the principal ideal $(b_1)$, and let $H \leq G = (\bZ/p\bZ)^{\times}$ denote the stabilizer of $I$.  The assumption implies that $H$ does not contain $G^2$. Hence there exists an integer $m$ such that (1) $m$ is a square modulo $p$; (2) $\sigma_m(I) \neq I$; (3) $j \mod{p} \notin H$. Pick such an integer $m$ and set $c_m= b_m/b_1$. Then from (2) we see that there exists some prime ideal $\fl$ above $l$ such that $\ord_\fl(c_m) < 0$. By Dirichlet's theorem on primes in arithmetic progressions, we can find a prime $r \neq l$ such that $l'^2 \equiv m \mod{p}$. Then $r \mod{p} \notin H$. 
 Hence there exists some prime $\fl'$ above $l$ such that $\ord_{\fl'}(c_r) < 0$. Recall that for any $n$ we have $a_n(f_z) = a_n(f) c_{n \mod {p}}$. Suppose towards contradiction that $\tilde{f_z}(q)$ is $l$-integral. Then $a_r(f)$ and $a_{r^2}(f)$ must be both divisible by $l$. But $a_{r^2} = a_r^2 - r$, so $r = l$, a contradiction. 
 \end{proof}
 
@@ -2055,7 +2054,7 @@ $p$ & order of $\varphi$ & primes  $l \neq p, l \mid N_{f,p}$ \\ \hline
 \end{tabular}
 \end{table}
 
-As an observation, we found that the primes $l$ in the third column of the above table all satisfy a congurence relation
+As an observation, we found that the primes $l$ in the third column of the above table all satisfy a congruence relation
 \[
 	l \equiv \pm 1 \mod{p}. 
 \]
@@ -2063,7 +2062,7 @@ It would be interesting to prove or disprove this in general.
 
 \chapter{Index of Chow-Heegner points}
 
-We consider a special case of the Chow-Heegner points that has a simple description due to Shouwu Zhang. Let $E,F$ be nonisogenous elliptic curves defined over $\bQ$ of the same conductor $N$. The Chow-Heegner point $P_{E,F} \in E(\bQ)$ is constructed by the following procedure: take any point on $F(\bC)$, take its inverse image on $X_0(N)$, then map that image down to $E$ and take the sum the resulting points. In \cite{darmon2015algorithms}, Darmon, Daub, Lichtenstein and Rotger developed an algorithm to compute Chow-Heegner points via iterated integrals. In \cite{stein2012numerical}, Stein developed a fast and conceptually easy algorithm to numerically compute Chow-Heegner points. The following theorem is proved by Yuan-Zhang-Zhang in \cite{yuan2011triple}: 
+We consider a special case of the Chow-Heegner points that has a simple description due to Shouwu Zhang. Let $E,F$ be non-isogenous elliptic curves defined over $\bQ$ of the same conductor $N$. The Chow-Heegner point $P_{E,F} \in E(\bQ)$ is constructed by the following procedure: take any point on $F(\bC)$, take its inverse image on $X_0(N)$, then map that image down to $E$ and take the sum the resulting points. In \cite{darmon2015algorithms}, Darmon, Daub, Lichtenstein and Rotger developed an algorithm to compute Chow-Heegner points via iterated integrals. In \cite{stein2012numerical}, Stein developed a fast and conceptually easy algorithm to numerically compute Chow-Heegner points. The following theorem is proved by Yuan-Zhang-Zhang in \cite{yuan2011triple}: 
 \begin{theorem}[Yuan-Zhang-Zhang] \label{thm: yzz}
 Let $L(E, F, F, s) = L(E, s) · L(E, Sym^2(F), s)$.
 Assume that the local root numbers of $L(E,F,F,s)$ at every prime of bad reduction is +1 and that the root number at 
@@ -2089,7 +2088,7 @@ I prove the theorem in Section 5.2. In Section 5.3,  I develop an exact algorith
 
 We recall the definition from \cite{stein2012numerical}. Consider a pair $E,F$ of nonisogenous optimal elliptic curves over $\bQ$ of the same conductor $N$ and fix modular parametrizations from $X_0(N)$ to both curves. 
 
-Let $(\varphi_E)_*$ and $(\varphi_F)^*$ denote the pushforward and pullback map on divisors. Let $Q \in F(\bC)$ be any point, we define $$P_{E,F, Q} = \sum (\varphi_E)_* (\varphi_F)^*(Q),$$ where $\sum$ means the sum of the points in the divisor, using the group law on $E$. By \cite[Proposition~1.1]{stein2012numerical}, $P_{E,F,Q}$ is independent of the choice of $Q$. Let $P_{E,F} = P_{E,F,Q}$ for any choice of $Q$. Since we may choose $Q  = \cO \in \bF(\bQ)$, it follows that 
+Let $(\varphi_E)_*$ and $(\varphi_F)^*$ denote the push-forward and pull-back map on divisors. Let $Q \in F(\bC)$ be any point, we define $$P_{E,F, Q} = \sum (\varphi_E)_* (\varphi_F)^*(Q),$$ where $\sum$ means the sum of the points in the divisor, using the group law on $E$. By \cite[Proposition~1.1]{stein2012numerical}, $P_{E,F,Q}$ is independent of the choice of $Q$. Let $P_{E,F} = P_{E,F,Q}$ for any choice of $Q$. Since we may choose $Q  = \cO \in \bF(\bQ)$, it follows that 
 $P_{E,F} \in E(\bQ)$. 
 
 \section{The index}
@@ -2148,10 +2147,10 @@ the algorithm in PARI to compute the $q$-expansions of $x_E,x_F,y_E$ and $y_F$.
 \caption{Using polynomial relation to compute the Chow-Heegner point $P_{E,F}$}          % give the algorithm a caption
 \label{IPR-CH}                           % and a label for \ref{} commands later in the document
 \begin{algorithmic} [1]               % enter the algorithmic environment
-    \Require  $E, F$  = non-isogeneous elliptic curves of conuductor $N$; $q$-expansions of $x_E, y_E$, $x_F,y_F$. 
+    \Require  $E, F$  = non-isogeneous elliptic curves of conductor $N$; $q$-expansions of $x_E, y_E$, $x_F,y_F$. 
     \Ensure the Chow-Heegner point $P_{E,F}$. 
     \State{$u_E \Leftarrow (x_F)^{-1}$ and $u_F \Leftarrow (x_F)^{-1}$}. 
-    \State{Mimicing steps 4-7 of Algorithm~\ref{IPR},  compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
+    \State{Mimicking steps 4-7 of Algorithm~\ref{IPR},  compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
     \State $f_{ch,x}(x) \Leftarrow F_{E,F}(x,0)$.
     \State Repeat steps 2-5 for $v_E = (y_E)^{-1}$ and $u_F$, get $f_{ch,y}(y)$.
     \State $K \Leftarrow$ the splitting field of $f_{ch,x}$. Write $f_{ch,x}(x) = \prod (x-a_i), a_i \in K$.
