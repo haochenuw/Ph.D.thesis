@@ -369,9 +369,9 @@ Let $j_N(z) := j(Nz)$. Then it turns out that $j_N$ is a rational function on $X
 
 \section{Modular forms}
 
-Recall that $\H = \{z \in \bC: \Im(z) > 0\}$ is the complex upper half plane. For each integer $k$, the weight-$k$ action of $SL_2(\bZ)$ on functions $f: H \to \bC$ is defined as follows: suppose $g  = \abcd{a}{b}{c}{d} \in SL_2(\bZ)$, define
+Recall that $\H = \{z \in \bC: \Im(z) > 0\}$ is the complex upper half plane. For each integer $k$, the weight-$k$ action of $SL_2(\bZ)$ on functions $f: H \to \bC$ is defined as follows: suppose $g  = \abcd{a}{b}{c}{d} \in GL_2(\bQ)$, define
 \[
-	f|[g]_k(z) = (cz+d)^{-k}f(gz).
+	f|[g]_k(z) = \det(g)^{k/2} (cz+d)^{-k}f(gz).
 \]
 We will omit the $k$ in the subscript when the value of $k$ is clear from the context.
 \begin{Definition}
@@ -379,27 +379,66 @@ Let $N \geq 1$ and $k$ be integers.  A {\em modular form} of weight $k$ and leve
 (1) $f|[g]_k = f$ for all $g \in \Gamma_0(N)$. \\
 (2) $f$ can be holomorphically extended to $\H \cup \bP^1(\bQ)$. 
 \end{Definition}
-A modular form $f$ is a {\em cusp form} if $f$ vanishes at all cusps. For the precise definition of vanishing at cusps, see  \cite[I.2]{diamond2006first}.
+A modular form $f$ is a {\em cusp form} if $f$ vanishes at all cusps. For the precise definition of vanishing at cusps, see  \cite[I.2]{diamond2006first}. By definition, if $f$ is a modular form, then f is 1-periodic: $f(z+1) = f(z)$. It has a $q$-expansion 
+\[
+	f(q) =  \sum_{n \geq 0} a_n q^n
+\]
+where $q = e^{2 \pi i z}$.
 
-The vector space $S_k(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is finite dimensional. In particular, when $k = 2$, we have an isomorphism 
+The vector space $S_k(\Gamma_0(N))$ of cusp forms of weight $k$ and level $N$ is finite dimensional. In particular, when $k = 2$, we have an isomorphism 
 \[
 	S_2(\Gamma_0(N)) \cong \Omega^1(X_0(N)(\bC)), 
 \]
 which sends a cusp form $f$ to the differential $\omega_f = f(z)dz$. As a consequence, $\dim_\bC  S_2(\Gamma_0(N)) = g(X_0(N))$.
 
-We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}(see \cite[V.8]{diamond2006first} for the precise definition of newforms).
-In particular, all cusp forms attached to elliptic curves defined over $\bQ$ are newforms. We summarise some properties of newforms below:
 
-(a) Newforms have $q$-expansions $f(q) = \sum_{n \geq 1} a_nq^n$ where $q  = e^{2\pi i z}$, $a_1= 1$, and $a_n \in \bZ$
-for all $n > 1$. There exists algorithms to compute the coefficients $a_n$ using Hecke operators.
+We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}In particular, all cusp forms attached to elliptic curves defined over $\bQ$ are newforms. 
 
-(b) For each positive integer $N$, we have an elementary abelian 2-group $W \subseteq Aut_\bQ(X_0(N))$, which we 
-call the {\em Atkin-Lehner Group}, with generators $\{w_p\}_{p \mid N}$. The non-trivial elements of $W$ are called {\em Atkin-Lehner} involutions. They act on $S_2(\Gamma_0(N))$ by invertible linear transformations. Any newform $f$ is an eigenvector of every $w \in W$ with eigenvalue $\pm1$, i.e., $f|w = \pm f$. In particular, we have $f|{w_N} = (-1)^{r_{an}(E)}f$ where $w_N = \prod_{p \mid N} w_p$ is also called the Fricke involution.
+For each positive integer $N$, we have an elementary abelian 2-group $W \subseteq Aut_\bQ(X_0(N))$, which we 
+call the {\em Atkin-Lehner Group}, with generators $\{w_p\}_{p \mid N}$. The non-trivial elements of $W$ are called {\em Atkin-Lehner} involutions. They act on $S_k(\Gamma_0(N))$ by invertible linear transformations. Any newform $f$ is an eigenvector of every $w \in W$ with eigenvalue $\pm1$, i.e., $f|w = \pm f$. In particular, if $E/\bQ$ is an elliptic curve and $f$ is the modular form attached to $E$, then we have $f|{w_N} = (-1)^{r_{an}(E)}f$ where $w_N = \prod_{p \mid N} w_p$ is also called the Fricke involution, and $r_{an}(E)$ is the analytic rank of $E$ 
+we will define later. 
 
 
-\subsection{Hecke operators and newforms}
+\subsection{Hecke operators}
 
-\red{fixme: define newforms. Maybe use Cornell-Silverman.}
+Let $p$ be a prime, the Hecke operator $T_p$ acts on $S_k(\Gamma_1(N))$ as follows. Write the double coset 
+$\Gamma_1(N) \abcd{1}{0}{0}{p} \Gamma_1(N)$ as $\sum_{i=1}^n \Gamma_1(N) \beta_i$.  Then we define 
+\[
+	T_p f  =   \sum_{i=1}^n f |[\beta_i]_k.
+\]
+
+For $d \in (\bZ/N\bZ)^*$,  the diamond operators $\langle d \rangle$ is defined as follows. Choose any matrix $\gamma_d \in \Gamma_0(N)$ with lower entry $d$ and 
+\[
+	\langle d \rangle f :=  f | [\gamma_d]_k.
+\]	
+We have the following decomposition 
+$$S_k(\Gamma_1(N) = \oplus_{\chi : (\bZ/N\bZ)^* \to \bC^*} S_k(\Gamma_1(N),\chi)$$
+where $S_k(\Gamma_1(N),\chi)$ is the subspace of $S_k(\Gamma_1(N))$ on which the diamond operators acts via 
+the character $\chi$. In particular, we have $S_k(\Gamma_0(N)) = S_k(\Gamma_1(N), \chi_0)$.  Note that the $T_p$ operators commute with the diamond operators. Hence $S_k(\Gamma_0(N))$ is stable under the $T_p$.  
+
+Moreover, $\{ T_p: p \nmid N \}$ form a commuting family of normal operators. Hence they can be simultaneously diagonalized. So $S_k(\Gamma_1(N))$ has a basis consisting of simultaneous eigenforms. 
+
+\subsection{Newforms}
+The Petersson inner product on two cusp forms on some congruence group $\Gamma$ is 
+\[
+\langle f, g \rangle = \frac{1}{V_\Gamma}  \int_{X(\Gamma)} f(z)\bar{g(z)} \Im(z)^k d\mu(z)
+\]
+where $\mu$ is the hyperbolic measure on the upper half plane.
+
+Suppose we have two levels $M \mid N$. Then for any divisor $d$ of $N/M$, there is a degeneracy map 
+\[
+	\alpha_d: S_k(M) \to S_k(N): f \mapsto f|[\abcd{d}{0}{0}{1}]_k.
+\]
+
+\begin{Definition}
+The old subspace of $S_k(N)$ is the span of $\alpha_d(S_k(M))$ where $M, d$ range over all divisors of $N$ s.t. $Md \mid N$. The new subspace of $S_k(N)$ is the ortogonal complement of the old subspace under the Petersson inner product. 
+\end{Definition}
+
+The new subspace of $S_k(N)$ has a basis consisting of simultaneous eigenforms under $T_p$ for all primes $p$. 
+Given such an eigenform $f  = \sum a_n q^n$, we could scale it so that $a_1 = 1$. The result is called a {\em newform}.
+
+
+
 
 \subsection{The modularity theorem}
 The famous modularity theorem, first proved for semi-stable elliptic curves over $\bQ$ by Andrew Wiles and Richard Taylor in 1995, and proved for all elliptic curves over $\bQ$ in 2001 by Breuil, Conrad, Diamond, and Taylor \cite{breuil2001modularity}), is a crucial achievement in number theory, which leads to the proof of Fermat's last theorem. 
