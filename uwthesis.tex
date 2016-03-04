@@ -63,6 +63,8 @@
 \newcommand{\Haotodo}[1]{\tinytodo[color=red!20]{#1}}
 \newcommand{\Kristintodo}[1]{\tinytodo[color=blue!20]{#1}}
 
+\DeclareMathOperator{\Gal}{Gal}
+
 
 
 %
@@ -201,44 +203,131 @@ In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 
 \textpages
 
-\chapter{Introduction}
+\chapter{Background}
 
-\section{Elliptic curves}
-A {\em nonsingular projective curve} $X/\bQ$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $\bQ$. We'll abbreviate it with `curve'.
+\subsection{Algebraic curves}
+Let $k$ be a field.
+A {\em nonsingular projective curve} $X/k$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $k$. We'll abbreviate it with `curve'.
 
-For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $\bQ$, called the {\em function field} of $X$. We have the following
+For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $k$, called the {\em function field} of $X$. We have the following
 \begin{Fact}
 \label{fact: degree}
 If $x$ is a non constant rational function,  then $[k(X): k(x)] = \deg x$.
 \end{Fact}
 
-Let $k$ be a field. An {\em elliptic curve} defined over $k$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in k$ and $4A^3+27B^2 \neq 0$. Alternatively, an elliptic curve over $k$ is a nonsingular projective over $k$ of genus one with a distinguished rational point. 
+We let $K^1(X)$ denote the group of meromorphic differentials on $X$. 
+
+
+Let $\varphi: X \to Y$ be a finite morphism between curves, then there exists a positive integer $d = \deg(\varphi)$ such that for all but finitely many points $y \in Y, \varphi^{-1}(y)$ consists of $d$ distinct points. 
+\begin{Definition}
+A point $x \in X$ is {\em ramified} under $\varphi$ if $|\varphi^{-1}(\varphi(x))|<d$.
+\end{Definition}
+Fix the morphism $\varphi$. For each $x \in X$ there is a positive integer $e_{\varphi}(x)$ called the {\em ramification index of $\varphi$ at $x$}, and $x$ is ramified under $\varphi$ if and only if $e_{\varphi}(x) > 1$.
+
+Let $\bar{k}$ be a fixed algebraic closure of $k$. A {\em divisor} on a curve $X$ is a formal sum $D = \sum_{z \in X(\bar{k})} n_z[z]$ where $n_z = 0$ for all but finitely many $z \in X$. The set of divisors on $X$ form a free abelian group, which we denoe by $\Div(X)$. 
+
+The Galois group $G_k := \Gal(\bar{k}/k)$ acts on the group $\Div(X)$ of divisors by $\sigma(\sum n_z[z]) = \sum n_z[\sigma(z)]$. We say a divisor $D \in \Div(X)$ is {\em defined over $k$} if it is invariant under this action. The subgroup of $G_k$-invariant divisors is denoted by $\Div_k(X)$. 
+
+
+\begin{Definition}
+The {\em ramification divisor} of $\varphi$ is  $R_{\varphi} = \sum_{p \in X} (e_\varphi(p) - 1) [p]$.
+\end{Definition}
+
+If the map $\varphi$ is defined over $k$, then the ramification divisor $R_{\varphi}$ is defined over $k$.
+
+
+\begin{theorem}(Riemann-Hurwitz formula).
+For any nonzero differential $\omega \in K^1(X)$
+\[
+          \Div(\varphi^*(\omega))   = \varphi^*(\Div(\omega)) + R_{\varphi}.
+\]
+\end{theorem}
+
+Taking degrees on both sides, we obtain the following formula on the degree of the ramification divisor $R_\varphi$, which is sometimes also referred to as the Riemann-Hurwitz formula.
+\begin{Corollary}
+$2g(X)-2 = \deg(\varphi) \cdot (2g(Y)-2) + \deg R_{\varphi}$.
+\end{Corollary}
+
+
+\section{Elliptic curves}
+Let $k$ be a field. An {\em elliptic curve} defined over $k$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in k$ and $4A^3+27B^2 \neq 0$. Alternatively, an elliptic curve over $k$ is a nonsingular projective over $k$ of genus one with a distinguished $k$-rational point $\cO \in E(k)$. 
 
 Let $E$ be an elliptic curve defined over a field $k$.  It turns out that $E$ also has the structure of an algebraic group. 
-When $k = \bR$, the group addition can be visualized as a ``secant-chord'' operation: suppose $P,Q \in E(\bR)$, and let 
-$R$ be the third point of intersection of the line $PQ$ with $E$. Then $P+Q  = -R$. 
-
-Therefore, an elliptic curve over $k$ is an abelian variety over $k$ of dimension 1. In particular, for any extension 
-$k'/k$, the set $E(k')$ is an abelian group. 
+When $k = \bR$, the group addition can be described as follows: suppose $P,Q \in E(\bR)$, and let 
+$R$ be the third point of intersection of the line $PQ$ with $E$. Then one declares $P+Q  = -R$.  It turns out that 
+this group law is algebraic, commutative and associative. Therefore, an elliptic curve over $k$ is also an abelian variety over $k$ of dimension 1. In particular, for any extension $k'/k$, the set $E(k')$ is an abelian group, with the identity element being $\cO$. 
 
 
-As for the structure of $E(k)$, we recall the famous Mordell-Weil theorem:
-\begin{theorem}
+Pinning down the structure of $E(k)$ is one of the central questions in 20th century algebraic number theory. We recall the famous Mordell-Weil theorem:
+\begin{theorem}[Mordell-Weil]
 If $K$ is a number field and $E$ is an elliptic curve over $K$. Then 
 $$E(K) \cong \bZ^r \times T$$
 for some integer $r \geq 0$ and some finite abelian group $T$. 
 \end{theorem}
 
-The integer $r$ in the above theorem is called the {\em rank} of $E(K)$. 
+The integer $r$ in the above theorem is called the (algebraic) {\em rank} of $E(K)$.  It is not known whether 
+the rank of elliptic curves over $\bQ$ are bounded from above. 
+
+
+\subsection{Elliptic curves as complex torus} 
+
+Every elliptic curve over $\bC$ is isomorphic to a complex torus $\bC/\Lambda$, where $\Lambda$ is a lattice in $\bC$. Two lattices give rise to isomorphic elliptic curves if and only if they are homothetic, i.e., there exists 
+a complex number $\alpha$ s.t. $\alpha \Lambda_1 = \Lambda_2$. The addition law on $\bC/\Lambda$ is simply induced by the addition on $\bC$. If $E = \bC/\Lambda$, then one  possible algebraic model of $E$ is 
+\[
+	 y^2 = 4x^3 - g_2(\Lambda) x - g_3(\Lambda)
+\]
+where $$g_2(\Lambda) = 60 \sum_{x \in \Lambda,  x \neq 0} \frac{1}{|x|^4}$$ and 
+$$g_3(\Lambda) = 140 \sum_{x \in \Lambda,  x \neq 0} \frac{1}{|x|^6}.$$ 
 
 \subsection{Reduction}
+For ease of exposition, we restrict our attention to the case $k = \bQ$.  Let $E$ be an elliptic curve defined over $\bQ$. 
+For each prime $p$, there exists a reduced curve $\tilde{E}$ defined over the finite field $\bF_p$, which is either an elliptic curve or a curve of genus zero. If $\tilde{E}$ is an elliptic curve, then we say that $p$ is a prime of {\em good reduction}, otherwise, we say $p$ is of {\em bad reduction}. Suppose $p$ is a prime of good reduction, then we have a 
+reduction map $\rho_p: E \to \tilde{E}$. Also, let $N_p$ denote the cardinarlity of the finite group $\tilde{E}(\bF_p)$, and let 
+\[
+	a_p = p+1 - N_p. 
+\]
+The theorem of Hasse gives an upper bound for the absolute value of $a_p$. 
+\begin{theorem}[Hasse]
+Let $E/\bQ$ be an elliptic curve, and $p$ be a prime of good reduction. Then $|a_p| \leq 2\sqrt{p}$. 
+\end{theorem}
+
+For a prime $p$ of good reduction, consider the polynomial $f_p(x)  = x^2 - a_p x+ p$. Hasse's theorem implies that 
+$f_p(x) = (x - \alpha_p)(x-\beta_p)$, where $\alpha_p, \beta_p$ is a pair of complex conjugates with absolute value 
+$\sqrt{p}$. It is a fact that for any finite extension $\bF_{p^r}$ of $\bF_p$, we have the following formula
+\[
+	\# \tilde{E}(\bF_{p^r}) = p^r + 1 - \alpha_p^r - \beta_p^r.
+\]
 
 \subsection{Conductor}
 Let $E/\bQ$ be an elliptic curve. Then there is a positive integer $N$, called the conductor of $E$, with the property that $N$ is divisible by the primes of bad reduction. When $p$ is a prime of bad reduction, there is a procedure to determine the highest power of $p$ dividing $N$, which we omit here. We only mention that when $p \geq 5$, we have $\ord_p(N) \leq 2$; when $p = 3, \ord_p(N) \leq 5$; when $p = 2, \ord_p(N) \leq 8$. 
 
-\subsection{$L$-function}
+\subsection{$L$-function and analytic rank}
 
-
+Suppose $E$ is an elliptic curve over $\bQ$. For each prime number $p$, we define $a_p(E)$ via 
+the following formula:
+\[
+a_p(E) =  
+\begin{cases}
+p+1 - |\tilde{E}(\bF_p| &  \mbox{ good reduction } \\
+1 &  \mbox{ split multiplicative reduction } \\
+-1 & \mbox{ nonsplit multiplicative reduction } \\
+0 & \mbox{ otherwise }
+\end{cases} 
+\]
+The local $L$-factor of $E$ at $p$ is $L_p(E,T) = 1 - a_pT + pT^2$ if $p$ is of good reduction and $1 - a_p T$ otherwise.
+Finally, the $L$-function attached to $E$ is defined as the following Euler product 
+\[
+	L(E,s) = \prod_p L_p(E, p^{-s}). 
+\]
+We can also write $L(E,s)$ as a Dirichlet series 
+\[
+	L(E,s) = \sum_{n \geq 1} \frac{a_n}{n^s}. 
+\]
+The series defining $L(E,s)$ converges for $\Re(s) > \frac{3}{2}$. It turns out (as a consequence of the celebrated modularity theorem) that $L(E,s)$ can be analytically continued to an entire function on the complex plane. The order of vanishing of $L(E,s)$ at $s = 1$ is called the analytic rank of $E$.  The rank part of the famous Birch and Swinnerton-Dyer (BSD) conjecture states that the analytic rank is equal to the algebraic rank, i.e., 
+\[
+	\rank(E(\bQ)) = \ord_{s=1}L(E,s).
+\]
+As of now this conjecture is still open for $\ord_{s=1}L(E,s) > 1$.
 \section{Modular curves}
 
 
@@ -246,30 +335,51 @@ The {\em modular group} $SL_2(\bZ)$ is the group of integer matrices with determ
 \[
 	\Gamma_0(N) = \left \{ \abcd{a}{b}{c}{d} \in SL_2(\bZ):  N \mid c \right\}
 \]
-The {\em modular curve} $X_0(N)$ is defined by $\Gamma_0(N) \backslash (H \cup \bP^1(\bQ))$. The 
-equivalence classes of $\bP^1(\bQ)$ under $\Gamma_0(N)$ are called {\em cusps}. The set of cusps is finite.
+The {\em modular curve} $X_0(N)$ is defined by $X_0(N) = \Gamma_0(N) \backslash (H \cup \bP^1(\bQ))$. The open modular curve is $Y_0(N) =  \Gamma_0(N)\backslash H$. The complex points on $Y_0(N)$ ``parametrizes'' pairs $(E, C)$, where $E/\bC$ is an elliptic curve and $C \subseteq E(\bC)$ is a cyclic subgroup of order $N$. The equivalence classes of $\bP^1(\bQ)$ under $\Gamma_0(N)$ are called {\em cusps}. The set of cusps is finite.
 
-It turns out that $X_0(N)$ is a nonsingular projective algebraic curve. The genus of $X_0(N)$ is given by 
-the following genus formula (see, for example, Silverman). 
+Similarly, we can define 
 \[
-	g(X_0(N)) =  fixme
+	\Gamma_1(N) = \left \{ \abcd{a}{b}{c}{d} \in SL_2(\bZ):  a \equiv d \equiv 1 \mod{N}, c \equiv 0 \mod{N} \right\}
 \]
+The corresponding modular curve is called $X_1(N)$. It is easy to verify that $\Gamma_1(N)$ is a normal subgroup of $\Gamma_0(N)$ with the quotient isomorphic to $(\bZ/N\bZ)^*$. Hence there is a canonical projection $\pi: X_1(N) \to X_0(N)$
+
+It turns out that $X_0(N)$ has the structure of a nonsingular projective algebraic curve. The genus of $X_0(N)$ is given by the following genus formula (see, for example, DS05). 
+\[
+	g(X_0(N)) = 1 + \frac{d}{12} - \frac{\epsilon_2}{3} - \frac{\epsilon_3}{4} - \frac{\epsilon_\infty}{2}. 
+\]
+Here $d$ is the index of $\Gamma_0(N)$ in $SL_2(\bZ)$, and $\epsilon_2$ and $\epsilon_3$ denote the number of elliptic points of period 2 and 3 in $X_0(N)$, and $\epsilon_\infty$ is the number of cusps. All these values can be explicitly computed. For example, we have 
+\[
+	d = |SL_2(\bZ)/\Gamma_0(N)|  = N \prod_{p \mid N} (1+ 1/p). 
+\]
+
+\subsection{Function fields of modular curves}
+
+The $j$-invariant 
+\[
+	j(q) = q^{-1} + 744 + 196884q + \cdots
+\]
+(where $q = e^{2\pi i z}$) is a rational function on $X_0(1) \cong \bP^1$. In fact, the function fields of $X_0(1)$ is generated by $j$: i.e., we have 
+$\bQ(X_0(1)) = \bQ(j)$.  Via pulling back, we can view $j$ as a rational function on $X_0(N)$. 
+
+Let $j_N(z) := j(Nz)$. Then it turns out that $j_N$ is a rational function on $X_0(N)$. Moreover, we have 
+\[
+	\bQ(X_0(N))  = \bQ(j, j_N).
+\]
+
 
 \section{Modular forms}
 
-Notation: Let $\H = \{z \in \bC: \Im(z) > 0\}$ denote the complex upper half plane.
-For each integer $k$, the weight-k action of $SL_2(\bZ)$ on functions $f: H \to \bC$ as follows: 
-suppose $g  = \abcd{a}{b}{c}{d} \in SL_2(\bZ)$, define
+Recall that $\H = \{z \in \bC: \Im(z) > 0\}$ is the complex upper half plane. For each integer $k$, the weight-$k$ action of $SL_2(\bZ)$ on functions $f: H \to \bC$ is defined as follows: suppose $g  = \abcd{a}{b}{c}{d} \in SL_2(\bZ)$, define
 \[
 	f|[g]_k(z) = (cz+d)^{-k}f(gz).
 \]
-We will omit the $k$ in the subscript, since we always mean $k = 2$ when $f$ is a modular form of weight 2, and $k = 0$ when $f$ is a modular function.
+We will omit the $k$ in the subscript when the value of $k$ is clear from the context.
 \begin{Definition}
 Let $N \geq 1$ and $k$ be integers.  A {\em modular form} of weight $k$ and level $N$ is a holomorphic function $f: \H \to \bC$ satisfying  \\
 (1) $f|[g]_k = f$ for all $g \in \Gamma_0(N)$. \\
 (2) $f$ can be holomorphically extended to $\H \cup \bP^1(\bQ)$. 
 \end{Definition}
-A modular form $f$ is a {\em cusp form} if $f$ vanishes at all cusps. For the precise definition of vanishing at cusps, see  \cite[I.2]{diamond2005first}.
+A modular form $f$ is a {\em cusp form} if $f$ vanishes at all cusps. For the precise definition of vanishing at cusps, see  \cite[I.2]{diamond2006first}.
 
 The vector space $S_k(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is finite dimensional. In particular, when $k = 2$, we have an isomorphism 
 \[
@@ -277,7 +387,7 @@ The vector space $S_k(\Gamma_0(N))$ of cusp forms of weight 2 and level $N$ is f
 \]
 which sends a cusp form $f$ to the differential $\omega_f = f(z)dz$. As a consequence, $\dim_\bC  S_2(\Gamma_0(N)) = g(X_0(N))$.
 
-We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}(see \cite[V.8]{diamond2005first} for the precise definition of newforms).
+We are going to be interested in a subset of cusp forms on $\Gamma_0(N)$ called  {\em newforms}(see \cite[V.8]{diamond2006first} for the precise definition of newforms).
 In particular, all cusp forms attached to elliptic curves defined over $\bQ$ are newforms. We summarise some properties of newforms below:
 
 (a) Newforms have $q$-expansions $f(q) = \sum_{n \geq 1} a_nq^n$ where $q  = e^{2\pi i z}$, $a_1= 1$, and $a_n \in \bZ$
@@ -287,32 +397,45 @@ for all $n > 1$. There exists algorithms to compute the coefficients $a_n$ using
 call the {\em Atkin-Lehner Group}, with generators $\{w_p\}_{p \mid N}$. The non-trivial elements of $W$ are called {\em Atkin-Lehner} involutions. They act on $S_2(\Gamma_0(N))$ by invertible linear transformations. Any newform $f$ is an eigenvector of every $w \in W$ with eigenvalue $\pm1$, i.e., $f|w = \pm f$. In particular, we have $f|{w_N} = (-1)^{r_{an}(E)}f$ where $w_N = \prod_{p \mid N} w_p$ is also called the Fricke involution.
 
 
-\subsection{Modularity}
-We state the {\em modularity theorem}:
+\subsection{Hecke operators and newforms}
 
-\begin{theorem} (Wiles, Taylor et al.)
+\red{fixme: define newforms. Maybe use Cornell-Silverman.}
+
+\subsection{The modularity theorem}
+The famous modularity theorem, first proved for semi-stable elliptic curves over $\bQ$ by Andrew Wiles and Richard Taylor in 1995, and proved for all elliptic curves over $\bQ$ in 2001 by Breuil, Conrad, Diamond, and Taylor \cite{breuil2001modularity}), is a crucial achievement in number theory, which leads to the proof of Fermat's last theorem. 
+
+The modularity theorem has many equivalent forms. Here we state one form of the theorem. 
+\begin{theorem}[\cite{breuil2001modularity}]
 For every elliptic curve $E/\bQ$ with conductor $N$ there exists a surjective morphism 
 \[
 	\varphi: X_0(N) \to E
 \]
-defined over $\bQ$. Moreover,  $\varphi^*(\omega_E) = c \cdot 2\pi i f_E(z) dz$  where $f_E$ is a newform of weight 2 and level $N$, called \textbf{the modular form attached to $E$}, and $c \in \bC^{\times}$.
+defined over $\bQ$. Moreover,  $\varphi^*(\omega_E) = c \cdot 2\pi i f_E(z) dz$  where $f_E$ is a newform of weight 2 and level $N$, called {\em the modular form attached to $E$}, and $c \in \bC^{\times}$.
 \end{theorem}
 
-Let $\omega_f$ denote the differential $f(z)dz \in S_2(\Gamma_0(N))$. Every elliptic curve $E$ has a {\em period lattice} $\Lambda$, which is a lattice in $\bC$. There is an isomorphism $\iota: E \cong \bC/\Lambda$. The composition $\iota \circ \varphi: X_0(N) \to \bC/\Lambda$ can be written as 
+Let $\omega_f$ denote the differential $f(z)dz \in S_2(\Gamma_0(N))$. Let $\Lambda$ be the period lattice of  $E$, with an isomorphism $\iota: E \cong \bC/\Lambda$. The composition $\iota \circ \varphi: X_0(N) \to \bC/\Lambda$ can be written as an integral: 
 \[
 	[z] \mapsto \int_{z}^{\infty} \omega_f \pmod{\Lambda}. 
 \]
 
 
-\red{fixme: define newforms. Maybe use Cornell-Silverman.}
-
 
 \section{Automorphic representation attached to newforms}
+Let $f$ be a cuspidal newform for $\Gamma_1(N)$ with weight $k \geq 2$ and character $\epsilon$. Let 
+$\bA_\bQ$ be group the ad e les over $\bQ$. Then $f$ corresponds to an automorphic representation of 
+$GL_2(\bA_\bQ)$, denoted by $\pi_f$. It turns out that $\pi_f$ decomposes as a restricted tensor product  
+over places $v$ of $\bQ$:
+\[
+	\pi_f =  \prod_{v} \pi_{f,v},
+\]
+where each $\pi_{f,v}$ is an irreducible admissible representation of $GL_2(\bQ_v)$. The component $\pi_{f, \infty}$
+is determined by the weight $k$; when $p \nmid N$, the $p$-component $\pi_{f,p}$ is determined by $k, \epsilon$, and $a_p(f)$. The problem of determining the isomorphism class of $\pi_{f,p}$ when $p \mid N$ is more subtle and is solved by Loeffler and Weinstein in [fixme]. Their algorithm uses modular symbols and is now implemented in Sage. In section (fixme) of this thesis, we will take a numerical perspective and demonstrate how the pseudo-eigenvalues of Atkin-Lehner operators on newforms give information on the local components $\pi_{f,p}$ when  $p \mid N$. 
+
 
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
 
 
-\subsection{Preliminaries}
+\section{Introduction}
 Let $E$ be an elliptic curve over $\bQ$ and let $L(E,s)$ be the  $L$-function of $E$. The rank part of the Birch and Swinnerton-Dyer (BSD) conjecture states that
 \[
 	\rank(E(\bQ)) = \ord_{s=1}L(E,s).
@@ -413,7 +536,7 @@ By construction, we know that $\Norm_N(f)$ is a modular form of weight $2n$ on $
 In practice we normalise  $\Norm_N(f)$ so that its $q$-expansion has leading coefficient 1. 
 \end{Remark}
 
-We recall from \cite[III.7]{diamond2005first} the formulae for the number of {\em elliptic points} on $\Gamma_0(N)$ of order 2 and 3:
+We recall from \cite[III.7]{diamond2006first} the formulae for the number of {\em elliptic points} on $\Gamma_0(N)$ of order 2 and 3:
 
 \[
 \epsilon_2(N) = \prod_{p \mid N} \left( 1+\left(\frac{1}{p}\right) \right), \; \epsilon_3(N) = \prod_{p \mid N} \left( 1+\left(\frac{-3}{p}\right) \right). 
@@ -477,7 +600,7 @@ Then
 \]
 \end{Lemma}
 
-The proof of Lemma \ref{lemma: cosrep} is omitted. Note that it is a special case of \cite[III, Ex 3.7.7]{diamond2005first}).
+The proof of Lemma \ref{lemma: cosrep} is omitted. Note that it is a special case of \cite[III, Ex 3.7.7]{diamond2006first}).
 
 
 \textit{Proof of Lemma} \ref{lemma: norm-sqfree}: We use induction on the number of prime divisors $\sigma(N)$ of 
@@ -523,10 +646,10 @@ Now we can describe our algorithm to compute $F_{E,j}$ when the conductor of $E$
 \section{The algorithm {\em Poly relation}}
 \label{sec: IPR}
 
-Let $C/\bQ$ be a nonsingular projective curve. For a rational function $r \in \bQ(C)$, let $\Div_0(r)$ denote its divisor of 
+Let $C/\bQ$ be a curve. For a rational function $r \in \bQ(C)$, let $\Div_0(r)$ denote its divisor of 
 zeros, and define $\deg r=  \deg(\Div_0(r))$.
 \begin{Definition}
-Let $C/\bQ$ be a nonsingular projective curve, and let $r, u$ be two non-constant rational functions on $C$. 
+Let $r, u$ be two non-constant rational functions on $C$. 
 A {\em minimal polynomial relation between $r$ and $u$} is an irreducible polynomial $P(x,y) \in \bQ[x,y]$ such that $P(r,u) = 0$ and $deg_x(P) \leq \deg u, \deg_y(P) \leq \deg r$.
 \end{Definition}
 Minimal polynomial relation always exists and is unique up to scalar multiplication.
@@ -1028,7 +1151,7 @@ square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem
 
 The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}. The former gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one, and the latter describes how to use the formula to explicitly compute such expansion. Along the way, we will develop algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. 
 
-Section contains some examples. % In section, we describe an alternative approach and 
+Section [fixme] contains some examples. % In section, we describe an alternative approach and 
 
 \section{Preliminaries}
 
@@ -1979,20 +2102,19 @@ We have $P_{E,F} = P_{E,F,\cO} = \sum (\varphi_{E})_* (\varphi_F)^*(O) = \sum (\
 
 \section{Applying the idea of \textbf{IPR} to the computation of Chow-Heegner points}
 
-We develop an algorithm to compute the Chow-Heegner point $P_{E,F}$. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. Note that there exists an algorithm to compute the q-expansions of $x_E,x_F,y_E$ and $y_F$.  
-
-\red{fixme: talk about how to use PARI to get $x_E(q)$}
+We develop an algorithm to compute the Chow-Heegner point $P_{E,F}$. Let $x_E, y_E$, $x_F,y_F$ be the compositions of $\varphi, \psi$ with the $x$ and $y$ coordinate functions on $E$ and $F$, respectively. We will use 
+the algorithm in PARI to compute the $q$-expansions of $x_E,x_F,y_E$ and $y_F$.  
 
 \begin{algorithm}
 \caption{Using polynomial relation to compute the Chow-Heegner point $P_{E,F}$}          % give the algorithm a caption
-\label{IPR}                           % and a label for \ref{} commands later in the document
+\label{IPR-CH}                           % and a label for \ref{} commands later in the document
 \begin{algorithmic} [1]               % enter the algorithmic environment
     \Require  $E, F$  = non-isogeneous elliptic curves of conuductor $N$; $q$-expansions of $x_E, y_E$, $x_F,y_F$. 
     \Ensure the Chow-Heegner point $P_{E,F}$. 
     \State{$u_E \Leftarrow (x_F)^{-1}$ and $u_F \Leftarrow (x_F)^{-1}$}. 
     \State{Mimicing steps 4-7 of Algorithm~\ref{IPR},  compute an irreducible polynomial $F(x,y)$ such that $F_{E,F}(u_E,u_F) = 0$}. 
     \State $f_{ch,x}(x) \Leftarrow F_{E,F}(x,0)$.
-    \State Repeat steps 2-5 for $v_E = (y_E)^{-1}$ and $u_F$, get $f_{ch,y}(x)$.
+    \State Repeat steps 2-5 for $v_E = (y_E)^{-1}$ and $u_F$, get $f_{ch,y}(y)$.
     \State $K \Leftarrow$ the splitting field of $f_{ch,x}$. Write $f_{ch,x}(x) = \prod (x-a_i), a_i \in K$.
     \For{each $a_i$}
 	\State{Find a point $p_i = (a_i, b_i)$  on $E(\bar{\bQ})$}.
@@ -2011,7 +2133,7 @@ We develop an algorithm to compute the Chow-Heegner point $P_{E,F}$. Let $x_E, y
 \begin{Example}
 Consider $E = \textbf{89a}$ and $F = \textbf{89b}$. Here $\deg(\varphi_E) = 2$ and $\deg(\varphi_F) = 5$. Let 
 $D =  \varphi(\psi^*(\infty)) \in \Div(E)$. Define $G_1(x) = \prod_{P \in D} (x - x(P))$ 
-and $G_2(y) = \prod_{P \in D} (y - y(P))$. Using \textbf{IPR-CH}, we computed 
+and $G_2(y) = \prod_{P \in D} (y - y(P))$. Using the first steps in Algorithm~\ref{IPR-CH}, we computed 
 \[
 G_1(x) = x^{4} + \frac{13}{4} x^{3} + \frac{17}{4} x^{2} + \frac{21}{4} x + \frac{9}{2}, \; G_2(y) = y^{4} + \frac{1}{8} y^{3} + \frac{21}{4} y^{2} + \frac{7}{2} y + 3.
 \]
@@ -2022,11 +2144,11 @@ It turns out that $G_1(x)$ is irreducible over $\bQ$. Let $K$ be its splitting f
 	P_{E,F} = \sum_{i=1}^4 P_i, \; \mbox{ where } P_i = (a_i, b_i).
 \]
 Carrying out the summation in Sage, we obtain $P_{E,F} = (\frac{3}{4},-\frac{15}{8})$. This agrees with Stein's result for 
-the pair (\textbf{89a},\textbf{89b}) in \cite{stein2011numerical}.
+the pair (\textbf{89a},\textbf{89b}) in \cite{stein2012numerical}.
 
 
 
-
+\iffalse
 \chapter{Things I tried to do but did not end up giving a nice result}
 
 generalizing the ``congruence number'' definition using other cusps.  
@@ -2039,7 +2161,7 @@ Generalize another paper by William on computing order of component groups. (The
 Computing the critical subgroup for 5077a (multimodular is not practical). 
 
 Critical points of reduction of modular parametrization. 
-
+\fi
 
 \nocite{*}
 \bibliographystyle{alpha}
