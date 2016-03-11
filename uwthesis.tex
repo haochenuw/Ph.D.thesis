@@ -55,6 +55,7 @@
 \renewcommand{\H}{\mathcal{H}}
 \newcommand{\fl}{\mathfrak{l}}
 
+
 \usepackage[textwidth=50,textsize=tiny]{todonotes}
 \setlength{\marginparwidth}{2cm}
 \newcommand{\tinytodo}[2][]
@@ -153,7 +154,7 @@
 We investigate computational problems related to modular parametrizations of 
 elliptic curves defined over $\mathbb{Q}$. Chapter 1 covers the background materials. In Chapter 2,
 we develop algorithms to compute the Mazur Swinnerton-Dyer critical subgroup of elliptic curves, and verify that for all elliptic curves of rank two and conductor $<$ 1000, the critical subgroup is torsion. 
-In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N)$ newforms at cusps other than the cusp at infinity. In Chapter 4 we study properties of Chow-Heegner points. We proved the index of Chow-Heegner points are always divisible by two when the conductor $N$ has many prime divisors, and we develop algebraic algorithms to compute them. 
+In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N)$ newforms at cusps other than the cusp at infinity. In Chapter 4 we study properties of Chow-Heegner points. We proved that the index of Chow-Heegner points are always divisible by two when the conductor $N$ has many prime divisors, and we develop algebraic algorithms to compute the Chow-Heegner points. 
 }
  
 %
@@ -205,38 +206,35 @@ In Chapter 3, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 \chapter{Background}
 
 \subsection{Algebraic curves}
-Let $k$ be a field.
-A {\em nonsingular projective curve} $X/k$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $k$. We'll abbreviate it with `curve'.
+Let $K$ be a field.
+A {\em nonsingular projective curve} $X/K$ is an algebraic variety $X \subset \bP^n$ such that $\dim(X) = 1$, $X$ is smooth,  and it has defining equations with coefficients in $K$. We'll abbreviate it with ``curve''.
 
-For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $k$, called the {\em function field} of $X$. We have the following
+For every curve $X$ there is a nonnegative integer $g(X)$ called its {\em genus}, and a field $k(X)$ of transcendence degree 1 over $K$, called the {\em function field} of $X$. We have the following fact:
 \begin{Fact}
 \label{fact: degree}
-If $x$ is a non constant rational function,  then $[k(X): k(x)] = \deg x$.
+If $x$ is a non-constant rational function,  then $[K(X): K(x)] = \deg x$.
 \end{Fact}
 
-We let $K^1(X)$ denote the group of meromorphic differentials on $X$. 
-
-
-Let $\varphi: X \to Y$ be a finite morphism between curves, then there exists a positive integer $d = \deg(\varphi)$ such that for all but finitely many points $y \in Y, \varphi^{-1}(y)$ consists of $d$ distinct points. 
+Let $\varphi: X \to Y$ be a finite morphism between two curves; then there exists a positive integer $d = \deg(\varphi)$ such that for all but finitely many points $y \in Y$, the set $\varphi^{-1}(y)$ consists of $d$ distinct points. 
 \begin{Definition}
 A point $x \in X$ is {\em ramified} under $\varphi$ if $|\varphi^{-1}(\varphi(x))|<d$.
 \end{Definition}
-Fix the morphism $\varphi$. For each $x \in X$ there is a positive integer $e_{\varphi}(x)$ called the {\em ramification index of $\varphi$ at $x$}, and $x$ is ramified under $\varphi$ if and only if $e_{\varphi}(x) > 1$.
+Fix the morphism $\varphi$. For each $x \in X$ there is a positive integer $e_{\varphi}(x)$ called the {\em ramification index of $\varphi$ at $x$}, and we say that $x$ is {\em ramified under $\varphi$} if $e_{\varphi}(x) > 1$.
 
-Let $\bar{k}$ be a fixed algebraic closure of $k$. A {\em divisor} on a curve $X$ is a formal sum $D = \sum_{z \in X(\bar{k})} n_z[z]$ where $n_z = 0$ for all but finitely many $z \in X$. The set of divisors on $X$ form a free abelian group, which we denote by $\Div(X)$. 
+Let $\bar{k}$ be a fixed algebraic closure of $k$. A {\em divisor} on a curve $X$ is a formal sum $D = \sum_{z \in X(\bar{k})} n_z[z]$ where $n_z = 0$ for all but finitely many $z \in X$. The set of divisors on $X$ form a free abelian group, which is denoted by $\Div(X)$. 
 
-The Galois group $G_k := \Gal(\bar{k}/k)$ acts on the group $\Div(X)$ of divisors by $\sigma(\sum n_z[z]) = \sum n_z[\sigma(z)]$. We say a divisor $D \in \Div(X)$ is {\em defined over $k$} if it is invariant under this action. The subgroup of $G_k$-invariant divisors is denoted by $\Div_k(X)$. 
+The absolute Galois group $G_K := \Gal(\bar{K}/K)$ acts on the group $\Div(X)$ of divisors by $\sigma(\sum n_z[z]) = \sum n_z[\sigma(z)]$. We say a divisor $D \in \Div(X)$ is {\em defined over $K$} if it is invariant under this action. The subgroup of $G_K$-invariant divisors is denoted by $\Div_k(X)$. 
 
 
 \begin{Definition}
 The {\em ramification divisor} of $\varphi$ is  $R_{\varphi} = \sum_{p \in X} (e_\varphi(p) - 1) [p]$.
 \end{Definition}
 
-If the map $\varphi$ is defined over $k$, then the ramification divisor $R_{\varphi}$ is defined over $k$.
+If the map $\varphi$ is defined over $K$, then the ramification divisor $R_{\varphi}$ is defined over $K$.
 
 
 \begin{theorem}(Riemann-Hurwitz formula).
-For any nonzero differential $\omega \in K^1(X)$
+For any nonzero meromorphic differential $\omega$ on $X$,  we have 
 \[
           \Div(\varphi^*(\omega))   = \varphi^*(\Div(\omega)) + R_{\varphi}.
 \]
@@ -249,15 +247,15 @@ $2g(X)-2 = \deg(\varphi) \cdot (2g(Y)-2) + \deg R_{\varphi}$.
 
 
 \section{Elliptic curves}
-Let $k$ be a field. An {\em elliptic curve} defined over $k$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in k$ and $4A^3+27B^2 \neq 0$. Alternatively, an elliptic curve over $k$ is a nonsingular projective over $k$ of genus one with a distinguished $k$-rational point $\cO \in E(k)$. 
+Let $K$ be a field. An {\em elliptic curve} defined over $K$ is the projective closure in $\bP^2$ of an affine curve given by the Weierstrass equation $y^2 = x^3 + Ax+B$ with $A,B \in K$ and $4A^3+27B^2 \neq 0$. Alternatively, an elliptic curve over $K$ is a nonsingular projective over $K$ of genus one with a distinguished $k$-rational point $\cO \in E(K)$. 
 
-Let $E$ be an elliptic curve defined over a field $k$.  It turns out that $E$ also has the structure of an algebraic group. 
+Let $E$ be an elliptic curve defined over $K$.  It turns out that $E$ also has the structure of an algebraic group. 
 When $k = \bR$, the group addition can be described as follows: suppose $P,Q \in E(\bR)$, and let 
 $R$ be the third point of intersection of the line $PQ$ with $E$. Then one declares $P+Q  = -R$.  It turns out that 
-this group law is algebraic, commutative and associative. Therefore, an elliptic curve over $k$ is also an abelian variety over $k$ of dimension 1. In particular, for any extension $k'/k$, the set $E(k')$ is an abelian group, with the identity element being $\cO$. 
+this group law is algebraic, commutative and associative. Therefore, an elliptic curve over $K$ is also an abelian variety over $K$ of dimension 1. In particular, for any extension $K'/K$, the set $E(K')$ is an abelian group, with the identity element being $\cO$. 
 
 
-Pinning down the structure of $E(k)$ is one of the central questions in 20th century algebraic number theory. We recall the famous Mordell-Weil theorem:
+Pinning down the structure of $E(K)$ is one of the central questions in 20th century algebraic number theory. We recall the famous Mordell-Weil theorem:
 \begin{theorem}[Mordell-Weil]
 If $K$ is a number field and $E$ is an elliptic curve over $K$. Then 
 $$E(K) \cong \bZ^r \times T$$
@@ -279,8 +277,7 @@ where $$g_2(\Lambda) = 60 \sum_{x \in \Lambda,  x \neq 0} \frac{1}{|x|^4}$$ and
 $$g_3(\Lambda) = 140 \sum_{x \in \Lambda,  x \neq 0} \frac{1}{|x|^6}.$$ 
 
 \subsection{Reduction}
-For ease of exposition, we restrict our attention to the case $k = \bQ$.  Let $E$ be an elliptic curve defined over $\bQ$. 
-For each prime $p$, there exists a reduced curve $\tilde{E}$ defined over the finite field $\bF_p$, which is either an elliptic curve or a curve of genus zero. If $\tilde{E}$ is an elliptic curve, then we say that $p$ is a prime of {\em good reduction}, otherwise, we say $p$ is of {\em bad reduction}. Suppose $p$ is a prime of good reduction, then we have a 
+Let $E$ be an elliptic curve defined over $\bQ$. For each prime $p$, there exists a reduced curve $\tilde{E}$ defined over the finite field $\bF_p$, which is either an elliptic curve or a curve of genus zero. If $\tilde{E}$ is an elliptic curve, then we say that $p$ is a prime of {\em good reduction}, otherwise, we say $p$ is of {\em bad reduction}. Suppose $p$ is a prime of good reduction, then we have a 
 reduction map $\rho_p: E \to \tilde{E}$. Also, let $N_p$ denote the cardinality of the finite group $\tilde{E}(\bF_p)$, and let 
 \[
 	a_p = p+1 - N_p. 
@@ -307,7 +304,7 @@ the following formula:
 \[
 a_p(E) =  
 \begin{cases}
-p+1 - |\tilde{E}(\bF_p| &  \mbox{ good reduction } \\
+p+1 - |\tilde{E}(\bF_p)| &  \mbox{ good reduction } \\
 1 &  \mbox{ split multiplicative reduction } \\
 -1 & \mbox{ non-split multiplicative reduction } \\
 0 & \mbox{ otherwise }
@@ -329,7 +326,7 @@ The series defining $L(E,s)$ converges for $\Re(s) > \frac{3}{2}$. It turns out 
 As of now this conjecture is still open for $\ord_{s=1}L(E,s) > 1$.
 \section{Modular curves}
 
-
+Let $\H = \{z \in \bC: \Im(z) > 0\}$ be complex upper half plane.
 The {\em modular group} $SL_2(\bZ)$ is the group of integer matrices with determinant 1. For each integer $N > 1$, consider the subgroup 
 \[
 	\Gamma_0(N) = \left \{ \abcd{a}{b}{c}{d} \in SL_2(\bZ):  N \mid c \right\}
@@ -460,14 +457,14 @@ Let $\omega_f$ denote the differential $f(z)dz \in S_2(\Gamma_0(N))$. Let $\Lamb
 
 \section{Automorphic representation attached to newforms}
 Let $f$ be a cuspidal newform for $\Gamma_1(N)$ with weight $k \geq 2$ and character $\epsilon$. Let 
-$\bA_\bQ$ be group the ad e les over $\bQ$. Then $f$ corresponds to an automorphic representation of 
+$\bA_\bQ$ be the group of the adeles over $\bQ$. Then $f$ corresponds to an automorphic representation of 
 $GL_2(\bA_\bQ)$, denoted by $\pi_f$. It turns out that $\pi_f$ decomposes as a restricted tensor product  
 over places $v$ of $\bQ$:
 \[
 	\pi_f =  \prod_{v} \pi_{f,v},
 \]
 where each $\pi_{f,v}$ is an irreducible admissible representation of $GL_2(\bQ_v)$. The component $\pi_{f, \infty}$
-is determined by the weight $k$; when $p \nmid N$, the $p$-component $\pi_{f,p}$ is determined by $k, \epsilon$, and $a_p(f)$. The problem of determining the isomorphism class of $\pi_{f,p}$ when $p \mid N$ is more subtle and is solved by Loeffler and Weinstein in \cite{loeffler2010computation}. Their algorithm uses modular symbols and is now implemented in Sage. In Section~\ref{sec: local components}, we will take a numerical perspective and demonstrate how the pseudo-eigenvalues of Atkin-Lehner operators on newforms give information on the local components $\pi_{f,p}$ when  $p \mid N$. 
+is determined by the weight $k$; when $p \nmid N$, the $p$-component $\pi_{f,p}$ is determined by $k, \epsilon$, and $a_p(f)$. The problem of determining the isomorphism class of $\pi_{f,p}$ when $p \mid N$ is more subtle and is solved by Loeffler and Weinstein in \cite{loeffler2010computation}. Their algorithm uses modular symbols and is now implemented in Sage \cite{sage}. In Section~\ref{sec: local components}, we will take a numerical perspective and demonstrate how the pseudo-eigenvalues of Atkin-Lehner operators on newforms give information on the local components $\pi_{f,p}$ when  $p \mid N$. 
 
 
 \chapter{Computing the Mazur Swinnerton-Dyer critical subgroup of elliptic curves}
@@ -582,7 +579,7 @@ We recall from \cite[III.7]{diamond2006first} the formulae for the number of {\e
 Let $E_4, E_6$ be the {\em Eisenstein series} of level 1 weight 4 and 6, respectively. Let 
 $\Delta$ be the {\em discriminant modular form}, which is a cusp form of level 1 and weight 12.
 
-\begin{theorem}
+\begin{theorem} \label{thm: direct method}
 If
 \[
     F_f(q) = \frac{\Norm_N(f)(q)}{\Delta^A E_4^B E_6^C}
@@ -613,9 +610,8 @@ Let $f$ be a newform of prime level $p$, then $\Norm_p(f) = \N_p(f)$.
 
 This lemma allows us to compute the $q$-expansion of $\N_p(f)$ from the $q$-expansion of $f$.
 
-
-A slight generalization of Lemma \ref{lemma: ono} yields
-\begin{Lemma}(C.)
+The following lemma is a slight generalization of Lemma \ref{lemma: ono}. 
+\begin{Lemma}
 \label{lemma: norm-sqfree}
 If $N$ is square free with prime factorization $N = p_1\cdots p_n$ then
 \[
@@ -667,8 +663,8 @@ Now we can describe our algorithm to compute $F_{E,j}$ when the conductor of $E$
     \Require  $E$ = Elliptic curve over $\bQ$ with conductor $N$.   
     \Ensure The critical $j$-polynomial $F_{E,j}(x)$.
     
-    \State{Use Lemma?, compute the $q$-expansion of $\Norm_N(f)$.}
-    \State{Use Theorem? to compute $F_f(q)$. Normalize $F_f(q) $ so that it has leading coefficient 1}.
+    \State{Use Lemma~\ref{lemma: norm-sqfree} to compute the $q$-expansion of $\Norm_N(f)$.}
+    \State{Use Theorem~\ref{thm: direct method} to compute $F_f(q)$. Normalize $F_f(q) $ so that it has leading coefficient 1}.
     \State{Set $n \Leftarrow -\ord_{q}F_f(q)$. Compute q-expansion of $j$ to precision $2n$}.
     \While{$n >= 0$}
 	\State $a_n \Leftarrow q^{-n} \mbox{ coefficient } of F_f$.
@@ -1128,6 +1124,7 @@ If the answer to Question~\ref{q1} is positive, then we would know $E_{\crit}(\b
 
 
 Another way to construct rational points on $E$ is to take any cusp form $g \in S_2(\Gamma_0(N), \bZ)$ and define $E_{g}(\bQ) = \langle \tr(\varphi([z]) : [z] \in \supp \Div(g(z)dz) \rangle$.
+
 \begin{question}
 Does there exist $g \in S_2(\Gamma_0(N), \bZ)$ such that $E_{g}(\bQ)$ is non-torsion?
 \end{question}
@@ -1189,7 +1186,9 @@ square-free, this problem is solved by Asai \cite{asai1976fourier}.  The problem
 
 The main results of this chapter are Theorem~\ref{thm: ExpansionFormula} and Algorithm~\ref{alg: qexp}. The former gives a formula for the Fourier expansion of a newform $f \in S_k(\Gamma_0(N))$ at any cusp $z$ of width one, and the latter describes how to use the formula to explicitly compute such expansion. Along the way, we will develop algorithms to compute the twists $f \otimes \chi$ and the pseudo-eigenvalue of newforms under the Fricke involution. 
 
-Section~\ref{sec: examples} contains some examples. % In section, we describe an alternative approach and 
+Section~\ref{sec: examples} contains some numerical examples. In Section 10 and 11, we investigate the factorizations of norm of the first term $a_1(f_{z})$, which is of independent interest. % In section, we describe an alternative approach and 
+
+
 
 \section{Preliminaries}
 
@@ -1251,7 +1250,7 @@ Indeed, one may find $Q$ using Lemma. Now $f|[\alpha] = f|[w_Q][w_Q\alpha] = f|[
 The space $S_k(\Gamma_0(N))$ is spanned by elements of form $g(q^d)$, where $g$ is newform of level $M \mid N$ and $d$ is a divisor of $\frac{N}{M}$.  Note that $g(q^d) = d^{-k/2} g | \abcd{d}{0}{0}{1}$. For any $\alpha \in SL_2(\bZ)$, 
 we can find $\alpha' \in SL_2(\bZ)$ and $u \in GL_2(\bQ)$ such that $\abcd{d}{0}{0}{1} \alpha  = \alpha' u$. Hence to compute all expansions $f | [\alpha]$, it suffices to give an algorithm for newforms.
 
-In the rest of this chapter, we will restrict ourselves to solving the following problem: 
+In the rest of this chapter, we restrict ourselves to solving the following problem: 
 
 \begin{problem}
 Let $f$ be a normalized newform in $S_k(\Gamma_0(N))$ and $z$ be a cusp on $X_0(N)$ of width one. Compute the $q$-expansion of $f_z$.
@@ -1681,7 +1680,7 @@ For each such character $\chi$, we then need to determine the level $M_\chi$ and
     \end{algorithmic}
 \end{algorithm}
 
-\section{A Converse Theorem}
+\section{A converse theorem}
 
 Given the work in previous sections, it is a natural question then to ask whether the information on twists of $f$ is uniquely determined by the expansion of $f$ at width one cusps. The answer is yes, and the precise statement is in the following theorem. 
 
@@ -1815,9 +1814,9 @@ f_c(q) = \left(-0.755001687308946 - 0.172324208281817i\right)q + \left(0.4414717
 
 \section{Automorphic representations; norm of first terms} \label{sec: local components}
 
-References: \cite{bushnell2006local}, \cite{loeffler2010computation}. \cite{brunault2012ramification}. \cite{kraus1990defaut}.  \cite{jacquet1972automorphic}. 
+%References: \cite{bushnell2006local}, \cite{loeffler2010computation}. \cite{brunault2012ramification}. \cite{kraus1990defaut}.  \cite{jacquet1972automorphic}. 
 
-In this section, we will restrict ourselves to the case when the Fourier coefficients of $f$ are rational numbers. Then 
+In this section, we restrict ourselves to the case when the Fourier coefficients of $f$ are rational numbers. Then 
 $f$ induces an admissible representation $\pi_f$ of $GL_2(\bA_\bQ)$. We will see that the expansion of $f$ at all cusps can also be computed from the local component $\pi_{f,p}$. Loeffler and Weinstein gave an algorithm to compute such 
 local components. 
 
@@ -1825,11 +1824,10 @@ We will restrict ourselves to the simplest case when $f$ is twist-minimal, which
 
 We will follow the notations of David Loeffler and use the formula of  \cite{brunault2012ramification}. 
 
-Let $z$ be a width one cusp of denominator $c$. Then the first coefficient $a_1(f_z)$ is an element in $K_f(\zeta_{c'})$. For simplicity, we assume that $c' = p^{\alpha}$ is a prime power. It can be proved using automorphic representations + local langlands correspondence that there exists $\beta$ such that $p^\beta a_1(f_z) \in \bar{\bZ}$.  One question is: what prime ideals appears in the prime factorisation of $(a_1(f,z))$?  It seems from our numerical data, that
+Let $z$ be a width one cusp of denominator $c$. Then the first coefficient $a_1(f_z)$ is an element in $K_f(\zeta_{c'})$. For simplicity, we assume that $c' = p^{\alpha}$ is a prime power. It can be proved using automorphic representations together with the local langlands correspondence that there exists $\beta$ such that $p^\beta a_1(f_z) \in \bar{\bZ}$.  One interesting question is: what prime ideals appears in the prime factorisation of $(a_1(f,z))$?  It seems from our numerical data, that
 \[
 	\ord_\fq(a_1(f_z)) > 0 \implies \fq \cap \bZ \equiv \pm 1 \pmod {p}.
 \]
-The following is a table of data. 
 
 \subsection{Cuspidal local constants}
 
@@ -1863,7 +1861,7 @@ By assumption, $\pi_{f,p}$ arises from a cuspidal representation of the finite g
 
 \end{proof}
 
-Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction \red{(to-do: check this)}. The case $p \geq 5$ is easy, as we have the following lemma: 
+Moreover, since $E$ is defined over $\bQ$, the character of $\pi_{f,p}$ takes rational values. Hence the order of $\varphi$ is 3,4 or 6. The local Langlands correspondence claims that the order of $\varphi$ is equal to the order of the inertia subgroup of $Gal(L/\bQ)$, where $L$ is the smallest number field over which $E$ acquires good reduction. The case $p \geq 5$ is easy, as we have the following lemma: 
 
 \begin{Lemma}\cite[Proposition 1]{kraus1990defaut}
 Let $\Delta$ denote the minimal discriminant of $E$. Then for $p \geq 5$, the order of $\varphi$ is equal to 
@@ -1973,10 +1971,10 @@ Suppose $K/\bQ_p$ is a finite extension with uniformizer $\pi$. Let $f_j: 1 \leq
 \end{Prop}
 
 \begin{proof}
-By Lemma~\ref{newton polygon}, the condition implies that $f_j$ converges on $D(1)$ for all $j$ and $f_1$ has a root in $D(1)$. Since $F$ is the product of the $f_j$'s, we know that $F$ has a root in $D(1)$. Hence the claim follows, again using Lemma~\ref{newton polygon}. 
+By Lemma~\ref{newton polygon}, the condition implies that $f_j$ converges on $D(1)$ for all $j$ and $f_1$ has a root in $D(1)$. Since $F$ is the product of the $f_j$'s, we know that $F$ has a root in $D(1)$. Hence the claim follows, again from Lemma~\ref{newton polygon}. 
 \end{proof}
 
-Fix a prime $\fp$ above $p$ in $\bar{\bQ}$. We say a Laurent series $f \in \bar{\bQ}((q))$ is called integral at $p$ if $f = q^s(1 + \sum_{n \geq 1} a_n q^n)$ with $\ord_p(a_n) \geq 0$ for all $n$. One sees that if $f$ is integral, then $\frac{1}{f}$ is also integral. Product of two integral power series is integral. We similarly define the notion for a monic polynomial $F[x] \in \bQ[x]$ to be integral at $p$. 
+Fix a prime $\fp$ above $p$ in $\bar{\bQ}$. We say a Laurent series $f \in \bar{\bQ}((q))$ is {\em integral at $\fp$} if $f = q^s(1 + \sum_{n \geq 1} a_n q^n)$ with $\ord_{\fp}(a_n) \geq 0$ for all $n$. One sees that if $f$ is integral at $\fp$, then $\frac{1}{f}$ is also integral at $\fp$. Product of two integral power series is integral. We similarly define the notion for a monic polynomial $F[x] \in \bQ[x]$ to be integral at $p$. 
 
 
 
@@ -1990,7 +1988,7 @@ Assume that $H$ contains $G^2$, i.e., the subgroup of squares in $G$. Then $\ord
 \begin{proof}
 Really we have two cases: $H = G$ and $H = G^2$. In the first case, $I$ is necessarily a power of $l$. Hence 
 $\ord_l(Norm(I)) \geq n$ indeed; in the second case, Let $\fl_1 ,\ldots, \fl_g$ denote the primes above $l$. Since $G$ is abelian, we know $Stab(\fl_i) = Stab(\fl_1)$ for any $i$, so let $H_0$ denote that stabilizer.  The action of $G/H_0$ on the set $\{ \fl_1 ,\ldots, \fl_g \}$ provides an embedding it as a cyclic subgroup of $S_g$, generated by a $g$-cycle $\tau$. If $g$ is odd; then $\tau^2$ is another $g$-cycle, so it does not fix any proper subset of $\{1,2, \ldots, g\}$, so again I is divisible by $l$; suppose $g$ is even, then $\tau^2$ factors as a product of two $(g/2)$-cycles $s_1$ and $s_2$. 
-WLOG $s_1 = (135 \cdots g-1)$. Then $I = (\fl_1 \fl_3 \ldots \fl_{g-1})^t$ for some positive integer $t$. Hence 
+Without loss of generality, we may assume  $s_1 = (135 \cdots g-1)$. Then $I = (\fl_1 \fl_3 \ldots \fl_{g-1})^t$ for some positive integer $t$. Hence 
 $Norm(I) = l^{nt/2} \geq l^{n/2}$.  This completes the proof. 
 \end{proof}
 
