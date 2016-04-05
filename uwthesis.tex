@@ -204,9 +204,9 @@ In Chapter 4, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 \textpages
 
 \chapter{Introduction}
-Elliptic curves and modular forms are among the central themes of 20th century number theory. Since the celebrated Mordell-Weil theorem, there has been a great deal of research on ranks of elliptic curves. We highlight the great work of many people towards the Birch and Swinnerton-Dyer conjecture and the recent work of Bhargava et al. on average ranks of elliptic curves in families.  
+Elliptic curves and modular forms are among the central themes of 20th century number theory. Since the proof of the celebrated Mordell-Weil theorem, there has been a great deal of research on ranks of elliptic curves. We highlight the great work of many people towards the Birch and Swinnerton-Dyer conjecture and the recent work of Bhargava et al. on average ranks of elliptic curves in families.  
 
-The theory of modular forms is a special case of the theory of automorphic forms. Although the theory of modular forms belong to complex analysis, its importance mainly lie in its connections with number theory. Perhaps the most famous application of modular forms is the proof of Fermat's last theorem in the 1990's.  The proof reveals a deep connection between elliptic curves over $\bQ$ and certain modular forms of weight 2, called {\it newforms}. More precisely, the {\it modularity theorem} states that for every elliptic curve $E$ over $\bQ$ of conductor $N$, there is a newform $f$ of 
+The theory of modular forms is a special case of the theory of automorphic forms. Although the theory belongs to complex analysis, its importance mainly lie in its connections with number theory. Perhaps the most famous application of modular forms is the proof of Fermat's last theorem in the 1990's.  The proof reveals a deep connection between elliptic curves over $\bQ$ and certain modular forms of weight 2, called {\it newforms}. More precisely, the {\it modularity theorem} states that for every elliptic curve $E$ over $\bQ$ of conductor $N$, there is a newform $f$ of 
 weight 2 and level $N$ such that their $L$-functions are equal, i.e., 
 \[
 	L(E,s) = L(f,s).
@@ -223,7 +223,7 @@ the critical subgroups and proved through computation that for all elliptic curv
 
 In trying to compute critical subgroups, I was led to the question of computing the Fourier expansions of modular forms at all cusps, which turns out to be an interesting question in its own right, and has connections to the study of the automorphic representation attached to $E$. I develop an algorithm to compute such Fourier expansions in Chapter 4.
 
- Another way to obtain rational points on elliptic curves is the construction of Chow-Heegner points.  It also occurs to me during my study of critical subgroups that the ideas developed for critical subgroups can also be applied to Chow-Heegner points, this motivated me to give an algebraic algorithm for their computation. This parallels the numerical algorithm of Darmon et al. in 
+ Another way to obtain rational points on elliptic curves is the construction of Chow-Heegner points.  It also occurs to me during my study of critical subgroups that the ideas developed for critical subgroups can also be applied to Chow-Heegner points, this motivated me to give an algebraic algorithm for their computation. This parallels the numerical algorithms of Darmon et al. in 
 \cite{darmon2015algorithms}. 
 
 \section{Contributions}
@@ -244,7 +244,7 @@ Recall that when the analytic rank of $E$ is less than or equal to one, we can c
 Does there exist an elliptic curve $E$ defined over $\bQ$ such that \\
 $r_{\an}(E) \geq 2$ and $\rank(E_{\crit}(\bQ)) >0$?
 \end{question}
-In \cite{delaunay2002thesis}, Christophe Delaunay performed numerical computations for the critical subgroups, but $E_{\crit}(\bQ)$ has not been provably computed for a single curve $E/\bQ$. 
+In \cite{delaunay2002thesis}, Christophe Delaunay performed numerical computations for the critical subgroups, but $E_{\crit}(\bQ)$ has not been provably computed for a single elliptic curve $E/\bQ$. 
 %In \cite{chen2014computing}, I proved the following theorem.
 
 In Chapter 3, I will develop algorithms to compute the critical points, and prove the following theorem: 
@@ -257,7 +257,7 @@ For all elliptic curves $E/\bQ$ of analytic rank two and conductor smaller than 
 
 In Chapter 4, I study the problem of Fourier expansion of newforms at all cusps. Let $k$ and $N$ be positive integers.  Assume $k$ is even.
 \begin{problem} \label{problem: expansion}
-Let $f \in S_k(\Gamma_0(N))$ be a normalized newform. Given the Fourier expansion of $f$ at the cusp $\infty$, computing its expansion at all other cusps of $X_0(N)$.
+Let $f \in S_k(\Gamma_0(N))$ be a normalized newform. Given the Fourier expansion of $f$ at the cusp $\infty$, compute its expansion at all other cusps of $X_0(N)$.
 \end{problem}
 Problem~\ref{problem: expansion} is equivalent to computing the map
 \[
@@ -305,7 +305,7 @@ Also, combining the method developed in Chapter 3 with the PARI function {\bf el
 
 \section{Future plans}
 
-\subsection{critical subgroups}
+\subsection{Critical subgroups}
 A natural next step is to compute $E_{\crit}(\bQ)$ for the first elliptic curve of rank three.
 \begin{project}
 Compute $E_{\crit}(\bQ)$ for $E = {\bf 5077a}$.
@@ -319,7 +319,7 @@ For example, we could consider factorization of critical polynomials and the act
 
 Also, there exists parametrizations of certain elliptic curves by Shimura curves. This should give rise to analogs of critical subgroup, which I plan to investigate further.  
 
-\subsection{expansions}
+\subsection{Fourier expansions}
 Using my algorithm of computing Fourier expansions, I can determine the epsilon  factors attached to twists of the automorphic representation $\pi_{f}$ of $\GL_2(\bA_\bQ)$ attached to the newform $f$, which in turn determines the representation $\pi_f$ itself. Loeffler and Weinstein developed an algebraic algorithm to compute the local components $\pi_{f,p}$ for $p \mid N$ using modular symbols in \cite{loeffler2010computation}. However, they did not give complexity bounds for their algorithm.
 
 \begin{project}
