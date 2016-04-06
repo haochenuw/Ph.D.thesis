@@ -152,9 +152,7 @@
 \setcounter{page}{-1}
 \abstract{
 We investigate computational problems related to modular parametrizations of 
-elliptic curves defined over $\mathbb{Q}$. Chapter 2 covers the background materials. In Chapter 3,
-we develop algorithms to compute the Mazur Swinnerton-Dyer critical subgroup of elliptic curves, and verify that for all elliptic curves of rank two and conductor less than a thousand, the critical subgroup is torsion. 
-In Chapter 4, we develop algorithms to compute Fourier expansions of $\Gamma_0(N)$-newforms at cusps other than the cusp at infinity. In Chapter 5 we study properties of Chow-Heegner points. We proved that the index of Chow-Heegner points are always divisible by two when the conductor $N$ has many prime divisors, and we develop algebraic algorithms to compute the Chow-Heegner points. 
+elliptic curves defined over $\mathbb{Q}$. We develop algorithms to compute the Mazur Swinnerton-Dyer critical subgroup of elliptic curves, and verify that for all elliptic curves of rank two and conductor less than a thousand, the critical subgroup is torsion. We also develop algorithms to compute Fourier expansions of $\Gamma_0(N)$-newforms at cusps other than the cusp at infinity.  In addition, we study properties of Chow-Heegner points associated to a pair of elliptic curves. We proved that the index of Chow-Heegner points are always divisible by two when the conductor $N$ has many prime divisors, .We also develop an algebraic algorithms to compute the Chow-Heegner points. 
 }
  
 %
@@ -206,7 +204,7 @@ In Chapter 4, we develop algorithms to compute Fourier expansions of $\Gamma_0(N
 \chapter{Introduction}
 Elliptic curves and modular forms are among the central themes of 20th century number theory. Since the proof of the celebrated Mordell-Weil theorem, there has been a great deal of research on ranks of elliptic curves. We highlight the great work of many people towards the Birch and Swinnerton-Dyer conjecture and the recent work of Bhargava et al. on average ranks of elliptic curves in families.  
 
-The theory of modular forms is a special case of the theory of automorphic forms. Although the theory belongs to complex analysis, its importance mainly lie in its connections with number theory. Perhaps the most famous application of modular forms is the proof of Fermat's last theorem in the 1990's.  The proof reveals a deep connection between elliptic curves over $\bQ$ and certain modular forms of weight 2, called {\it newforms}. More precisely, the {\it modularity theorem} states that for every elliptic curve $E$ over $\bQ$ of conductor $N$, there is a newform $f$ of 
+The theory of modular forms is a special case of the theory of automorphic forms. Although the theory belongs to complex analysis, its importance mainly lie in its connections with number theory. Perhaps the most famous application of modular forms is the proof of Fermat's last theorem in the 1990's.  The proof reveals a deep connection between elliptic curves over $\bQ$ and certain modular forms of weight 2 (called {\it newforms}). More precisely, the {\it modularity theorem} states that for every elliptic curve $E$ over $\bQ$ of conductor $N$, there is a newform $f$ of 
 weight 2 and level $N$ such that their $L$-functions are equal, i.e., 
 \[
 	L(E,s) = L(f,s).
@@ -217,13 +215,20 @@ Given an elliptic curve $E$ defined over $\bQ$, the modularity theorem can be re
 \] 
 from the modular curve $X_0(N)$. The map $\varphi$ is called a {\it modular parametrization}. The study of computational problems related to $\varphi$ will be the theme of this thesis. 
 
+
+The order of vanishing of $L(E,s)$ at $s = 1$ is called the {\it analytic rank} of $E$.  The rank part of the famous Birch and Swinnerton-Dyer (BSD) conjecture states that the analytic rank is equal to the algebraic rank, i.e., 
+\[
+	\rank(E(\bQ)) = \ord_{s=1}L(E,s).
+\]
+When the analytic rank of $E$ is zero or one, the rank part of the BSD conjecture is proved by the important and beautiful work of Gross-Zagier and Kolyvagin. As of now this conjecture is still open for $\ord_{s=1}L(E,s) > 1$.
+
 Motivated by studying the rank part of the Birch and Swinnerton-Dyer conjecture, I started researching the critical subgroups of elliptic curves, defined by Mazur and Swinnerton-Dyer in the 1970's. I developed algorithms to compute 
 the critical subgroups and proved through computation that for all elliptic curves of rank 2 and conductor smaller than a thousand, the critical subgroup is trivial. 
 
 
 In trying to compute critical subgroups, I was led to the question of computing the Fourier expansions of modular forms at all cusps, which turns out to be an interesting question in its own right, and has connections to the study of the automorphic representation attached to $E$. I develop an algorithm to compute such Fourier expansions in Chapter 4.
 
- Another way to obtain rational points on elliptic curves is the construction of Chow-Heegner points.  It also occurs to me during my study of critical subgroups that the ideas developed for critical subgroups can also be applied to Chow-Heegner points, this motivated me to give an algebraic algorithm for their computation. This parallels the numerical algorithms of Darmon et al. in 
+Another way to obtain rational points on elliptic curves is the construction of Chow-Heegner points.  It occured to me during my study of critical subgroups that the ideas developed for critical subgroups can also be applied to Chow-Heegner points, this motivated me to give an algebraic algorithm for their computation. This parallels the numerical algorithms of Darmon et al. in 
 \cite{darmon2015algorithms}. 
 
 \section{Contributions}
@@ -236,7 +241,7 @@ In this thesis, we study certain computational problems arising from studying ra
 \]
 where $\tr(P) = \sum_{\sigma: \bQ(P) \to \bar{\bQ}} P^{\sigma}$. \\
 
-Recall that when the analytic rank of $E$ is less than or equal to one, we can construct points of infinite order on $E(\bQ)$ using {\it Heegner points}. However, when $r_{\an}(E) \geq 2$, it turns out that the images of Heegner points are always torsion. The critical subgroup is interesting, especially when $r_{\an}(E) \geq 2$, because it provides a way to construct rational points on elliptic curves. Hence we can ask the following question.
+Recall that when the analytic rank of $E$ is one, we can construct points of infinite order on $E(\bQ)$ using {\it Heegner points}. However, when $r_{\an}(E) \geq 2$, it turns out that the images of Heegner points are always torsion. The critical subgroup is interesting, especially when $r_{\an}(E) \geq 2$, because it could potentially provide a way to construct rational points on elliptic curves. Hence we can ask the following question.
 
 %Observe that $\deg R_{\varphi} = 2g(X_0(N))-2$. In addition, we will assume $E$ is an optimal elliptic curve, so $\varphi$ is unique up to sign.
 
@@ -255,18 +260,18 @@ For all elliptic curves $E/\bQ$ of analytic rank two and conductor smaller than 
 
 \subsection{Chapter 4} 
 
-In Chapter 4, I study the problem of Fourier expansion of newforms at all cusps. Let $k$ and $N$ be positive integers.  Assume $k$ is even.
+In Chapter 4, we study the problem of computing the Fourier expansion of newforms at all cusps. Let $k$ and $N$ be positive integers.  Assume $k$ is even.
 \begin{problem} \label{problem: expansion}
 Let $f \in S_k(\Gamma_0(N))$ be a normalized newform. Given the Fourier expansion of $f$ at the cusp $\infty$, compute its expansion at all other cusps of $X_0(N)$.
 \end{problem}
-Problem~\ref{problem: expansion} is equivalent to computing the map
+Solving Problem~\ref{problem: expansion} is essentially equivalent to computing the map
 \[
 	S_k(\Gamma_0(N)) \times \SL_2(\bZ)  \to S_k(\Gamma(N)): (f, \alpha) \mapsto f | \alpha, 
 \]
 with respect to a basis of $S_k(\Gamma_0(N))$.
 The case when $N$ is square-free was solved by Asai in \cite{asai1976fourier}.  For general $N$, Delaunay computed some examples in \cite{delaunay2002thesis}. In \cite{edixhoven2006computational}, Bosman envisioned a numerical algorithm. \\
 
-The expansions at all cusps are useful  in evaluating modular functions on $X_0(N)$ near the cusps, which is an important part of the algorithms of  \cite{edixhoven2006computational} to compute the residual Galois representations $\bar{\rho}_{f,\lambda}$ associated to the newform $f$.   \\
+One motivation of studying the expansions at all cusps  is that they are useful  in evaluating modular functions on $X_0(N)$ near the cusps, which is an important part of the algorithms of  \cite{edixhoven2006computational} to compute the residual Galois representations $\bar{\rho}_{f,\lambda}$ associated to the newform $f$.   \\
 
 Also, if $f$ is the newform attached to an elliptic curve over $\bQ$, then the expansions of $f$ at all cusps contain information of the ramification divisor $R_\varphi$. More precisely, I proved the following theorem.
 \begin{theorem}
@@ -275,12 +280,12 @@ If $f$ is the newform attached to an elliptic curve $E/\bQ$ of conductor $N$. Le
 
 I will derive a formula for the $q$-expansions of newforms at all cusps in terms the levels, $q$-expansions at $\infty$, and pseudo-eigenvalues under Atkin-Lehner involutions for a set of twists of $f$. Then I gave numerical algorithms to compute these quantities associated to twists of $f$, hence solving Problem~\ref{problem: expansion}. The code for the algorithms is at \url{https://github.com/haochenuw/qexpansion}. \\
 
-My approach appears to be more efficient than the one proposed in \cite{edixhoven2006computational} in many cases. Their method requires working at level $NR^2$, where $R^2$ is the largest square divisor of $N$, and it involves computing the entire period matrix of $X_0(N)$ and $X_0(NR^2)$. In contrast, our algorithm works at levels dividing $N$, and performs a few period integral evaluations. Also, our algorithm is more specific, since in order to compute the expansions of a single newform,
+My approach appears to be more efficient than the one proposed in \cite{edixhoven2006computational} in many cases. Their method requires working at level $NR^2$, where $R^2$ is the largest square divisor of $N$, and it involves computing the entire period matrix of $X_0(N)$ and $X_0(NR^2)$. In contrast, our algorithm works at levels dividing $N$, and performs fewer period integral evaluations. Also, our algorithm is more specific, since in order to compute the expansions of a single newform,
 we only need information on a small set of twists, so we do not need to go over the whole space of cusp forms of weight $k$ and level $N$. \\
 
 
 \subsection{Chapter 5}
-In Chapter 5, I study {\it Chow-Heegner points}. Let $E,F$ be non-isogenous elliptic curves defined over $\bQ$ of the same conductor $N$. The Chow-Heegner point $P_{E,F} \in E(\bQ)$ is constructed by the following procedure: take any point on $F(\bC)$, take its inverse image on $X_0(N)$, then map that image down to $E$ and take the sum the resulting points. In \cite{darmon2015algorithms}, Darmon, Daub, Lichtenstein and Rotger developed an algorithm to compute Chow-Heegner points via iterated integrals. In \cite{stein2012numerical}, Stein developed a fast and conceptually easy algorithm to numerically compute Chow-Heegner points. The following theorem is proved by Yuan-Zhang-Zhang in \cite{yuan2011triple}: 
+In Chapter 5, we study {\it Chow-Heegner points}. Let $E,F$ be non-isogenous elliptic curves defined over $\bQ$ of the same conductor $N$. The Chow-Heegner point $P_{E,F} \in E(\bQ)$ is constructed by the following procedure: take any point on $F(\bC)$, take its inverse image on $X_0(N)$, then map that image down to $E$ and take the sum the resulting points (for a precise definition, see \cite{stein2012numerical}). In \cite{darmon2015algorithms}, Darmon, Daub, Lichtenstein and Rotger developed an algorithm to compute Chow-Heegner points via iterated integrals. In \cite{stein2012numerical}, Stein developed a fast and conceptually easy algorithm to numerically compute Chow-Heegner points. Yuan-Zhang-Zhang proved the the following theorem, in \cite{yuan2011triple}, which relates the height of Chow-Heegner point with certain triple-product $L$-function $L(E,F,F,s)$. 
 \begin{theorem}[Yuan-Zhang-Zhang] \label{thm: yzz}
 Assume that the local root numbers of $L(E,F,F,s)$ at every prime of bad reduction is +1 and that the root number at 
 infinity is $-1$. Then 
@@ -300,7 +305,7 @@ Let $\sigma_0(N)$ denote the number of distinct prime factors of $N$. If
 then $P_{E,F} \in 2E(\bQ)$. Hence the index $i_{E,F}$ is divisible by 2, if it is finite.
 \end{theorem}
 
-Also, combining the method developed in Chapter 3 with the PARI function {\bf ell.taniyama}, I can develop an algebraic algorithm to compute lifting of points of any modular parametrisation $X_0(N) \to E$.  Using this, I will give an algebraic algorithm to {\it provably} compute the Chow-Heegner point $P_{E,F}$.
+Also, combining the method developed in Chapter 3 with the PARI function {\bf ell.taniyama}, I developed an algebraic algorithm to compute lifting of points of any modular parametrisation $X_0(N) \to E$.  Using this, I will give an algebraic algorithm to {\it provably} compute the Chow-Heegner point $P_{E,F}$.
 
 
 \section{Future plans}
@@ -310,20 +315,20 @@ A natural next step is to compute $E_{\crit}(\bQ)$ for the first elliptic curve 
 \begin{project}
 Compute $E_{\crit}(\bQ)$ for $E = {\bf 5077a}$.
 \end{project} 
-This has not been done, and there has not been any heuristics. For all we know, this critical subgroup might contain a non-torsion point. This computation is beyond the reach of the current implementation of my algorithm. I plan to improve my algorithm to compute it. 
+This has not been done yet, and there has not been any heuristic. It is conceivable that this critical subgroup might contain a non-torsion point. This computation is beyond the reach of the current implementation of my algorithm. I plan to improve my algorithm to compute it. 
 
 \begin{project}
-Prove or disprove that $\rank(E_{\crit}(\bQ)) = 0$ whenever $r_{\an}(E)$ is even.
+Prove that $\rank(E_{\crit}(\bQ)) = 0$ whenever $r_{\an}(E)$ is even, or give a counter example. 
 \end{project} 
-For example, we could consider factorization of critical polynomials and the action of Atkin-Lehner involutions. This strategy is suggested by the data I obtained of the factorization of critical polynomials. \\
+As a possible approach to this project, we could consider factorization of critical polynomials and the action of Atkin-Lehner involutions. This strategy is suggested by the data I obtained of the factorization of critical polynomials. \\
 
-Also, there exists parametrizations of certain elliptic curves by Shimura curves. This should give rise to analogs of critical subgroup, which I plan to investigate further.  
+Also, there exists parametrizations of certain elliptic curves by Shimura curves. This should give rise to analogs of critical subgroups, which I plan to investigate further.  
 
 \subsection{Fourier expansions}
 Using my algorithm of computing Fourier expansions, I can determine the epsilon  factors attached to twists of the automorphic representation $\pi_{f}$ of $\GL_2(\bA_\bQ)$ attached to the newform $f$, which in turn determines the representation $\pi_f$ itself. Loeffler and Weinstein developed an algebraic algorithm to compute the local components $\pi_{f,p}$ for $p \mid N$ using modular symbols in \cite{loeffler2010computation}. However, they did not give complexity bounds for their algorithm.
 
 \begin{project}
-Use my algorithm to develop a numerical algorithm for computing local components $\pi_{f,p}$, with explicit complexity bounds.
+Develop a numerical algorithm for computing local components $\pi_{f,p}$, with explicit complexity bounds.
 \end{project}
 
 \begin{project}
@@ -335,7 +340,7 @@ Prove the ``prime divisors of first term'' observation in Section~\ref{sec: norm
 Prove that the index of $P_{E,F}$ is even in all cases.
 \end{project}
 \begin{project}
-Provably verify the data in the table of Chow-Heegner points in \cite{stein2012numerical} and extend the table.
+Verify the table of Chow-Heegner points in \cite{stein2012numerical} and extend the table.
 \end{project}
 
 
